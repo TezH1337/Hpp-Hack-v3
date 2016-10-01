@@ -2,10 +2,14 @@
 
 Offset g_Offset;
 
-void Offset::Error ( char* Message )
+void Offset::Error ( char* Message, bool Exit )
 {
 	MessageBoxA ( 0, Message, ERROR_HEADER, MB_OK | MB_ICONERROR );
-	ExitProcess ( 0 );
+
+	if ( Exit )
+	{
+		ExitProcess ( 0 );
+	}
 }
 
 void Offset::GetRenderType ( )
@@ -229,7 +233,7 @@ find_next:
 	{
 		StudioTablePtr = *( DWORD* )( ( DWORD )g_pClient->HUD_GetStudioModelInterface + 0x1A );
 
-		if ( FarProc ( ( DWORD )StudioTablePtr, ClBase, ClEnd ) )
+		if ( FarProc ( StudioTablePtr, ClBase, ClEnd ) )
 		{
 			StudioTablePtr = *( DWORD* )( ( DWORD )g_pClient->HUD_GetStudioModelInterface + 0x20 );
 

@@ -48,21 +48,21 @@ DWORD WINAPI CheatEntry ( LPVOID lpThreadParameter )
 
 start_hook:
 
-	if ( find_counter == 30 )
+	if ( find_counter == 50 )
 	{
 		if ( !g_pClient )
 		{
-			g_Offset.Error ( CLIENT_FIND_ERROR );
+			g_Offset.Error ( CLIENT_FIND_ERROR, true );
 		}
 
 		if ( !g_pEngine )
 		{
-			g_Offset.Error ( ENGINE_FIND_ERROR );
+			g_Offset.Error ( ENGINE_FIND_ERROR, true );
 		}
 
 		if ( !g_pStudio )
 		{
-			g_Offset.Error ( STUDIO_FIND_ERROR );
+			g_Offset.Error ( STUDIO_FIND_ERROR, true );
 		}
 	}
 

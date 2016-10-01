@@ -28,7 +28,7 @@ public:
 
 	bool GetModuleInfo ( );
 
-	void Error ( char* Message );
+	void Error ( char* Message, bool Exit );
 
 	void GetRenderType ( );
 };
