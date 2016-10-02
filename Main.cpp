@@ -1,5 +1,8 @@
 #include "Main.h"
 
+PColor24 Console_TextColor;
+SCREENINFO g_Screen;
+
 cl_clientfunc_t *g_pClient = nullptr;
 cl_enginefunc_t *g_pEngine = nullptr;
 engine_studio_api_t *g_pStudio = nullptr;
@@ -52,17 +55,17 @@ start_hook:
 	{
 		if ( !g_pClient )
 		{
-			g_Offset.Error ( CLIENT_FIND_ERROR, true );
+			g_Offset.Error ( true, CLIENT_FIND_ERROR );
 		}
 
 		if ( !g_pEngine )
 		{
-			g_Offset.Error ( ENGINE_FIND_ERROR, true );
+			g_Offset.Error ( true, ENGINE_FIND_ERROR );
 		}
 
 		if ( !g_pStudio )
 		{
-			g_Offset.Error ( STUDIO_FIND_ERROR, true );
+			g_Offset.Error ( true, STUDIO_FIND_ERROR );
 		}
 	}
 

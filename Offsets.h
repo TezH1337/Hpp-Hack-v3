@@ -21,16 +21,23 @@ public:
 	DWORD FindPushString ( DWORD Start, DWORD End, DWORD Address );
 
 	DWORD FarProc ( DWORD Address, DWORD LB, DWORD HB );
+	DWORD Absolute ( DWORD Address );
 
 	DWORD FindClientTable ( );
 	DWORD FindEngineTable ( );
 	DWORD FindStudioTable ( );
+	DWORD FindGameConsole ( );
+
+	BYTE HLType;
 
 	bool GetModuleInfo ( );
 
-	void Error ( char* Message, bool Exit );
+	void Error ( bool Exit, char* Message, ... );
 
 	void GetRenderType ( );
+
+	void ConsoleColorInitalize ( );
+	void GetGameInfo ( pGameInfo_s GameInfo );
 };
 
 extern Offset g_Offset;

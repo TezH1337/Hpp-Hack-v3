@@ -48,3 +48,24 @@ typedef struct cl_clientfuncs_s
 	void ( *CLIENTFACTORY ) ( void );
 	int ( *HUD_GETPLAYERTEAM_FUNCTION ) ( int iplayer );
 } cl_clientfunc_t;
+
+typedef struct Color24
+{
+	BYTE R, G, B;
+} TColor24, *PColor24;
+
+typedef struct GameInfo_s
+{
+	char*		GameName;
+	char*		GameVersion;
+	BYTE		Protocol;
+	DWORD		Build;
+} GameInfo_t, *pGameInfo_s;
+
+typedef struct cmd_s
+{
+	struct cmd_s *next;
+	char *name;
+	xcommand_t function;
+	int flags;
+} cmd_t, *pcmd_t;

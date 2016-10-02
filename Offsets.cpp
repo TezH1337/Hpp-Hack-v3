@@ -2,9 +2,17 @@
 
 Offset g_Offset;
 
-void Offset::Error ( char* Message, bool Exit )
+void Offset::Error ( bool Exit, char* Message, ...)
 {
-	MessageBoxA ( 0, Message, ERROR_HEADER, MB_OK | MB_ICONERROR );
+	char Text[256];
+
+	va_list argumentPtr;
+
+	va_start ( argumentPtr, Message );
+	vsprintf_s ( Text, Message, argumentPtr );
+	va_end ( argumentPtr );
+
+	MessageBoxA ( 0, Text, ERROR_HEADER, MB_OK | MB_ICONERROR );
 
 	if ( Exit )
 	{
@@ -245,4 +253,77 @@ find_next:
 	}
 
 	return StudioTablePtr;
+}
+
+DWORD Offset::FindGameConsole ( )
+{
+	DWORD GameConsolePattern = FindPattern ( CONSOLE_PATTERN, lstrlenA ( CONSOLE_PATTERN ), VgBase, VgEnd, 0 );
+
+	if ( !GameConsolePattern )
+	{
+		Error ( true, CONSOLE_ERROR_1 );
+	}
+
+	DWORD FindAddress = *( PDWORD )( FindPushString ( VgBase, VgEnd, GameConsolePattern ) + 0x21 );
+
+	if ( FarProc ( FindAddress, VgBase, VgEnd ) )
+	{
+		Error ( true, CONSOLE_ERROR_2 );
+	}
+
+	return FindAddress;
+}
+
+void Offset::ConsoleColorInitalize ( )
+{
+	DWORD GameConsole = FindGameConsole ( );
+
+	if ( !GameConsole )
+	{
+		Error ( true, CONSOLE_ERROR_3 );
+	}
+
+	DWORD Panel = ( *( PDWORD )( GameConsole + 8 ) - GameConsole );
+
+	Console_TextColor = PColor24 ( Panel + GameConsole + 288 + sizeof ( DWORD ) );
+
+	if ( *( PDWORD )( DWORD ( Console_TextColor ) + 8 ) != 0 )
+	{
+		Console_TextColor = PColor24 ( Panel + GameConsole + 288 + ( sizeof ( DWORD ) * 2 ) );
+	}
+}
+
+DWORD Offset::Absolute ( DWORD Address )
+{
+	if ( !Address )
+	{
+		Error ( true, ABSOLUTE_ERROR );
+	}
+
+	return Address + *( PDWORD )Address + 4;
+}
+
+
+void Offset::GetGameInfo ( pGameInfo_s GameInfo )
+{
+	typedef int ( *function )( );
+
+	pcmd_t cmd = CommandByName ( "version" );
+
+	DWORD Address = ( DWORD )cmd->function;
+
+	GameInfo->GameName = *( PCHAR* )( UINT ( Address ) + 1 );
+	GameInfo->GameVersion = *( PCHAR* )( UINT ( Address ) + 6 );
+	GameInfo->Protocol = *( PBYTE )( UINT ( Address ) + 11 );
+
+	Address = Absolute ( UINT ( Address ) + 23 );
+
+	if ( FarProc ( Address, HwBase, HwEnd ) )
+	{
+		Error ( true, GAMEINFO_ERROR );
+	}
+
+	function GetBuild = ( function )Address;
+
+	GameInfo->Build = GetBuild ( );
 }

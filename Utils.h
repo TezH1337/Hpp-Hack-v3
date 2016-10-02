@@ -2,6 +2,8 @@
 
 #include "Main.h"
 
+pcmd_t CommandByName ( char* szName );
+
 class Util
 {
 public:

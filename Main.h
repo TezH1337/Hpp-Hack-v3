@@ -33,6 +33,9 @@
 #include "Utils.h"
 #include "Client.h"
 
+extern PColor24 Console_TextColor;
+extern SCREENINFO g_Screen;
+
 extern cl_clientfunc_t *g_pClient;
 extern cl_enginefunc_t *g_pEngine;
 extern engine_studio_api_t *g_pStudio;
