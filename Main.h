@@ -32,6 +32,7 @@
 #include "Offsets.h"
 #include "Utils.h"
 #include "Client.h"
+#include "PlayerInfo.h"
 
 extern PColor24 Console_TextColor;
 extern SCREENINFO g_Screen;

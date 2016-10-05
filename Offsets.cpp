@@ -303,7 +303,6 @@ DWORD Offset::Absolute ( DWORD Address )
 	return Address + *( PDWORD )Address + 4;
 }
 
-
 void Offset::GetGameInfo ( pGameInfo_s GameInfo )
 {
 	typedef int ( *function )( );
