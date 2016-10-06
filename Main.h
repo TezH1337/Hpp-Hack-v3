@@ -1,6 +1,12 @@
 #pragma once
 
+#pragma comment(lib,"OpenGL32.lib")
+#pragma comment(lib,"GLu32.lib")
+
 #include "Windows.h"
+
+#include <gl/gl.h>
+#include <gl/glu.h>
 
 #include "ValveSDK/wrect.h"
 #include "ValveSDK/cl_dll.h"
@@ -34,6 +40,7 @@
 #include "Client.h"
 #include "PlayerInfo.h"
 #include "Initial.h"
+#include "Font.h"
 
 extern PColor24 Console_TextColor;
 extern SCREENINFO g_Screen;
