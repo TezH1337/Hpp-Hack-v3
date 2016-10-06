@@ -41,6 +41,7 @@
 #include "PlayerInfo.h"
 #include "Initial.h"
 #include "Font.h"
+#include "Drawing.h"
 
 extern PColor24 Console_TextColor;
 extern SCREENINFO g_Screen;
