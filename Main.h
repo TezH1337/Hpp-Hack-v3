@@ -33,6 +33,7 @@
 #include "Utils.h"
 #include "Client.h"
 #include "PlayerInfo.h"
+#include "Initial.h"
 
 extern PColor24 Console_TextColor;
 extern SCREENINFO g_Screen;
