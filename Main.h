@@ -45,3 +45,5 @@ extern engine_studio_api_t *g_pStudio;
 extern cl_clientfunc_t g_Client;
 extern cl_enginefunc_t g_Engine;
 extern engine_studio_api_t g_Studio;
+
+extern char* BaseDir;

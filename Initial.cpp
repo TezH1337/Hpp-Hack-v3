@@ -28,4 +28,7 @@ void Init::InitHack ( )
 	g_Util.ConsolePrintColor ( 255, 200, 0, VERSION );
 	g_Util.ConsolePrintColor ( 0, 230, 230, "\t\tAuthor: " );
 	g_Util.ConsolePrintColor ( 255, 200, 0, AUTHOR );
+	g_Util.ConsolePrintColor ( 0, 230, 230, "\t\tPath: " );
+	g_Util.ConsolePrintColor ( 255, 200, 0, BaseDir );
+	g_Util.ConsolePrintColor ( 0, 0, 0, "\n" );
 }

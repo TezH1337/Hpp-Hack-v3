@@ -11,6 +11,8 @@ cl_clientfunc_t g_Client;
 cl_enginefunc_t g_Engine;
 engine_studio_api_t g_Studio;
 
+char* BaseDir;
+
 DWORD WINAPI CheatEntry ( LPVOID lpThreadParameter );
 
 DWORD WINAPI ProcessReload ( LPVOID lpThreadParameter )
@@ -157,6 +159,19 @@ BOOL WINAPI DllMain ( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved )
 	case DLL_PROCESS_ATTACH:
 
 		DisableThreadLibraryCalls ( hinstDLL );
+
+		BaseDir = ( char* )HeapAlloc ( GetProcessHeap ( ), HEAP_ZERO_MEMORY, MAX_PATH );
+
+		GetModuleFileNameA ( hinstDLL, BaseDir, MAX_PATH );
+
+		char* pos = BaseDir + lstrlenA ( BaseDir );
+
+		while ( pos >= BaseDir && *pos != '\\' )
+		{
+			--pos;
+		}
+
+		pos[1] = 0;
 
 		CreateThread ( 0, 0, CheatEntry, 0, 0, 0 );
 
