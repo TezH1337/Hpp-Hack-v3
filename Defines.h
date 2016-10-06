@@ -20,3 +20,9 @@
 #define ABSOLUTE_ERROR			"Error #0007. Absolute Address Error."
 
 #define GAMEINFO_ERROR			"Error #0008. Couldn't find GameInfo pointer."
+
+#define PPMOVE_PTR_ERROR		"Error #0009. Couldn't find PlayerMove pointer."
+
+#define CompareMemory(Buff1, Buff2, Size) __comparemem((const UCHAR *)Buff1, (const UCHAR *)Buff2, (UINT)Size)
+#define FindMemoryClone(Start, End, Clone, Size) __findmemoryclone((const ULONG)Start, (const ULONG)End, (const ULONG)Clone, (UINT)Size)
+#define FindReference(Start, End, Address)  __findreference((const ULONG)Start, (const ULONG)End, (const ULONG)Address)

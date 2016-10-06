@@ -28,7 +28,15 @@ public:
 	DWORD FindStudioTable ( );
 	DWORD FindGameConsole ( );
 
+	ULONG __findmemoryclone ( const ULONG Start, const ULONG End, const ULONG Clone, UINT Size );
+	ULONG __findreference ( const ULONG Start, const ULONG End, const ULONG Address );
+
+	BOOL __comparemem ( const UCHAR *Buff1, const UCHAR *Buff2, UINT Size );
+
 	BYTE HLType;
+	
+
+	PVOID PlayerMovePtr ( );
 
 	bool GetModuleInfo ( );
 

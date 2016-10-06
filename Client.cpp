@@ -12,6 +12,8 @@ void HUD_Frame ( double time )
 
 		g_Offset.HLType = g_Studio.IsHardware ( ) + 1;
 
+		g_Local.ppmove = ( playermove_t* )g_Offset.PlayerMovePtr ( );
+
 		g_Offset.ConsoleColorInitalize ( );
 		g_Offset.GetGameInfo ( &BuildInfo );
 

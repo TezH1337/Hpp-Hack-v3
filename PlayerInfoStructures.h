@@ -4,6 +4,7 @@
 
 struct local_s
 {
+	playermove_t *ppmove;
 	cl_entity_s *Entity;
 };
 

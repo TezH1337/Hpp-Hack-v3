@@ -326,3 +326,56 @@ void Offset::GetGameInfo ( pGameInfo_s GameInfo )
 
 	GameInfo->Build = GetBuild ( );
 }
+
+BOOL Offset::__comparemem ( const UCHAR *Buff1, const UCHAR *Buff2, UINT Size )
+{
+	for ( UINT i = 0; i < Size; ++i, ++Buff1, ++Buff2 )
+	{
+		if ( ( *Buff1 != *Buff2 ) && ( *Buff2 != 0xFF ) )
+		{
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
+ULONG Offset::__findmemoryclone ( const ULONG Start, const ULONG End, const ULONG Clone, UINT Size )
+{
+	for ( ULONG ul = Start; ( ul + Size ) < End; ++ul )
+	{
+		if ( CompareMemory ( ul, Clone, Size ) )
+		{
+			return ul;
+		}
+	}
+
+	return 0;
+}
+
+ULONG Offset::__findreference ( const ULONG Start, const ULONG End, const ULONG Address )
+{
+	UCHAR Pattern[5];
+
+	Pattern[0] = 0x68;
+
+	*( ULONG* )&Pattern[1] = Address;
+
+	return FindMemoryClone ( Start, End, Pattern, sizeof ( Pattern ) - 1 );
+}
+
+PVOID Offset::PlayerMovePtr ( )
+{
+	PCHAR String = CLIENT_PATTERN;
+
+	DWORD Address = ( DWORD )FindMemoryClone ( HwBase, HwBase + HwSize, String, strlen ( String ) );
+
+	PVOID Ptr = ( PVOID )*( PDWORD )( FindReference ( HwBase, HwBase + HwSize, Address ) + 0x18 );
+
+	if ( FarProc ( ( DWORD )Ptr, HwBase, HwEnd ) )
+	{
+		Error ( true, PPMOVE_PTR_ERROR );
+	}
+
+	return Ptr;
+}
