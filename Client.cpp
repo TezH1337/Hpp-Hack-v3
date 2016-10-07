@@ -17,6 +17,7 @@ void HUD_Frame ( double time )
 		g_Offset.ConsoleColorInitalize ( );
 		g_Offset.GetGameInfo ( &BuildInfo );
 
+		g_Init.LoadSettings ( );
 		g_Init.InitHack ( );
 
 		FirstFrame = true;

@@ -4,5 +4,5 @@
 
 struct main_s
 {
-
+	bool language;
 };

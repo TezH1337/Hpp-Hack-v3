@@ -118,3 +118,18 @@ char* Util::ConvertTypeToRenderString ( BYTE Type )
 		return "unknown";
 	}
 }
+
+bool Util::CalcScreen ( float *pflOrigin, float *pflVecScreen )
+{
+	int iResult = g_Engine.pTriAPI->WorldToScreen ( pflOrigin, pflVecScreen );
+
+	if ( pflVecScreen[0] < 1 && pflVecScreen[1] < 1 && pflVecScreen[0] > -1 && pflVecScreen[1] > -1 && !iResult )
+	{
+		pflVecScreen[0] = pflVecScreen[0] * ( g_Screen.iWidth / 2 ) + ( g_Screen.iWidth / 2 );
+		pflVecScreen[1] = -pflVecScreen[1] * ( g_Screen.iHeight / 2 ) + ( g_Screen.iHeight / 2 );
+
+		return true;
+	}
+
+	return false;
+}
