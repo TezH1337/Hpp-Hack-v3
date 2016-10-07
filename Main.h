@@ -4,6 +4,7 @@
 #pragma comment(lib,"GLu32.lib")
 
 #include "Windows.h"
+#include <fstream>
 
 #include <gl/gl.h>
 #include <gl/glu.h>
@@ -42,6 +43,7 @@
 #include "Initial.h"
 #include "Font.h"
 #include "Drawing.h"
+#include "Files.h"
 
 extern PColor24 Console_TextColor;
 extern SCREENINFO g_Screen;
