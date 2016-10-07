@@ -44,6 +44,7 @@
 #include "Font.h"
 #include "Drawing.h"
 #include "Files.h"
+#include "IniRead.h"
 
 extern PColor24 Console_TextColor;
 extern SCREENINFO g_Screen;

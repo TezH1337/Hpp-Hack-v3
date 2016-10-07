@@ -29,3 +29,62 @@
 #define CompareMemory(Buff1, Buff2, Size) __comparemem((const UCHAR *)Buff1, (const UCHAR *)Buff2, (UINT)Size)
 #define FindMemoryClone(Start, End, Clone, Size) __findmemoryclone((const ULONG)Start, (const ULONG)End, (const ULONG)Clone, (UINT)Size)
 #define FindReference(Start, End, Address)  __findreference((const ULONG)Start, (const ULONG)End, (const ULONG)Address)
+
+#define FL_NONE					0
+#define FL_OUTLINE				2
+#define FL_BACKDROP				4
+#define FL_CENTER				8
+#define FL_ALL					255
+
+#define RUSSIAN					0
+#define ENGLISH					1
+
+#define	K_POINT					46
+#define K_COMMA					44
+#define K_0						48
+#define K_1						49
+#define K_2						50
+#define K_3						51
+#define K_4						52
+#define K_5						53
+#define K_6						54
+#define K_7						55
+#define K_8						56
+#define K_9						57
+#define K_BRACKET_LEFT			91
+#define K_BRACKET_RIGHT			93
+#define K_A						97
+#define K_B						98
+#define K_C						99
+#define K_D						100
+#define K_E						101
+#define K_F						102
+#define K_G						103
+#define K_H						104
+#define K_I						105
+#define K_J						106
+#define K_K						107
+#define K_L						108
+#define K_M						109
+#define K_N						110
+#define K_O						111
+#define K_P						112
+#define K_Q						113
+#define K_R						114
+#define K_S						115
+#define K_T						116
+#define K_U						117
+#define K_V						118
+#define K_W						119
+#define K_X						120
+#define K_Y						121
+#define K_Z						122
+
+#define PARS_STRING(key_1, key_2, to_convent) {\
+	if (!lstrcmpA(Key, key_1) || !lstrcmpA(Key, key_2))\
+		return to_convent;}
+
+#define INIREAD_INT(var, path, section, key) g_IniRead.path.var = atoi(g_File.IniRead((char*)path.c_str(), section, key, "0"))
+#define INIREAD_FLOAT(var, path, section, key) g_IniRead.path.var = atof(g_File.IniRead((char*)path.c_str(), section, key, "0"))
+#define INIREAD_STRING(var, path, section, key) g_IniRead.path.var = g_File.ReadString(section, key, "0", (char*)path.c_str())
+#define INIREAD(var, path, section, key) g_IniRead.path.var = g_File.IniRead((char*)path.c_str(), section, key, "0")
