@@ -8,6 +8,7 @@ public:
 	void InitHack ( );
 
 	void LoadSettings ( );
+	void ReloadSettings ( );
 };
 
 extern Init g_Init;

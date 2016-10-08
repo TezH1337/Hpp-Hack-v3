@@ -36,14 +36,21 @@
 
 #define MAIN					"Main"
 #define FUNCTIONS				"Functions"
+#define mESP					"ESP"
 
 #define MAIN_PATH				"\\Settings\\Main.ini"
 #define VISUALS_PATH			"\\Settings\\Visuals.ini"
 #define FUNCTIONS_PATH			"\\Settings\\Functions.ini"
 
 #define MAIN_LANGUAGE			"|Language"
+#define MAIN_RELOAD_KEY			"|Reload.Key"
 
 #define FUNCTIONS_ESP			"|ESP"
+
+#define ESP_ENABLE				"|ESP.Enable"
+#define ESP_PLAYER				"|ESP.Player"
+#define ESP_PLAYER_BOX			"|ESP.Player.Box"
+#define ESP_PLAYER_BOX_STYLE	"|ESP.Player.Box.Style"
 
 #define TERRORIST_UMSG			"TERRORIST"
 #define CT_UMSG					"CT"

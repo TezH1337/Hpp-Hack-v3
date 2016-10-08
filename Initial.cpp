@@ -87,3 +87,14 @@ void Init::LoadSettings ( )
 		}
 	}
 }
+
+void Init::ReloadSettings ( )
+{
+	if ( Files::g_File->FileExists ( Files::g_File->szDirFile ( VISUALS_PATH ).c_str ( ) ) )
+	{
+		if ( Files::g_IniRead->function->esp )
+		{
+			Files::g_IniRead->ESP ( );
+		}
+	}
+}

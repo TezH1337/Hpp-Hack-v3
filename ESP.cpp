@@ -12,8 +12,8 @@ namespace Functions
 
 		if ( g_Util.CalcScreen ( Top, ScreenTop ) && g_Util.CalcScreen ( Bot, ScreenBot ) )
 		{
-			float h_duck = ( ScreenBot.y - ScreenTop.y ) * 1.05f;
-			float h = h_duck * 0.87f;
+			float h_duck = ScreenBot.y - ScreenTop.y;
+			float h = h_duck * 0.9f;
 			float w = h / 2;
 			float x = ScreenTop.x - ( w / 2 );
 			float y = ScreenTop.y;
@@ -35,8 +35,19 @@ namespace Functions
 				a = 255;
 			}
 
-			Engine::g_Drawing->DrawBox ( ( int )x, ( int )y, ( int )w,
-				Engine::g_Player[Index]->Ducked ? ( int )h_duck : ( int )h, 1, r, g, b, a );
+			if ( Files::g_IniRead->esp->player_box )
+			{
+				if ( Files::g_IniRead->esp->player_box_style == 1 )
+				{
+					Engine::g_Drawing->DrawBox ( ( int )x, ( int )y, ( int )w,
+						Engine::g_Player[Index]->Ducked ? ( int )h_duck : ( int )h, 1, r, g, b, a );
+				}
+				else if ( Files::g_IniRead->esp->player_box_style == 2 )
+				{
+					Engine::g_Drawing->DrawBox2 ( ( int )x, ( int )y, ( int )w,
+						Engine::g_Player[Index]->Ducked ? ( int )h_duck : ( int )h, 1, r, g, b, a );
+				}
+			}
 		}
 	}
 
@@ -44,7 +55,10 @@ namespace Functions
 	{
 		if ( Engine::g_Player[Index]->Updated )
 		{
-			DrawPlayer ( Index );
+			if ( Files::g_IniRead->esp->player )
+			{
+				DrawPlayer ( Index );
+			}
 		}
 	}
 

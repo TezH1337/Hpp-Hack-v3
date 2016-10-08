@@ -7,6 +7,11 @@ namespace Files
 	void IniRead::ESP ( )
 	{
 		std::string esp = g_File->szDirFile ( VISUALS_PATH ).c_str ( );
+
+		INIREAD_INT ( enable, esp, mESP, ESP_ENABLE );
+		INIREAD_INT ( player, esp, mESP, ESP_PLAYER );
+		INIREAD_INT ( player_box, esp, mESP, ESP_PLAYER_BOX );
+		INIREAD_INT ( player_box_style, esp, mESP, ESP_PLAYER_BOX_STYLE );
 	}
 
 	void IniRead::Main ( )
@@ -14,6 +19,8 @@ namespace Files
 		std::string main = g_File->szDirFile ( MAIN_PATH ).c_str ( );
 
 		INIREAD_STRING ( language, main, MAIN, MAIN_LANGUAGE );
+
+		INIREAD_STRING ( reload_key, main, MAIN, MAIN_RELOAD_KEY );
 	}
 
 	void IniRead::Functions ( )

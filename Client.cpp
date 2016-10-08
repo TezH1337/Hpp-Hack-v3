@@ -41,7 +41,7 @@ void HUD_Redraw ( float time, int intermission )
 	{
 		Engine::g_PlayerInfo->UpdatePlayerInfo ( i );
 
-		if ( Files::g_IniRead->function->esp )
+		if ( Files::g_IniRead->function->esp && Files::g_IniRead->esp->enable)
 		{
 			Functions::g_ESP->HUD_Redraw ( i );
 		}
@@ -61,6 +61,29 @@ void StudioEntityLight ( struct alight_s *plight )
 	g_Studio.StudioEntityLight ( plight );
 }
 
+int HUD_Key_Event ( int down, int keynum, const char *pszCurrentBinding )
+{
+	if ( keynum == Files::g_IniRead->main->reload_key )
+	{
+		g_Init.ReloadSettings ( );
+
+		if ( Files::g_IniRead->main->language )
+		{
+			g_Util.ConsolePrintColor ( 100, 255, 200, "[Hpp] " );
+			g_Util.ConsolePrintColor ( 200, 255, 200, "Settings successfully reloaded.\n" );
+		}
+		else
+		{
+			g_Util.ConsolePrintColor ( 100, 255, 200, "[Hpp] " );
+			g_Util.ConsolePrintColor ( 200, 255, 200, "Настройки успешно перезагружены.\n" );
+		}
+
+		g_Engine.pfnPlaySoundByName ( "vox/ok.wav", 1 );
+	}
+
+	return g_Client.HUD_Key_Event ( down, keynum, pszCurrentBinding );
+}
+
 void HookStudio ( )
 {
 	g_pStudio->StudioEntityLight = StudioEntityLight;
@@ -70,6 +93,7 @@ void HookFunction ( )
 {
 	g_pClient->HUD_Frame = HUD_Frame;
 	g_pClient->HUD_Redraw = HUD_Redraw;
+	g_pClient->HUD_Key_Event = HUD_Key_Event;
 }
 
 void HookUserMessages ( )

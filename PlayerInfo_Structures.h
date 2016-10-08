@@ -24,8 +24,6 @@ namespace Engine
 		Vector Bone[53];
 		Vector HitBox[21];
 
-		int Team;
-
 		bool Ducked;
 		bool Updated;
 		bool Visible;
