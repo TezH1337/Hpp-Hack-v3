@@ -112,6 +112,7 @@ start_hook:
 						{
 							while ( !FirstFrame )
 							{
+								HookStudio ( );
 								HookFunction ( );
 
 								Sleep ( 50 );

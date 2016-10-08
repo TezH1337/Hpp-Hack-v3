@@ -133,3 +133,10 @@ bool Util::CalcScreen ( float *pflOrigin, float *pflVecScreen )
 
 	return false;
 }
+
+bool Util::PathFree ( Vector Input )
+{
+	pmtrace_t *Trace = g_Engine.PM_TraceLine ( Engine::g_Local->ViewOrg, Input, 0, 2, -1 );
+
+	return ( Trace->fraction >= 1.0f );
+}

@@ -8,8 +8,15 @@ namespace Engine
 	class PlayerInfo
 	{
 	public:
+		static bool isValidEntity ( struct cl_entity_s *Entity );
+
+		static bool ScanPlayerVisibility ( int Index );
+
 		static void UpdateLocalEntity ( );
 		static void UpdatePlayerInfo ( int Index );
+
+		static void GetBoneOrigin ( struct cl_entity_s *Entity );
+		static void GetHitboxOrigin ( struct cl_entity_s *Entity );
 	};
 
 	extern PlayerInfo* g_PlayerInfo;

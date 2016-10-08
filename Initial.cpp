@@ -65,12 +65,25 @@ void Init::LoadSettings ( )
 {
 	Engine::g_Font->InitText ( LUCIDA_CONSOLE, 12, 9 );
 
+	if ( Files::g_File->FileExists ( Files::g_File->szDirFile ( FUNCTIONS_PATH ).c_str ( ) ) )
+	{
+		Files::g_IniRead->Functions ( );
+	}
+
 	if ( Files::g_File->FileExists ( Files::g_File->szDirFile ( MAIN_PATH ).c_str ( ) ) )
 	{
-		Files::g_IniRead->Main ( );
+		Files::g_IniRead->Main ( );	
 	}
 	else
 	{
 		Files::g_IniRead->main->language = 1;
+	}
+
+	if ( Files::g_File->FileExists ( Files::g_File->szDirFile ( VISUALS_PATH ).c_str ( ) ) )
+	{
+		if ( Files::g_IniRead->function->esp )
+		{
+			Files::g_IniRead->ESP ( );
+		}
 	}
 }

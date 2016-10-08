@@ -29,14 +29,21 @@
 #define LUCIDA_CONSOLE			"Lucida Console"
 
 #define MAIN					"Main"
+#define FUNCTIONS				"Functions"
 
 #define MAIN_PATH				"\\Settings\\Main.ini"
+#define VISUALS_PATH			"\\Settings\\Visuals.ini"
+#define FUNCTIONS_PATH			"Settings\\Functions.ini"
 
 #define MAIN_LANGUAGE			"|Language"
+
+#define FUNCTIONS_ESP			"|ESP"
 
 #define CompareMemory(Buff1, Buff2, Size) __comparemem((const UCHAR *)Buff1, (const UCHAR *)Buff2, (UINT)Size)
 #define FindMemoryClone(Start, End, Clone, Size) __findmemoryclone((const ULONG)Start, (const ULONG)End, (const ULONG)Clone, (UINT)Size)
 #define FindReference(Start, End, Address)  __findreference((const ULONG)Start, (const ULONG)End, (const ULONG)Address)
+
+#define VectorTransform(a,b,c){(c)[0]=DotProduct((a),(b)[0])+(b)[0][3];(c)[1]=DotProduct((a),(b)[1])+(b)[1][3];(c)[2]=DotProduct((a),(b)[2])+(b)[2][3];}
 
 #define FL_NONE					0
 #define FL_OUTLINE				2

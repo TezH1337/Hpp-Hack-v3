@@ -45,6 +45,7 @@
 #include "Drawing.h"
 #include "File.h"
 #include "IniRead.h"
+#include "ESP.h"
 
 extern PColor24 Console_TextColor;
 extern SCREENINFO g_Screen;

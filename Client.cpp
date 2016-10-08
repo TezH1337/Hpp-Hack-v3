@@ -36,7 +36,30 @@ void HUD_Redraw ( float time, int intermission )
 	for ( int i = 1; i <= g_Engine.GetMaxClients ( ); ++i )
 	{
 		Engine::g_PlayerInfo->UpdatePlayerInfo ( i );
+
+		if ( Files::g_IniRead->function->esp )
+		{
+			Functions::g_ESP->HUD_Redraw ( i );
+		}
 	}
+}
+
+void StudioEntityLight ( struct alight_s *plight )
+{
+	cl_entity_s *Entity = g_Studio.GetCurrentEntity ( );
+
+	if ( Entity->player )
+	{
+		Engine::g_PlayerInfo->GetBoneOrigin ( Entity );
+		Engine::g_PlayerInfo->GetHitboxOrigin ( Entity );
+	}
+
+	g_Studio.StudioEntityLight ( plight );
+}
+
+void HookStudio ( )
+{
+	g_pStudio->StudioEntityLight = StudioEntityLight;
 }
 
 void HookFunction ( )

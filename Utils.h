@@ -11,6 +11,8 @@ public:
 
 	bool CalcScreen ( float *pflOrigin, float *pflVecScreen );
 
+	bool PathFree ( Vector Input );
+
 	void MemoryCopy ( void * dst, const void * src, size_t count );
 
 	void ConsolePrintColor ( BYTE R, BYTE G, BYTE B, char* String );
