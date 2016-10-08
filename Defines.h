@@ -49,8 +49,13 @@
 
 #define ESP_ENABLE				"|ESP.Enable"
 #define ESP_PLAYER				"|ESP.Player"
+#define ESP_VISIBLE_CHECK		"|ESP.Player.VisibleCheck"
 #define ESP_PLAYER_BOX			"|ESP.Player.Box"
 #define ESP_PLAYER_BOX_STYLE	"|ESP.Player.Box.Style"
+#define ESP_PLAYER_BOX_T_VIS	"|ESP.Player.Box.T.Vis"
+#define ESP_PLAYER_BOX_T_HIDE	"|ESP.Player.Box.T.Hide"
+#define ESP_PLAYER_BOX_CT_VIS	"|ESP.Player.Box.CT.Vis"
+#define ESP_PLAYER_BOX_CT_HIDE	"|ESP.Player.Box.CT.Hide"
 
 #define TERRORIST_UMSG			"TERRORIST"
 #define CT_UMSG					"CT"

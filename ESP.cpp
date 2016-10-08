@@ -20,19 +20,74 @@ namespace Functions
 
 			BYTE r, g, b, a;
 
-			if ( Engine::g_Player[Index]->Visible )
+			if ( Files::g_IniRead->esp->player_visible_check )
 			{
-				r = 255;
-				g = 0;
-				b = 0;
-				a = 255;
+				if ( Engine::PlayerTeam[Index] == TERRORIST && Engine::g_Player[Index]->Visible )
+				{
+					r = Files::g_IniRead->esp->t_vis_color[0];
+					g = Files::g_IniRead->esp->t_vis_color[1];
+					b = Files::g_IniRead->esp->t_vis_color[2];
+					a = Files::g_IniRead->esp->t_vis_color[3];
+				}
+				else if ( Engine::PlayerTeam[Index] == TERRORIST )
+				{
+					r = Files::g_IniRead->esp->t_hide_color[0];
+					g = Files::g_IniRead->esp->t_hide_color[1];
+					b = Files::g_IniRead->esp->t_hide_color[2];
+					a = Files::g_IniRead->esp->t_hide_color[3];
+				}
+				else if ( Engine::PlayerTeam[Index] == CT && Engine::g_Player[Index]->Visible )
+				{
+					r = Files::g_IniRead->esp->ct_vis_color[0];
+					g = Files::g_IniRead->esp->ct_vis_color[1];
+					b = Files::g_IniRead->esp->ct_vis_color[2];
+					a = Files::g_IniRead->esp->ct_vis_color[3];
+				}
+				else if ( Engine::PlayerTeam[Index] == CT )
+				{
+					r = Files::g_IniRead->esp->ct_hide_color[0];
+					g = Files::g_IniRead->esp->ct_hide_color[1];
+					b = Files::g_IniRead->esp->ct_hide_color[2];
+					a = Files::g_IniRead->esp->ct_hide_color[3];
+				}
+				else if ( Engine::g_Player[Index]->Visible )
+				{
+					r = 255;
+					g = 255;
+					b = 255;
+					a = 255;
+				}
+				else
+				{
+					r = 100;
+					g = 100;
+					b = 100;
+					a = 255;
+				}
 			}
 			else
 			{
-				r = 255;
-				g = 255;
-				b = 0;
-				a = 255;
+				if ( Engine::PlayerTeam[Index] == TERRORIST )
+				{
+					r = 255;
+					g = 50;
+					b = 50;
+					a = 255;
+				}
+				else if ( Engine::PlayerTeam[Index] == CT )
+				{
+					r = 50;
+					g = 150;
+					b = 255;
+					a = 255;
+				}
+				else
+				{
+					r = 255;
+					g = 255;
+					b = 255;
+					a = 255;
+				}
 			}
 
 			if ( Files::g_IniRead->esp->player_box )

@@ -21,6 +21,9 @@ public:
 	void ConsolePrintColor ( BYTE R, BYTE G, BYTE B, BYTE String );
 	void ConsolePrintColor ( BYTE R, BYTE G, BYTE B, int String );
 	void ConsolePrintColor ( BYTE R, BYTE G, BYTE B, float String );
+
+	void Parse ( BYTE MaxArray, char *String, int Number[] );
+	void Parse ( BYTE MaxArray, char *String, BYTE Number[] );
 };
 
 extern Util g_Util;
