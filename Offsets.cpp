@@ -380,5 +380,45 @@ namespace Engine
 		return Ptr;
 	}
 
+	DWORD Offset::FindUserMsgBase ( )
+	{
+		DWORD UserMsgPattern = FindString ( USERMSG_PATTERN, HwBase, HwEnd, 0 );
+
+		BYTE Offset_UserMsgBase[2] = 
+		{ 
+			0x16,
+			0x18 
+		};
+
+		if ( !UserMsgPattern )
+		{
+			Error ( true, USERMSG_ERROR_1 );
+		}
+
+		DWORD FindAddress = FindPushString ( HwBase, HwEnd, UserMsgPattern );
+
+		if ( FindAddress )
+		{
+			for ( BYTE bOffset = 0; bOffset < sizeof ( Offset_UserMsgBase ); ++bOffset )
+			{
+				PBYTE MovPtr = ( PBYTE )( FindAddress - Offset_UserMsgBase[bOffset] );
+
+				if ( *MovPtr == 0x8B )
+				{
+					DWORD UserMsgBase = *( PDWORD )( ( DWORD )MovPtr + 2 );
+
+					if ( !FarProc ( UserMsgBase, HwBase, HwEnd ) )
+					{
+						return *( PDWORD )UserMsgBase;
+					}
+				}
+			}
+		}
+
+		Error ( true, USERMSG_ERROR_2 );
+
+		return 0;
+	}
+
 	Offset* g_Offset = new Offset;
 }

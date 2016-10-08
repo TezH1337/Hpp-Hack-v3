@@ -8,6 +8,8 @@ void HUD_Frame ( double time )
 {
 	if ( !FirstFrame )
 	{
+		g_pUserMsgBase = ( PUserMsg )Engine::g_Offset->FindUserMsgBase ( );
+
 		g_Screen.iSize = sizeof ( SCREENINFO );
 
 		Engine::g_Offset->HLType = g_Studio.IsHardware ( ) + 1;
@@ -16,6 +18,8 @@ void HUD_Frame ( double time )
 
 		Engine::g_Offset->ConsoleColorInitalize ( );
 		Engine::g_Offset->GetGameInfo ( &BuildInfo );
+
+		HookUserMessages ( );
 
 		g_Init.LoadSettings ( );
 		g_Init.InitHack ( );
@@ -66,4 +70,13 @@ void HookFunction ( )
 {
 	g_pClient->HUD_Frame = HUD_Frame;
 	g_pClient->HUD_Redraw = HUD_Redraw;
+}
+
+void HookUserMessages ( )
+{
+	Engine::pResetHUD = HookUserMsg ( RESET_HUD, Engine::ResetHUD );
+	Engine::pSetFOV = HookUserMsg ( SET_FOV, Engine::SetFOV );
+	Engine::pTeamInfo = HookUserMsg ( TEAM_INFO, Engine::TeamInfo );
+	Engine::pCurWeapon = HookUserMsg ( CUR_WEAPON, Engine::CurWeapon );
+	Engine::pDeathMsg = HookUserMsg ( DEATH_MSG, Engine::DeathMsg );
 }

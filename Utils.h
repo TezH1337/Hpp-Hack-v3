@@ -3,6 +3,7 @@
 #include "Main.h"
 
 pcmd_t CommandByName ( char* szName );
+pfnUserMsgHook HookUserMsg ( char *szMsgName, pfnUserMsgHook pfn );
 
 class Util
 {

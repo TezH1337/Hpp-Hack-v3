@@ -36,6 +36,7 @@
 
 #include "Defines.h"
 #include "Main_Structures.h"
+#include "UserMsg.h"
 #include "Offsets.h"
 #include "Utils.h"
 #include "Client.h"
@@ -47,9 +48,6 @@
 #include "IniRead.h"
 #include "ESP.h"
 
-extern PColor24 Console_TextColor;
-extern SCREENINFO g_Screen;
-
 extern cl_clientfunc_t *g_pClient;
 extern cl_enginefunc_t *g_pEngine;
 extern engine_studio_api_t *g_pStudio;
@@ -57,5 +55,9 @@ extern engine_studio_api_t *g_pStudio;
 extern cl_clientfunc_t g_Client;
 extern cl_enginefunc_t g_Engine;
 extern engine_studio_api_t g_Studio;
+
+extern PColor24 Console_TextColor;
+extern SCREENINFO g_Screen;
+extern PUserMsg g_pUserMsgBase;
 
 extern char* BaseDir;

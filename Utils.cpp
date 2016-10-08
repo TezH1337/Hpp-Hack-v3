@@ -19,6 +19,43 @@ pcmd_t CommandByName ( char* szName )
 	return 0;
 }
 
+PUserMsg UserMsgByName ( char* szMsgName )
+{
+	PUserMsg Ptr = g_pUserMsgBase;
+
+	while ( Ptr->next )
+	{
+		if ( !lstrcmpA ( Ptr->name, szMsgName ) )
+		{
+			return Ptr;
+		}
+
+		Ptr = Ptr->next;
+	}
+
+	Ptr->pfn = 0;
+
+	return Ptr;
+}
+
+pfnUserMsgHook HookUserMsg ( char *szMsgName, pfnUserMsgHook pfn )
+{
+	pfnUserMsgHook Original = nullptr;
+	PUserMsg Ptr = UserMsgByName ( szMsgName );
+
+	if ( Ptr->pfn != 0 )
+	{
+		Original = Ptr->pfn;
+		Ptr->pfn = pfn;
+	}
+	else
+	{
+		Engine::g_Offset->Error ( false, USERMSG_ERROR, szMsgName );
+	}
+
+	return Original;
+}
+
 void Util::MemoryCopy ( void * dst, const void * src, size_t count )
 {
 	_asm

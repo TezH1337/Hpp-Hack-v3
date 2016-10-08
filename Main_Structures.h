@@ -64,8 +64,17 @@ typedef struct GameInfo_s
 
 typedef struct cmd_s
 {
-	struct cmd_s *next;
-	char *name;
-	xcommand_t function;
-	int flags;
+	struct cmd_s	*next;
+	char			*name;
+	xcommand_t		function;
+	int				flags;
 } cmd_t, *pcmd_t;
+
+typedef struct UserMsg
+{
+	int				number;
+	int				size;
+	char			name[16];
+	struct UserMsg*	next;
+	pfnUserMsgHook	pfn;
+} *PUserMsg;

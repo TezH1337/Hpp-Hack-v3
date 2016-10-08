@@ -27,6 +27,7 @@ namespace Engine
 		DWORD FindEngineTable ( );
 		DWORD FindStudioTable ( );
 		DWORD FindGameConsole ( );
+		DWORD FindUserMsgBase ( );
 
 		ULONG __findmemoryclone ( const ULONG Start, const ULONG End, const ULONG Clone, UINT Size );
 		ULONG __findreference ( const ULONG Start, const ULONG End, const ULONG Address );
@@ -34,7 +35,6 @@ namespace Engine
 		BOOL __comparemem ( const UCHAR *Buff1, const UCHAR *Buff2, UINT Size );
 
 		BYTE HLType;
-
 
 		PVOID PlayerMovePtr ( );
 

@@ -6,5 +6,6 @@ extern GameInfo_t BuildInfo;
 
 extern bool FirstFrame;
 
-void HookFunction ( );
 void HookStudio ( );
+void HookFunction ( );
+void HookUserMessages ( );

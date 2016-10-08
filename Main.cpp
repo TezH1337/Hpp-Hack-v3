@@ -2,6 +2,7 @@
 
 PColor24 Console_TextColor;
 SCREENINFO g_Screen;
+PUserMsg g_pUserMsgBase;
 
 cl_clientfunc_t *g_pClient = nullptr;
 cl_enginefunc_t *g_pEngine = nullptr;
@@ -111,9 +112,9 @@ start_hook:
 						if ( g_Studio.StudioSetupSkin )
 						{
 							while ( !FirstFrame )
-							{
+							{							
 								HookStudio ( );
-								HookFunction ( );
+								HookFunction ( );							
 
 								Sleep ( 50 );
 							}

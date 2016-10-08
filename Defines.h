@@ -6,6 +6,7 @@
 #define CLIENT_PATTERN			"ScreenFade"
 #define STUDIO_PATTERN			"Couldn't get client .dll studio model rendering interface."
 #define CONSOLE_PATTERN			"GameConsole003"
+#define USERMSG_PATTERN			"UserMsg: Not Present on Client %d"
 
 #define ERROR_HEADER			"Hpp Hack"
 
@@ -23,6 +24,11 @@
 
 #define PPMOVE_PTR_ERROR		"Error #0009. Couldn't find PlayerMove pointer."
 
+#define USERMSG_ERROR_1			"Error #0010. Couldn't find UserMsgBase pointer."
+#define USERMSG_ERROR_2			"Error #0011. Couldn't find UserMsgBase pointer."
+
+#define USERMSG_ERROR			"Error #0012. Couldn't find %s.\nNote: Cheat can't support this game.\nSupported Games: Half-Life, Counter-Strike, Counter-Strike: Condition Zero, Counter-Strike: Condition Zero Deleted Scenes."
+
 #define VERSION					"3.0 [dev]\n"
 #define AUTHOR					"kilabeez\n"
 
@@ -33,17 +39,30 @@
 
 #define MAIN_PATH				"\\Settings\\Main.ini"
 #define VISUALS_PATH			"\\Settings\\Visuals.ini"
-#define FUNCTIONS_PATH			"Settings\\Functions.ini"
+#define FUNCTIONS_PATH			"\\Settings\\Functions.ini"
 
 #define MAIN_LANGUAGE			"|Language"
 
 #define FUNCTIONS_ESP			"|ESP"
+
+#define TERRORIST_UMSG			"TERRORIST"
+#define CT_UMSG					"CT"
+
+#define RESET_HUD				"ResetHUD"
+#define SET_FOV					"SetFOV"
+#define TEAM_INFO				"TeamInfo"
+#define CUR_WEAPON				"CurWeapon"
+#define DEATH_MSG				"DeathMsg"
 
 #define CompareMemory(Buff1, Buff2, Size) __comparemem((const UCHAR *)Buff1, (const UCHAR *)Buff2, (UINT)Size)
 #define FindMemoryClone(Start, End, Clone, Size) __findmemoryclone((const ULONG)Start, (const ULONG)End, (const ULONG)Clone, (UINT)Size)
 #define FindReference(Start, End, Address)  __findreference((const ULONG)Start, (const ULONG)End, (const ULONG)Address)
 
 #define VectorTransform(a,b,c){(c)[0]=DotProduct((a),(b)[0])+(b)[0][3];(c)[1]=DotProduct((a),(b)[1])+(b)[1][3];(c)[2]=DotProduct((a),(b)[2])+(b)[2][3];}
+
+#define TERRORIST				1
+#define CT						2
+#define SPECTATOR				0
 
 #define FL_NONE					0
 #define FL_OUTLINE				2
