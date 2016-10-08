@@ -21,9 +21,9 @@ DWORD WINAPI ProcessReload ( LPVOID lpThreadParameter )
 	{
 		if ( FirstFrame )
 		{
-			g_Offset.GetRenderType ( );
+			Engine::g_Offset->GetRenderType ( );
 
-			if ( !g_Offset.GetModuleInfo ( ) )
+			if ( !Engine::g_Offset->GetModuleInfo ( ) )
 			{
 				FirstFrame = false;
 			}
@@ -57,17 +57,17 @@ start_hook:
 	{
 		if ( !g_pClient )
 		{
-			g_Offset.Error ( true, CLIENT_FIND_ERROR );
+			Engine::g_Offset->Error ( true, CLIENT_FIND_ERROR );
 		}
 
 		if ( !g_pEngine )
 		{
-			g_Offset.Error ( true, ENGINE_FIND_ERROR );
+			Engine::g_Offset->Error ( true, ENGINE_FIND_ERROR );
 		}
 
 		if ( !g_pStudio )
 		{
-			g_Offset.Error ( true, STUDIO_FIND_ERROR );
+			Engine::g_Offset->Error ( true, STUDIO_FIND_ERROR );
 		}
 	}
 
@@ -75,12 +75,12 @@ start_hook:
 
 	++find_counter;
 
-	if ( !g_Offset.GetModuleInfo ( ) )
+	if ( !Engine::g_Offset->GetModuleInfo ( ) )
 	{
 		goto start_hook;
 	}
 
-	DWORD ClientTable = g_Offset.FindClientTable ( );
+	DWORD ClientTable = Engine::g_Offset->FindClientTable ( );
 
 	if ( ClientTable )
 	{
@@ -90,7 +90,7 @@ start_hook:
 
 		if ( g_Client.Initialize )
 		{
-			DWORD EngineTable = g_Offset.FindEngineTable ( );
+			DWORD EngineTable = Engine::g_Offset->FindEngineTable ( );
 
 			if ( EngineTable )
 			{
@@ -100,7 +100,7 @@ start_hook:
 
 				if ( g_Engine.V_CalcShake )
 				{
-					DWORD StudioTable = g_Offset.FindStudioTable ( );
+					DWORD StudioTable = Engine::g_Offset->FindStudioTable ( );
 
 					if ( StudioTable )
 					{

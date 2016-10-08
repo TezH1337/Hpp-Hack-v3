@@ -10,12 +10,12 @@ void HUD_Frame ( double time )
 	{
 		g_Screen.iSize = sizeof ( SCREENINFO );
 
-		g_Offset.HLType = g_Studio.IsHardware ( ) + 1;
+		Engine::g_Offset->HLType = g_Studio.IsHardware ( ) + 1;
 
-		g_Local.ppmove = ( playermove_t* )g_Offset.PlayerMovePtr ( );
+		Engine::g_Local->ppmove = ( playermove_t* )Engine::g_Offset->PlayerMovePtr ( );
 
-		g_Offset.ConsoleColorInitalize ( );
-		g_Offset.GetGameInfo ( &BuildInfo );
+		Engine::g_Offset->ConsoleColorInitalize ( );
+		Engine::g_Offset->GetGameInfo ( &BuildInfo );
 
 		g_Init.LoadSettings ( );
 		g_Init.InitHack ( );
@@ -31,11 +31,11 @@ void HUD_Redraw ( float time, int intermission )
 {
 	g_Client.HUD_Redraw ( time, intermission );
 
-	g_PlayerInfo.UpdateLocalEntity ( );
+	Engine::g_PlayerInfo->UpdateLocalEntity ( );
 
 	for ( int i = 1; i <= g_Engine.GetMaxClients ( ); ++i )
 	{
-		g_PlayerInfo.UpdatePlayerInfo ( i );
+		Engine::g_PlayerInfo->UpdatePlayerInfo ( i );
 	}
 }
 

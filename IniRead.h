@@ -3,14 +3,15 @@
 #include "Main.h"
 #include "IniRead_Structures.h"
 
-class IniRead
+namespace Files
 {
-public:
+	class IniRead
+	{
+	public:
+		main_s* main = new main_s;
 
-	main_s main;
+		void Main ( );
+	};
 
-	void Main ( );
-
-};
-
-extern IniRead g_IniRead;
+	extern IniRead* g_IniRead;
+}

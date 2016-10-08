@@ -2,11 +2,14 @@
 
 #pragma warning(disable: 4800)
 
-IniRead g_IniRead;
-
-void IniRead::Main ( )
+namespace Files
 {
-	std::string main = g_File.szDirFile ( MAIN_PATH ).c_str ( );
+	void IniRead::Main ( )
+	{
+		std::string main = g_File->szDirFile ( MAIN_PATH ).c_str ( );
 
-	INIREAD_STRING ( language, main, MAIN, MAIN_LANGUAGE );
+		INIREAD_STRING (language, main, MAIN, MAIN_LANGUAGE );
+	}
+
+	IniRead* g_IniRead = new IniRead;
 }

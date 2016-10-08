@@ -92,7 +92,7 @@
 	if (!lstrcmpA(Key, key_1) || !lstrcmpA(Key, key_2))\
 		return to_convent;}
 
-#define INIREAD_INT(var, path, section, key) g_IniRead.path.var = atoi(g_File.IniRead((char*)path.c_str(), section, key, "0"))
-#define INIREAD_FLOAT(var, path, section, key) g_IniRead.path.var = atof(g_File.IniRead((char*)path.c_str(), section, key, "0"))
-#define INIREAD_STRING(var, path, section, key) g_IniRead.path.var = g_File.ReadString(section, key, "0", (char*)path.c_str())
-#define INIREAD(var, path, section, key) g_IniRead.path.var = g_File.IniRead((char*)path.c_str(), section, key, "0")
+#define INIREAD_INT(var, path, section, key) g_IniRead->path->var = atoi(g_File->IniRead((char*)path.c_str(), section, key, "0"))
+#define INIREAD_FLOAT(var, path, section, key) g_IniRead->path->var = atof(g_File->IniRead((char*)path.c_str(), section, key, "0"))
+#define INIREAD_STRING(var, path, section, key) g_IniRead->path->var = g_File->ReadString(section, key, "0", (char*)path.c_str())
+#define INIREAD(var, path, section, key) g_IniRead->path->var = g_File->IniRead((char*)path.c_str(), section, key, "0")

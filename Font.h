@@ -2,23 +2,23 @@
 
 #include "Main.h"
 
-class Font
+namespace Engine
 {
-private:
+	class Font
+	{
+	private:
+		int iheight, height, width;
+		int cheight, cwidth[255];
 
-	int fheight, height, width;
-	int cheight, cwidth[255];
+	public:
+		GLuint g_FontListID;
 
-public:
+		void InitText ( char* Font, int Height, int Width );
 
-	GLuint g_FontListID;
+		void Render ( int x, int y, BYTE r, BYTE g, BYTE b, BYTE a, char *String );
 
-	void InitText ( char* Font, int Height, int Width );
+		void Print ( int x, int y, BYTE r, BYTE g, BYTE b, BYTE a, BYTE Flags, char *String, ... );
+	};
 
-	void Render ( int x, int y, int r, int g, int b, int a, char *String );
-
-	void Print ( int x, int y, int r, int g, int b, int a, BYTE Flags, char *String, ... );
-
-};
-
-extern Font g_Font;
+	extern Font* g_Font;
+}

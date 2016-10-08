@@ -3,13 +3,14 @@
 #include "Main.h"
 #include "PlayerInfo_Structures.h"
 
-class PlayerInfo
+namespace Engine
 {
-public:
+	class PlayerInfo
+	{
+	public:
+		static void UpdateLocalEntity ( );
+		static void UpdatePlayerInfo ( int Index );
+	};
 
-	static void UpdateLocalEntity ( );
-	static void UpdatePlayerInfo ( int Index );
-
-};
-
-extern PlayerInfo g_PlayerInfo;
+	extern PlayerInfo* g_PlayerInfo;
+}

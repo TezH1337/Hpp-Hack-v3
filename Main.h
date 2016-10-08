@@ -43,7 +43,7 @@
 #include "Initial.h"
 #include "Font.h"
 #include "Drawing.h"
-#include "Files.h"
+#include "File.h"
 #include "IniRead.h"
 
 extern PColor24 Console_TextColor;

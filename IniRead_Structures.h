@@ -2,7 +2,10 @@
 
 #include "IniRead.h"
 
-struct main_s
+namespace Files
 {
-	bool language;
-};
+	struct main_s
+	{
+		bool language;
+	};
+}
