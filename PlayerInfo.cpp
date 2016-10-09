@@ -34,16 +34,13 @@ namespace Engine
 	{
 		g_Local->Entity = g_Engine.GetLocalPlayer ( );
 
-		if ( g_Local->Entity->player )
-		{
-			g_Local->Index = g_Local->Entity->index;
+		g_Local->Index = g_Local->Entity->index;
 
-			g_Local->Alive = isAliveEntity ( g_Local->Entity );
+		g_Local->Alive = isAliveEntity ( g_Local->Entity );
 
-			g_Engine.pEventAPI->EV_LocalPlayerViewheight ( g_Local->ViewOrg );
+		g_Engine.pEventAPI->EV_LocalPlayerViewheight ( g_Local->ViewOrg );
 
-			VectorAdd ( g_Local->Entity->origin, g_Local->ViewOrg, g_Local->ViewOrg );
-		}
+		VectorAdd ( g_Local->Entity->origin, g_Local->ViewOrg, g_Local->ViewOrg );
 	}
 
 	void PlayerInfo::UpdatePlayerInfo ( int Index )
@@ -55,23 +52,20 @@ namespace Engine
 		g_Player[Index]->Alive = isAliveEntity ( g_Player[Index]->Entity );
 		g_Player[Index]->Updated = isValidEntity ( g_Player[Index]->Entity );
 
-		if ( g_Player[Index]->Entity->player )
-		{
-			g_Player[Index]->Ducked = ( g_Player[Index]->Entity->curstate.maxs[2] -
-				g_Player[Index]->Entity->curstate.mins[2] ) < 54 ? true : false;
+		g_Player[Index]->Ducked = ( g_Player[Index]->Entity->curstate.maxs[2] -
+			g_Player[Index]->Entity->curstate.mins[2] ) < 54 ? true : false;
 
-			g_Player[Index]->Visible = ScanPlayerVisibility ( Index );
+		g_Player[Index]->Visible = ScanPlayerVisibility ( Index );
 
-			g_Player[Index]->Origin = g_Player[Index]->Entity->origin;
+		g_Player[Index]->Origin = g_Player[Index]->Entity->origin;
 
-			g_Player[Index]->Mins = g_Player[Index]->Entity->curstate.mins;
-			g_Player[Index]->Maxs = g_Player[Index]->Entity->curstate.maxs;
-		}
+		g_Player[Index]->Mins = g_Player[Index]->Entity->curstate.mins;
+		g_Player[Index]->Maxs = g_Player[Index]->Entity->curstate.maxs;
 	}
 
 	void PlayerInfo::GetBoneOrigin ( struct cl_entity_s *Entity )
 	{
-		if ( Entity->player && Entity->index != -1 && Entity->index != g_Local->Index && isValidEntity ( Entity ) )
+		if ( Entity->index != -1 && isValidEntity ( Entity ) )
 		{
 			typedef float TransformMatrix[MAXSTUDIOBONES][3][4];
 
@@ -91,7 +85,7 @@ namespace Engine
 
 	void PlayerInfo::GetHitboxOrigin ( struct cl_entity_s *Entity )
 	{
-		if ( Entity->player && Entity->index != -1 && Entity->index != g_Local->Index && isValidEntity ( Entity ) )
+		if ( Entity->index != -1 && isValidEntity ( Entity ) )
 		{
 			Vector vBBMin, vBBMax;
 

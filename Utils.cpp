@@ -10,7 +10,7 @@ pcmd_t CommandByName ( char* szName )
 
 	while ( pCmd )
 	{
-		if ( !lstrcmpA ( pCmd->name, szName ) )
+		if ( !lstrcmp ( pCmd->name, szName ) )
 		{
 			return pCmd;
 		}
@@ -27,7 +27,7 @@ PUserMsg UserMsgByName ( char* szMsgName )
 
 	while ( Ptr->next )
 	{
-		if ( !lstrcmpA ( Ptr->name, szMsgName ) )
+		if ( !lstrcmp ( Ptr->name, szMsgName ) )
 		{
 			return Ptr;
 		}

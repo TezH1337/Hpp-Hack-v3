@@ -164,9 +164,9 @@ BOOL WINAPI DllMain ( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved )
 
 		BaseDir = ( char* )HeapAlloc ( GetProcessHeap ( ), HEAP_ZERO_MEMORY, MAX_PATH );
 
-		GetModuleFileNameA ( hinstDLL, BaseDir, MAX_PATH );
+		GetModuleFileName ( hinstDLL, BaseDir, MAX_PATH );
 
-		char* pos = BaseDir + lstrlenA ( BaseDir );
+		char* pos = BaseDir + lstrlen ( BaseDir );
 
 		while ( pos >= BaseDir && *pos != '\\' )
 		{

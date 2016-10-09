@@ -12,7 +12,7 @@ namespace Engine
 		vsprintf_s ( Text, Message, argumentPtr );
 		va_end ( argumentPtr );
 
-		MessageBoxA ( 0, Text, ERROR_HEADER, MB_OK | MB_ICONERROR );
+		MessageBox ( 0, Text, ERROR_HEADER, MB_OK | MB_ICONERROR );
 
 		if ( Exit )
 		{
@@ -22,9 +22,9 @@ namespace Engine
 
 	void Offset::GetRenderType ( )
 	{
-		HwDll = ( DWORD )GetModuleHandleA ( HW_DLL );
-		SwDll = ( DWORD )GetModuleHandleA ( SW_DLL );
-		HlMod = ( DWORD )GetModuleHandleA ( 0 );
+		HwDll = ( DWORD )GetModuleHandle ( HW_DLL );
+		SwDll = ( DWORD )GetModuleHandle ( SW_DLL );
+		HlMod = ( DWORD )GetModuleHandle ( 0 );
 	}
 
 	DWORD Offset::GetModuleSize ( DWORD Address )
@@ -56,7 +56,7 @@ namespace Engine
 		HlSize = GetModuleSize ( HlBase );
 		HlEnd = HlBase + HlSize - 1;
 
-		ClBase = ( DWORD )GetModuleHandleA ( CLIENT_DLL );
+		ClBase = ( DWORD )GetModuleHandle ( CLIENT_DLL );
 
 		if ( ClBase )
 		{
@@ -70,7 +70,7 @@ namespace Engine
 			ClSize = HwSize;
 		}
 
-		VgBase = ( DWORD )GetModuleHandleA ( GAMEUI_DLL );
+		VgBase = ( DWORD )GetModuleHandle ( GAMEUI_DLL );
 
 		if ( VgBase )
 		{
@@ -83,7 +83,7 @@ namespace Engine
 
 	DWORD Offset::FindString ( PCHAR String, DWORD Start, DWORD End, DWORD Offset )
 	{
-		DWORD PtLen = lstrlenA ( String );
+		DWORD PtLen = lstrlen ( String );
 
 		bool Found = false;
 
@@ -257,7 +257,7 @@ namespace Engine
 
 	DWORD Offset::FindGameConsole ( )
 	{
-		DWORD GameConsolePattern = FindPattern ( CONSOLE_PATTERN, lstrlenA ( CONSOLE_PATTERN ), VgBase, VgEnd, 0 );
+		DWORD GameConsolePattern = FindPattern ( CONSOLE_PATTERN, lstrlen ( CONSOLE_PATTERN ), VgBase, VgEnd, 0 );
 
 		if ( !GameConsolePattern )
 		{
