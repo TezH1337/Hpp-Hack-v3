@@ -12,6 +12,7 @@ namespace Engine
 		Vector ViewOrg;
 
 		int Team;
+		int Index;
 	};
 
 	extern local_s* g_Local;

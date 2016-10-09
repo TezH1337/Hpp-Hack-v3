@@ -98,9 +98,9 @@ void HookFunction ( )
 
 void HookUserMessages ( )
 {
-	Engine::pResetHUD = HookUserMsg ( RESET_HUD, Engine::ResetHUD );
-	Engine::pSetFOV = HookUserMsg ( SET_FOV, Engine::SetFOV );
-	Engine::pTeamInfo = HookUserMsg ( TEAM_INFO, Engine::TeamInfo );
-	Engine::pCurWeapon = HookUserMsg ( CUR_WEAPON, Engine::CurWeapon );
-	Engine::pDeathMsg = HookUserMsg ( DEATH_MSG, Engine::DeathMsg );
+	Engine::pResetHUD = HookUserMsg ( RESET_HUD, Engine::g_UserMsg->ResetHUD );
+	Engine::pSetFOV = HookUserMsg ( SET_FOV, Engine::g_UserMsg->SetFOV );
+	Engine::pTeamInfo = HookUserMsg ( TEAM_INFO, Engine::g_UserMsg->TeamInfo );
+	Engine::pCurWeapon = HookUserMsg ( CUR_WEAPON, Engine::g_UserMsg->CurWeapon );
+	Engine::pDeathMsg = HookUserMsg ( DEATH_MSG, Engine::g_UserMsg->DeathMsg );
 }

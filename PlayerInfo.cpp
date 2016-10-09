@@ -4,7 +4,7 @@ namespace Engine
 {
 	bool PlayerInfo::isValidEntity ( struct cl_entity_s *Entity )
 	{
-		return ( Entity->player && g_Local->Entity->index != Entity->index && Entity->curstate.movetype != 6 &&
+		return ( Entity->player && g_Local->Index != Entity->index && Entity->curstate.movetype != 6 &&
 			Entity->curstate.movetype && !( Entity->curstate.messagenum < g_Engine.GetLocalPlayer ( )->curstate.messagenum ) &&
 			!( g_Engine.GetLocalPlayer ( )->curstate.iuser1 == 4 && g_Engine.GetLocalPlayer ( )->curstate.iuser2 == Entity->index ) );
 	}
@@ -27,9 +27,11 @@ namespace Engine
 	void PlayerInfo::UpdateLocalEntity ( )
 	{
 		g_Local->Entity = g_Engine.GetLocalPlayer ( );
-
-		if ( g_Local->Entity )
+		
+		if ( g_Local->Entity->player )
 		{
+			g_Local->Index = g_Local->Entity->index;
+
 			g_Engine.pEventAPI->EV_LocalPlayerViewheight ( g_Local->ViewOrg );
 
 			VectorAdd ( g_Local->Entity->origin, g_Local->ViewOrg, g_Local->ViewOrg );
@@ -54,7 +56,7 @@ namespace Engine
 
 	void PlayerInfo::GetBoneOrigin ( struct cl_entity_s *Entity )
 	{
-		if ( Entity->player && Entity->index != -1 && Entity->index != g_Local->Entity->index && isValidEntity ( Entity ) )
+		if ( Entity->player && Entity->index != -1 && Entity->index != g_Local->Index && isValidEntity ( Entity ) )
 		{
 			typedef float TransformMatrix[MAXSTUDIOBONES][3][4];
 
@@ -74,7 +76,7 @@ namespace Engine
 
 	void PlayerInfo::GetHitboxOrigin ( struct cl_entity_s *Entity )
 	{
-		if ( Entity->player && Entity->index != -1 && Entity->index != g_Local->Entity->index && isValidEntity ( Entity ) )
+		if ( Entity->player && Entity->index != -1 && Entity->index != g_Local->Index && isValidEntity ( Entity ) )
 		{
 			Vector vBBMin, vBBMax;
 

@@ -2,36 +2,36 @@
 
 namespace Engine
 {
-	pfnUserMsgHook pResetHUD;
-	pfnUserMsgHook pSetFOV;
-	pfnUserMsgHook pTeamInfo;
-	pfnUserMsgHook pCurWeapon;
-	pfnUserMsgHook pDeathMsg;
+	pfnUserMsgHook pResetHUD = nullptr;
+	pfnUserMsgHook pSetFOV = nullptr;
+	pfnUserMsgHook pTeamInfo = nullptr;
+	pfnUserMsgHook pCurWeapon = nullptr;
+	pfnUserMsgHook pDeathMsg = nullptr;
 
 	int PlayerTeam[33];
 
-	int ResetHUD ( const char *pszName, int iSize, void *pbuf )
+	int UserMsg::ResetHUD ( const char *pszName, int iSize, void *pbuf )
 	{
 		return pResetHUD ( pszName, iSize, pbuf );
 	}
 
-	int SetFOV ( const char *pszName, int iSize, void *pbuf )
+	int UserMsg::SetFOV ( const char *pszName, int iSize, void *pbuf )
 	{
 		return pSetFOV ( pszName, iSize, pbuf );
 	}
 
-	int TeamInfo ( const char *pszName, int iSize, void *pbuf )
+	int UserMsg::TeamInfo ( const char *pszName, int iSize, void *pbuf )
 	{
 		BEGIN_READ ( pbuf, iSize );
 
-		int Index = READ_BYTE ( );
+		int Index = READ_BYTE( );
 		char *Team = READ_STRING ( );
 
 		if ( !strcmp ( Team, TERRORIST_UMSG ) )
 		{
 			PlayerTeam[Index] = TERRORIST;
 
-			if ( Index == Engine::g_Local->Entity->index )
+			if ( Index == Engine::g_Local->Index )
 			{
 				Engine::g_Local->Team = TERRORIST;
 			}
@@ -40,7 +40,7 @@ namespace Engine
 		{
 			PlayerTeam[Index] = CT;
 
-			if ( Index == Engine::g_Local->Entity->index )
+			if ( Index == Engine::g_Local->Index )
 			{
 				Engine::g_Local->Team = CT;
 			}
@@ -49,7 +49,7 @@ namespace Engine
 		{
 			PlayerTeam[Index] = SPECTATOR;
 
-			if ( Index == Engine::g_Local->Entity->index )
+			if ( Index == Engine::g_Local->Index )
 			{
 				Engine::g_Local->Team = SPECTATOR;
 			}
@@ -58,13 +58,15 @@ namespace Engine
 		return pTeamInfo ( pszName, iSize, pbuf );
 	}
 
-	int CurWeapon ( const char *pszName, int iSize, void *pbuf )
+	int UserMsg::CurWeapon ( const char *pszName, int iSize, void *pbuf )
 	{
 		return pCurWeapon ( pszName, iSize, pbuf );
 	}
 
-	int DeathMsg ( const char *pszName, int iSize, void *pbuf )
+	int UserMsg::DeathMsg ( const char *pszName, int iSize, void *pbuf )
 	{
 		return pDeathMsg ( pszName, iSize, pbuf );
 	}
+
+	UserMsg* g_UserMsg = new UserMsg;
 }

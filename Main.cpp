@@ -112,9 +112,9 @@ start_hook:
 						if ( g_Studio.StudioSetupSkin )
 						{
 							while ( !FirstFrame )
-							{							
+							{														
+								HookFunction ( );	
 								HookStudio ( );
-								HookFunction ( );							
 
 								Sleep ( 50 );
 							}
