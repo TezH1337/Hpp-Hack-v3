@@ -8,6 +8,7 @@ namespace Engine
 	class PlayerInfo
 	{
 	public:
+		static bool isAliveEntity ( struct cl_entity_s *Entity );
 		static bool isValidEntity ( struct cl_entity_s *Entity );
 
 		static bool ScanPlayerVisibility ( int Index );

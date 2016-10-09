@@ -21,6 +21,8 @@ namespace Files
 		bool enable;
 
 		bool player;
+		bool player_enemy_only;
+		bool player_visible_only;
 		bool player_visible_check;
 		bool player_box;
 	};

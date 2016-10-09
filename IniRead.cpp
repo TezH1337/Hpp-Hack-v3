@@ -8,8 +8,10 @@ namespace Files
 	{
 		std::string esp = g_File->szDirFile ( VISUALS_PATH ).c_str ( );
 
-		INIREAD_INT ( enable, esp, mESP, ESP_ENABLE );	
+		INIREAD_INT ( enable, esp, mESP, ESP_ENABLE );
 		INIREAD_INT ( player, esp, mESP, ESP_PLAYER );
+		INIREAD_INT ( player_enemy_only, esp, mESP, ESP_PLAYER_ENEMY_ONLY );
+		INIREAD_INT ( player_visible_only, esp, mESP, ESP_PLAYER_VISIBLE_ONLY );
 		INIREAD_INT ( player_visible_check, esp, mESP, ESP_VISIBLE_CHECK );
 		INIREAD_INT ( player_box, esp, mESP, ESP_PLAYER_BOX );
 		INIREAD_INT ( player_box_style, esp, mESP, ESP_PLAYER_BOX_STYLE );

@@ -2,6 +2,12 @@
 
 namespace Engine
 {
+	bool PlayerInfo::isAliveEntity ( struct cl_entity_s *Entity )
+	{
+		return ( Entity && !( Entity->curstate.effects & EF_NODRAW ) &&
+			Entity->player && Entity->curstate.movetype != 6 && Entity->curstate.movetype );
+	}
+
 	bool PlayerInfo::isValidEntity ( struct cl_entity_s *Entity )
 	{
 		return ( Entity->player && g_Local->Index != Entity->index && Entity->curstate.movetype != 6 &&
@@ -32,6 +38,8 @@ namespace Engine
 		{
 			g_Local->Index = g_Local->Entity->index;
 
+			g_Local->Alive = isAliveEntity ( g_Local->Entity );
+
 			g_Engine.pEventAPI->EV_LocalPlayerViewheight ( g_Local->ViewOrg );
 
 			VectorAdd ( g_Local->Entity->origin, g_Local->ViewOrg, g_Local->ViewOrg );
@@ -49,6 +57,7 @@ namespace Engine
 			g_Player[Index]->Ducked = ( g_Player[Index]->Entity->curstate.maxs[2] -
 				g_Player[Index]->Entity->curstate.mins[2] ) < 54 ? true : false;
 
+			g_Player[Index]->Alive = isAliveEntity ( g_Player[Index]->Entity );
 			g_Player[Index]->Updated = isValidEntity ( g_Player[Index]->Entity );
 			g_Player[Index]->Visible = ScanPlayerVisibility ( Index );
 

@@ -4,6 +4,15 @@ namespace Functions
 {
 	void ESP::DrawPlayer ( int Index )
 	{
+		if ( Engine::g_Local->Alive )
+		{
+			if ( ( Files::g_IniRead->esp->player_enemy_only && Engine::PlayerTeam[Index] == Engine::g_Local->Team ) ||
+				( Files::g_IniRead->esp->player_visible_only && !Engine::g_Player[Index]->Visible ) )
+			{
+				return;
+			}
+		}
+
 		if ( Engine::g_Player[Index]->Origin.x == 0 && Engine::g_Player[Index]->Origin.y == 0 &&
 			Engine::g_Player[Index]->Origin.z == 0 )
 		{

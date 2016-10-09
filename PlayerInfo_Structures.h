@@ -13,6 +13,8 @@ namespace Engine
 
 		int Team;
 		int Index;
+
+		bool Alive;
 	};
 
 	extern local_s* g_Local;
@@ -31,6 +33,7 @@ namespace Engine
 		bool Ducked;
 		bool Updated;
 		bool Visible;
+		bool Alive;
 	};
 
 	extern player_s* g_Player[33];
