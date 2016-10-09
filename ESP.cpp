@@ -4,10 +4,18 @@ namespace Functions
 {
 	void ESP::DrawPlayer ( int Index )
 	{
-		Vector Top = Vector ( Engine::g_Player[Index]->Entity->origin.x, Engine::g_Player[Index]->Entity->origin.y,
-			Engine::g_Player[Index]->Entity->origin.z + Engine::g_Player[Index]->Entity->curstate.mins.z );
-		Vector Bot = Vector ( Engine::g_Player[Index]->Entity->origin.x, Engine::g_Player[Index]->Entity->origin.y,
-			Engine::g_Player[Index]->Entity->origin.z + Engine::g_Player[Index]->Entity->curstate.maxs.z );
+		if ( Engine::g_Player[Index]->Entity->origin.x == 0 && Engine::g_Player[Index]->Entity->origin.y == 0 &&
+			Engine::g_Player[Index]->Entity->origin.z == 0 )
+		{
+			return;
+		}
+
+		Vector Top = Vector ( Engine::g_Player[Index]->Origin.x, Engine::g_Player[Index]->Origin.y,
+			Engine::g_Player[Index]->Origin.z + Engine::g_Player[Index]->Mins.z );
+
+		Vector Bot = Vector ( Engine::g_Player[Index]->Origin.x, Engine::g_Player[Index]->Origin.y,
+			Engine::g_Player[Index]->Origin.z + Engine::g_Player[Index]->Maxs.z );
+
 		Vector ScreenTop, ScreenBot;
 
 		if ( g_Util.CalcScreen ( Top, ScreenTop ) && g_Util.CalcScreen ( Bot, ScreenBot ) )
@@ -108,12 +116,9 @@ namespace Functions
 
 	void ESP::HUD_Redraw ( int Index )
 	{
-		if ( Engine::g_Player[Index]->Updated )
+		if ( Files::g_IniRead->esp->player && Engine::g_Player[Index]->Updated )
 		{
-			if ( Files::g_IniRead->esp->player )
-			{
-				DrawPlayer ( Index );
-			}
+			DrawPlayer ( Index );
 		}
 	}
 

@@ -22,6 +22,9 @@ namespace Engine
 		hud_player_info_t Info;
 		cl_entity_s *Entity;
 
+		Vector Origin;
+		Vector Mins;
+		Vector Maxs;
 		Vector Bone[53];
 		Vector HitBox[21];
 

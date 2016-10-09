@@ -44,13 +44,18 @@ namespace Engine
 
 		g_Engine.pfnGetPlayerInfo ( Index, &g_Player[Index]->Info );
 
-		if ( g_Player[Index]->Entity )
+		if ( g_Player[Index]->Entity->player )
 		{
 			g_Player[Index]->Ducked = ( g_Player[Index]->Entity->curstate.maxs[2] -
 				g_Player[Index]->Entity->curstate.mins[2] ) < 54 ? true : false;
 
 			g_Player[Index]->Updated = isValidEntity ( g_Player[Index]->Entity );
 			g_Player[Index]->Visible = ScanPlayerVisibility ( Index );
+
+			g_Player[Index]->Origin = g_Player[Index]->Entity->origin;
+
+			g_Player[Index]->Mins = g_Player[Index]->Entity->curstate.mins;
+			g_Player[Index]->Maxs = g_Player[Index]->Entity->curstate.maxs;
 		}
 	}
 
