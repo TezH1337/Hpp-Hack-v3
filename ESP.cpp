@@ -4,8 +4,8 @@ namespace Functions
 {
 	void ESP::DrawPlayer ( int Index )
 	{
-		if ( Engine::g_Player[Index]->Entity->origin.x == 0 && Engine::g_Player[Index]->Entity->origin.y == 0 &&
-			Engine::g_Player[Index]->Entity->origin.z == 0 )
+		if ( Engine::g_Player[Index]->Origin.x == 0 && Engine::g_Player[Index]->Origin.y == 0 &&
+			Engine::g_Player[Index]->Origin.z == 0 )
 		{
 			return;
 		}
