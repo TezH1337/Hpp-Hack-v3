@@ -13,12 +13,6 @@ namespace Functions
 			}
 		}
 
-		if ( Engine::g_Player[Index]->Origin.x == 0 && Engine::g_Player[Index]->Origin.y == 0 &&
-			Engine::g_Player[Index]->Origin.z == 0 )
-		{
-			return;
-		}
-
 		Vector Top = Vector ( Engine::g_Player[Index]->Origin.x, Engine::g_Player[Index]->Origin.y,
 			Engine::g_Player[Index]->Origin.z + Engine::g_Player[Index]->Mins.z );
 
