@@ -23,6 +23,7 @@ namespace Files
 		bool enable;
 
 		bool player_box_3d;
+		bool player_box_outline;
 
 		bool player_visible_only;
 		bool player_visible_check;

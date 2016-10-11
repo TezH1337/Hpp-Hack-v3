@@ -52,6 +52,8 @@
 #define ESP_PLAYER_VISIBLE_ONLY	"|ESP.Player.VisibleOnly"
 #define ESP_VISIBLE_CHECK		"|ESP.Player.VisibleCheck"
 #define ESP_PLAYER_BOX			"|ESP.Player.Box"
+#define ESP_PLAYER_BOX_3D		"|ESP.Player.Box.3D"
+#define ESP_PLAYER_BOX_OUTLINE	"|ESP.Player.Box.OutLine"
 #define ESP_PLAYER_BOX_LW		"|ESP.Player.Box.LineWidth"
 #define ESP_PLAYER_BOX_T_VIS	"|ESP.Player.Box.T.Vis"
 #define ESP_PLAYER_BOX_T_HIDE	"|ESP.Player.Box.T.Hide"

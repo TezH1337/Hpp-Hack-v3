@@ -96,14 +96,23 @@ namespace Functions
 			{
 				if ( Files::g_IniRead->esp->player_box_3d )
 				{
-					Engine::g_Drawing->Draw3DBox ( Index, 
-						Files::g_IniRead->esp->player_box_linewidth,r, g, b, Files::g_IniRead->esp->player_box );
+					Engine::g_Drawing->Draw3DBox ( Index,
+						Files::g_IniRead->esp->player_box_linewidth, r, g, b, Files::g_IniRead->esp->player_box );
 				}
 				else
 				{
-					Engine::g_Drawing->DrawBox ( ( int )x, ( int )y, ( int )w,
-						Engine::g_Player[Index]->Ducked ? ( int )h_duck : ( int )h, 
-						Files::g_IniRead->esp->player_box_linewidth, r, g, b, a, Files::g_IniRead->esp->player_box );
+					if ( Files::g_IniRead->esp->player_box_outline )
+					{
+						Engine::g_Drawing->DrawShadowBox ( ( int )x, ( int )y, ( int )w,
+							Engine::g_Player[Index]->Ducked ? ( int )h_duck : ( int )h, 
+							Files::g_IniRead->esp->player_box_linewidth, r, g, b, a, Files::g_IniRead->esp->player_box );
+					}
+					else
+					{
+						Engine::g_Drawing->DrawBox ( ( int )x, ( int )y, ( int )w,
+							Engine::g_Player[Index]->Ducked ? ( int )h_duck : ( int )h,
+							Files::g_IniRead->esp->player_box_linewidth, r, g, b, a, Files::g_IniRead->esp->player_box );
+					}
 				}
 			}
 		}
