@@ -128,4 +128,5 @@ namespace Engine
 	}
 
 	Font* g_Font = new Font;
+	Font* g_Verdana = new Font;
 }

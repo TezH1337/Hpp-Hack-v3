@@ -64,6 +64,7 @@ void Init::InitHack ( )
 void Init::LoadSettings ( )
 {
 	Engine::g_Font->InitText ( LUCIDA_CONSOLE, 12, 9 );
+	Engine::g_Verdana->InitText ( VERDANA, 12, 5 );
 
 	if ( Files::g_File->FileExists ( Files::g_File->szDirFile ( FUNCTIONS_PATH ).c_str ( ) ) )
 	{

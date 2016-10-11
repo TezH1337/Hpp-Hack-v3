@@ -41,7 +41,7 @@ void HUD_Redraw ( float time, int intermission )
 	{
 		Engine::g_PlayerInfo->UpdatePlayerInfo ( i );
 
-		if ( Files::g_IniRead->function->esp && Files::g_IniRead->esp->enable)
+		if ( Files::g_IniRead->function->esp && Files::g_IniRead->esp->enable )
 		{
 			Functions::g_ESP->HUD_Redraw ( i );
 		}

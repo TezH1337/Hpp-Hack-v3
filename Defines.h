@@ -33,6 +33,7 @@
 #define AUTHOR					"kilabeez\n"
 
 #define LUCIDA_CONSOLE			"Lucida Console"
+#define VERDANA					"Verdana"
 
 #define MAIN					"Main"
 #define FUNCTIONS				"Functions"
@@ -59,6 +60,9 @@
 #define ESP_PLAYER_BOX_T_HIDE	"|ESP.Player.Box.T.Hide"
 #define ESP_PLAYER_BOX_CT_VIS	"|ESP.Player.Box.CT.Vis"
 #define ESP_PLAYER_BOX_CT_HIDE	"|ESP.Player.Box.CT.Hide"
+#define ESP_PLAYER_NAME			"|ESP.Player.Name"
+#define ESP_FONT_OUTLINE		"|ESP.Font.OutLine"
+#define ESP_FONT_COLOR			"|ESP.Font.Color"
 
 #define TERRORIST_UMSG			"TERRORIST"
 #define CT_UMSG					"CT"

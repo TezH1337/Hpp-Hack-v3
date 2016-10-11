@@ -21,4 +21,5 @@ namespace Engine
 	};
 
 	extern Font* g_Font;
+	extern Font* g_Verdana;
 }
