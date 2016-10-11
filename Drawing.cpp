@@ -47,8 +47,8 @@ namespace Engine
 	void Drawing::DrawShadowBox ( int x, int y, int w, int h, int linewidth, BYTE r, BYTE g, BYTE b, BYTE a, BYTE style )
 	{
 		DrawBox ( x, y, w, h, linewidth, r, g, b, a, style );
-		DrawBox ( x - 1, y - 1, w + 2, h + 2, 1, 0, 0, 0, a, style );
-		DrawBox ( x + linewidth, y + linewidth, w - linewidth * 2, h - linewidth * 2, 1, 0, 0, 0, a, style );
+		DrawBox ( x - 1, y - 1, w + 2, h + 2, 1, 0, 0, 0, a, 1 );
+		DrawBox ( x + linewidth, y + linewidth, w - linewidth * 2, h - linewidth * 2, 1, 0, 0, 0, a, 1 );
 	}
 
 	void Drawing::DrawLine ( int x1, int y1, int x2, int y2, float linewidth, BYTE r, BYTE g, BYTE b, BYTE style )
