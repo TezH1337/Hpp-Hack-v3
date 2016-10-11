@@ -36,7 +36,13 @@ namespace Engine
 
 		g_Local->Index = g_Local->Entity->index;
 
-		g_Local->Alive = isAliveEntity ( g_Local->Entity );
+		if ( Files::g_IniRead->function->esp )
+		{
+			if ( Files::g_IniRead->esp->enable && Files::g_IniRead->esp->player )
+			{
+				g_Local->Alive = isAliveEntity ( g_Local->Entity );
+			}
+		}
 
 		g_Engine.pEventAPI->EV_LocalPlayerViewheight ( g_Local->ViewOrg );
 
@@ -49,18 +55,26 @@ namespace Engine
 
 		g_Engine.pfnGetPlayerInfo ( Index, &g_Player[Index]->Info );
 
-		g_Player[Index]->Alive = isAliveEntity ( g_Player[Index]->Entity );
-		g_Player[Index]->Updated = isValidEntity ( g_Player[Index]->Entity );
+		if ( Files::g_IniRead->function->esp )
+		{
+			if ( Files::g_IniRead->esp->enable && Files::g_IniRead->esp->player &&
+				( Files::g_IniRead->esp->player_visible_check || Files::g_IniRead->esp->player_visible_only ) )
+			{
+				g_Player[Index]->Visible = ScanPlayerVisibility ( Index );
+			}
 
-		g_Player[Index]->Ducked = ( g_Player[Index]->Entity->curstate.maxs[2] -
-			g_Player[Index]->Entity->curstate.mins[2] ) < 54 ? true : false;
+			g_Player[Index]->Updated = isValidEntity ( g_Player[Index]->Entity );
 
-		g_Player[Index]->Visible = ScanPlayerVisibility ( Index );
+			g_Player[Index]->Ducked = ( g_Player[Index]->Entity->curstate.maxs[2] -
+				g_Player[Index]->Entity->curstate.mins[2] ) < 54 ? true : false;
 
-		g_Player[Index]->Origin = g_Player[Index]->Entity->origin;
+			g_Player[Index]->Origin = g_Player[Index]->Entity->origin;
 
-		g_Player[Index]->Mins = g_Player[Index]->Entity->curstate.mins;
-		g_Player[Index]->Maxs = g_Player[Index]->Entity->curstate.maxs;
+			g_Player[Index]->Mins = g_Player[Index]->Entity->curstate.mins;
+			g_Player[Index]->Maxs = g_Player[Index]->Entity->curstate.maxs;
+		}
+
+		g_Player[Index]->Alive = isAliveEntity ( g_Player[Index]->Entity );			
 	}
 
 	void PlayerInfo::GetBoneOrigin ( struct cl_entity_s *Entity )
