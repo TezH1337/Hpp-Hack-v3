@@ -37,7 +37,7 @@ void HUD_Redraw ( float time, int intermission )
 
 	Engine::g_PlayerInfo->UpdateLocalEntity ( );
 
-	for ( int i = 1; i <= g_Engine.GetMaxClients ( ); ++i )
+	for ( BYTE i = 1; i <= g_Engine.GetMaxClients ( ); ++i )
 	{
 		Engine::g_PlayerInfo->UpdatePlayerInfo ( i );
 

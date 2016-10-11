@@ -10,11 +10,10 @@ namespace Files
 
 		INIREAD_INT ( enable, esp, mESP, ESP_ENABLE );
 		INIREAD_INT ( player, esp, mESP, ESP_PLAYER );
-		INIREAD_INT ( player_enemy_only, esp, mESP, ESP_PLAYER_ENEMY_ONLY );
 		INIREAD_INT ( player_visible_only, esp, mESP, ESP_PLAYER_VISIBLE_ONLY );
 		INIREAD_INT ( player_visible_check, esp, mESP, ESP_VISIBLE_CHECK );
 		INIREAD_INT ( player_box, esp, mESP, ESP_PLAYER_BOX );
-		INIREAD_INT ( player_box_style, esp, mESP, ESP_PLAYER_BOX_STYLE );
+		INIREAD_INT ( player_box_linewidth, esp, mESP, ESP_PLAYER_BOX_LW );
 
 		INIREAD ( t_vis_color_string, esp, mESP, ESP_PLAYER_BOX_T_VIS );
 		INIREAD ( t_hide_color_string, esp, mESP, ESP_PLAYER_BOX_T_HIDE );

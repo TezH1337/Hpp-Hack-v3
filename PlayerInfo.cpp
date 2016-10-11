@@ -19,7 +19,7 @@ namespace Engine
 	{
 		BYTE HitBoxCheckVisible[8] = { 0, 2, 6, 7, 8, 9, 11, 19 };
 
-		for ( byte i = 0; i < sizeof ( HitBoxCheckVisible ); ++i )
+		for ( BYTE i = 0; i < sizeof ( HitBoxCheckVisible ); ++i )
 		{
 			if ( g_Util.PathFree ( g_Player[Index]->HitBox[HitBoxCheckVisible[i]] ) )
 			{

@@ -6,7 +6,7 @@ namespace Functions
 	{
 		if ( Engine::g_Local->Alive )
 		{
-			if ( ( Files::g_IniRead->esp->player_enemy_only && Engine::PlayerTeam[Index] == Engine::g_Local->Team ) ||
+			if ( ( Files::g_IniRead->esp->player == 1 && Engine::PlayerTeam[Index] == Engine::g_Local->Team ) ||
 				( Files::g_IniRead->esp->player_visible_only && !Engine::g_Player[Index]->Visible ) )
 			{
 				return;
@@ -28,6 +28,8 @@ namespace Functions
 			float w = h / 2;
 			float x = ScreenTop.x - ( w / 2 );
 			float y = ScreenTop.y;
+
+			BYTE lw = Files::g_IniRead->esp->player_box_linewidth;
 
 			BYTE r, g, b, a;
 
@@ -101,18 +103,15 @@ namespace Functions
 				}
 			}
 
-			if ( Files::g_IniRead->esp->player_box )
+			if ( Files::g_IniRead->esp->player_box == 1 )
 			{
-				if ( Files::g_IniRead->esp->player_box_style == 1 )
-				{
-					Engine::g_Drawing->DrawBox ( ( int )x, ( int )y, ( int )w,
-						Engine::g_Player[Index]->Ducked ? ( int )h_duck : ( int )h, 1, r, g, b, a );
-				}
-				else if ( Files::g_IniRead->esp->player_box_style == 2 )
-				{
-					Engine::g_Drawing->DrawBox2 ( ( int )x, ( int )y, ( int )w,
-						Engine::g_Player[Index]->Ducked ? ( int )h_duck : ( int )h, 1, r, g, b, a );
-				}
+				Engine::g_Drawing->DrawBox ( ( int )x, ( int )y, ( int )w,
+					Engine::g_Player[Index]->Ducked ? ( int )h_duck : ( int )h, lw, r, g, b, a );
+			}
+			else if ( Files::g_IniRead->esp->player_box == 2 )
+			{
+				Engine::g_Drawing->DrawBox2 ( ( int )x, ( int )y, ( int )w,
+					Engine::g_Player[Index]->Ducked ? ( int )h_duck : ( int )h, lw, r, g, b, a );
 			}
 		}
 	}

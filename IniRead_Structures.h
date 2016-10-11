@@ -11,7 +11,9 @@ namespace Files
 		char* ct_vis_color_string;
 		char* ct_hide_color_string;
 
-		int player_box_style;
+		BYTE player;
+		BYTE player_box;
+		BYTE player_box_linewidth;
 
 		BYTE t_vis_color[4];
 		BYTE t_hide_color[4];
@@ -20,13 +22,10 @@ namespace Files
 
 		bool enable;
 
-		bool player;
-		bool player_enemy_only;
 		bool player_visible_only;
 		bool player_visible_check;
-		bool player_box;
 	};
-	
+
 	struct main_s
 	{
 		int reload_key;

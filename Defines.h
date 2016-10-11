@@ -49,11 +49,10 @@
 
 #define ESP_ENABLE				"|ESP.Enable"
 #define ESP_PLAYER				"|ESP.Player"
-#define ESP_PLAYER_ENEMY_ONLY	"|ESP.Player.EnemyOnly"
 #define ESP_PLAYER_VISIBLE_ONLY	"|ESP.Player.VisibleOnly"
 #define ESP_VISIBLE_CHECK		"|ESP.Player.VisibleCheck"
 #define ESP_PLAYER_BOX			"|ESP.Player.Box"
-#define ESP_PLAYER_BOX_STYLE	"|ESP.Player.Box.Style"
+#define ESP_PLAYER_BOX_LW		"|ESP.Player.Box.LineWidth"
 #define ESP_PLAYER_BOX_T_VIS	"|ESP.Player.Box.T.Vis"
 #define ESP_PLAYER_BOX_T_HIDE	"|ESP.Player.Box.T.Hide"
 #define ESP_PLAYER_BOX_CT_VIS	"|ESP.Player.Box.CT.Vis"
