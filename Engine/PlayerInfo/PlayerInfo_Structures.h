@@ -30,6 +30,8 @@ namespace Engine
 		Vector Bone[53];
 		Vector HitBox[21];
 
+		int WeaponModel;
+
 		bool Ducked;
 		bool Updated;
 		bool Visible;

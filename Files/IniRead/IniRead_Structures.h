@@ -31,6 +31,7 @@ namespace Files
 		bool player_box_outline;
 
 		bool player_name;
+		bool player_weapon;
 
 		bool font_outline;
 	};

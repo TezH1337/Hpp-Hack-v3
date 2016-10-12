@@ -100,7 +100,7 @@ namespace Functions
 				{
 					float w = h / 2;
 					float x = ScreenTop.x - ( w / 2 );
-					float y = ScreenTop.y;				
+					float y = ScreenTop.y;
 
 					if ( Files::g_IniRead->esp->player_box_outline )
 					{
@@ -117,7 +117,7 @@ namespace Functions
 				}
 			}
 
-			if ( Files::g_IniRead->esp->player_name )
+			if ( Files::g_IniRead->esp->player_name || Files::g_IniRead->esp->player_weapon )
 			{
 				BYTE r, g, b, a;
 
@@ -126,11 +126,35 @@ namespace Functions
 				b = Files::g_IniRead->esp->font_color[2];
 				a = Files::g_IniRead->esp->font_color[3];
 
-				float y = ScreenTop.y + ( Engine::g_Player[Index]->Ducked ? h_duck - 4 : h - 4 );
-				float x = ScreenTop.x;		
+				if ( Files::g_IniRead->esp->player_name )
+				{
+					float y = ScreenTop.y + ( Engine::g_Player[Index]->Ducked ? h_duck - 4 : h - 4 );
+					float x = ScreenTop.x;
 
-				Engine::g_Verdana->Print ( ( int )x, ( int )y, r, g, b, a,
-					Files::g_IniRead->esp->font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, Engine::g_Player[Index]->Info.name );
+					Engine::g_Verdana->Print ( ( int )x, ( int )y, r, g, b, a,
+						Files::g_IniRead->esp->font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, Engine::g_Player[Index]->Info.name );
+				}
+
+				if ( Files::g_IniRead->esp->player_weapon )
+				{
+					float y = ScreenBot.y + ( -( ScreenBot.y - ScreenTop.y ) + 11 );
+					float x = ScreenTop.x;
+
+					model_s *Model = g_Studio.GetModelByIndex ( Engine::g_Player[Index]->Entity->curstate.weaponmodel );
+
+					if ( Model && Model->name )
+					{
+						char WeaponName[64];
+
+						int Len = lstrlen ( Model->name + 9 ) - 3;
+
+						lstrcpynA ( WeaponName, Model->name + 9, Len );
+						WeaponName[Len] = '\0';
+
+						Engine::g_Verdana->Print ( ( int )x, ( int )y, r, g, b, a,
+							Files::g_IniRead->esp->font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, WeaponName );
+					}
+				}
 			}
 		}
 	}

@@ -72,9 +72,14 @@ namespace Engine
 
 			g_Player[Index]->Mins = g_Player[Index]->Entity->curstate.mins;
 			g_Player[Index]->Maxs = g_Player[Index]->Entity->curstate.maxs;
+
+			if ( Files::g_IniRead->esp->player_weapon )
+			{
+				g_Player[Index]->WeaponModel = g_Player[Index]->Entity->curstate.weaponmodel;
+			}
 		}
 
-		g_Player[Index]->Alive = isAliveEntity ( g_Player[Index]->Entity );			
+		g_Player[Index]->Alive = isAliveEntity ( g_Player[Index]->Entity );
 	}
 
 	void PlayerInfo::GetBoneOrigin ( struct cl_entity_s *Entity )

@@ -24,6 +24,7 @@ namespace Files
 		INIREAD ( ct_hide_color_string, esp, mESP, ESP_PLAYER_BOX_CT_HIDE );
 
 		INIREAD_INT ( player_name, esp, mESP, ESP_PLAYER_NAME );
+		INIREAD_INT ( player_weapon, esp, mESP, ESP_PLAYER_WEAPON );
 
 		INIREAD_INT ( font_outline, esp, mESP, ESP_FONT_OUTLINE );
 		INIREAD ( font_color_string, esp, mESP, ESP_FONT_COLOR );
