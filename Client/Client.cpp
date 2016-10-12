@@ -61,6 +61,13 @@ void StudioEntityLight ( struct alight_s *plight )
 	g_Studio.StudioEntityLight ( plight );
 }
 
+int HUD_AddEntity ( int type, struct cl_entity_s *ent, const char *modelname )
+{
+	Functions::g_ESP->HUD_AddEntity ( ent );
+
+	return g_Client.HUD_AddEntity ( type, ent, modelname );
+}
+
 int HUD_Key_Event ( int down, int keynum, const char *pszCurrentBinding )
 {
 	if ( keynum == Files::g_IniRead->main->reload_key )
@@ -94,6 +101,7 @@ void HookFunction ( )
 	g_pClient->HUD_Frame = HUD_Frame;
 	g_pClient->HUD_Redraw = HUD_Redraw;
 	g_pClient->HUD_Key_Event = HUD_Key_Event;
+	g_pClient->HUD_AddEntity = HUD_AddEntity;
 }
 
 void HookUserMessages ( )

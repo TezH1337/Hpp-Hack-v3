@@ -32,6 +32,8 @@ namespace Files
 
 		bool player_name;
 		bool player_weapon;
+		
+		bool world_weapons;
 
 		bool font_outline;
 	};

@@ -26,6 +26,8 @@ namespace Files
 		INIREAD_INT ( player_name, esp, mESP, ESP_PLAYER_NAME );
 		INIREAD_INT ( player_weapon, esp, mESP, ESP_PLAYER_WEAPON );
 
+		INIREAD_INT ( world_weapons, esp, mESP, ESP_WORLD_WEAPONS );
+
 		INIREAD_INT ( font_outline, esp, mESP, ESP_FONT_OUTLINE );
 		INIREAD ( font_color_string, esp, mESP, ESP_FONT_COLOR );
 

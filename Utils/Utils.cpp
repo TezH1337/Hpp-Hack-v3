@@ -69,6 +69,20 @@ void Util::MemoryCopy ( void * dst, const void * src, size_t count )
 	}
 }
 
+void Util::MemorySet ( void *Buffer, DWORD Len, DWORD Sym )
+{
+	_asm
+	{
+		pushad
+		mov edi, [Buffer]
+		mov ecx, [Len]
+		mov eax, [Sym]
+		rep stosb
+		popad
+	}
+}
+
+
 void Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, char* String )
 {
 	PColor24 Ptr = Console_TextColor;
@@ -206,4 +220,49 @@ void Util::Parse ( BYTE MaxArray, char *String, BYTE Number[] )
 		Parsing = strtok ( 0, "," );
 		++i;
 	}
+}
+
+int Util::native_strcmp ( char const* _Str1, char const* _Str2, size_t MaxCount )
+{
+	if ( !MaxCount )
+	{
+		return 0;
+	}
+
+	while ( --MaxCount && *_Str1 && *_Str1 == *_Str2 )
+	{
+		++_Str1;
+		++_Str2;
+	}
+
+	return *( BYTE * )_Str1 - *( BYTE * )_Str2;
+}
+
+char* Util::native_strstr ( char *in, char *str )
+{
+	char c = *++str;
+
+	if ( !c )
+	{
+		return ( char * )in;
+	}
+
+	size_t len = lstrlen ( str );
+
+	do
+	{
+		char sc;
+
+		do
+		{
+			sc = *++in;
+
+			if ( !sc )
+			{
+				return ( char * )0;
+			}
+		} while ( sc != c );
+	} while ( native_strcmp ( in, str, len ) );
+
+	return ( char * )( in - 1 );
 }
