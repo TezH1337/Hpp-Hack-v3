@@ -31,6 +31,7 @@ namespace Engine
 		Vector HitBox[21];
 
 		int WeaponModel;
+		int Sequence;
 
 		bool Ducked;
 		bool Updated;

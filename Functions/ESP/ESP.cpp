@@ -137,10 +137,45 @@ namespace Functions
 
 				if ( Files::g_IniRead->esp->player_weapon )
 				{
+					int Cstrike_SequenceInfo[] = 
+					{
+						0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+						0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
+						1, 2, 0, 1, 1, 2, 0, 1, 1, 2,
+						0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
+						1, 2, 0, 1, 2, 0, 1, 2, 0, 1,
+						2, 0, 1, 2, 0, 0, 0, 4, 0, 4,
+						0, 5, 0, 5, 0, 0, 1, 1, 2, 0,
+						1, 1, 2, 0, 1, 0, 1, 0, 1, 2,
+						0, 1, 2, 3, 3, 3, 3, 3, 3, 3,
+						3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+						3
+					};
+
+					char* Sequence;
+
+					int type = Cstrike_SequenceInfo[Engine::g_Player[Index]->Sequence];
+
 					float y = ScreenBot.y + ( -( ScreenBot.y - ScreenTop.y ) + 11 );
 					float x = ScreenTop.x;
 
-					model_s *Model = g_Studio.GetModelByIndex ( Engine::g_Player[Index]->Entity->curstate.weaponmodel );
+					if ( type == 2 )
+					{
+						Sequence = "reloading";
+
+						Engine::g_Verdana->Print ( ( int )x, ( int )y + 11, 255, 100, 100, 255,
+							Files::g_IniRead->esp->font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, Sequence );
+					}
+
+					if ( type == 5 ) 
+					{
+						Sequence = "planting c4";
+
+						Engine::g_Verdana->Print ( ( int )x, ( int )y + 11, 255, 100, 100, 255,
+							Files::g_IniRead->esp->font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, Sequence );
+					}
+
+					model_s *Model = g_Studio.GetModelByIndex ( Engine::g_Player[Index]->WeaponModel );
 
 					if ( Model && Model->name )
 					{
@@ -148,7 +183,7 @@ namespace Functions
 
 						int Len = lstrlen ( Model->name + 9 ) - 3;
 
-						lstrcpynA ( WeaponName, Model->name + 9, Len );
+						lstrcpyn ( WeaponName, Model->name + 9, Len );
 						WeaponName[Len] = '\0';
 
 						Engine::g_Verdana->Print ( ( int )x, ( int )y, r, g, b, a,

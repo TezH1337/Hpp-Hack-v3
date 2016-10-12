@@ -76,6 +76,7 @@ namespace Engine
 			if ( Files::g_IniRead->esp->player_weapon )
 			{
 				g_Player[Index]->WeaponModel = g_Player[Index]->Entity->curstate.weaponmodel;
+				g_Player[Index]->Sequence = g_Player[Index]->Entity->curstate.sequence;
 			}
 		}
 
