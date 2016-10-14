@@ -62,6 +62,9 @@
 #define ESP_PLAYER_BOX_CT_HIDE	"|ESP.Player.Box.CT.Hide"
 #define ESP_PLAYER_NAME			"|ESP.Player.Name"
 #define ESP_PLAYER_WEAPON		"|ESP.Player.Weapon"
+#define ESP_WORLD_WEAPONS		"|ESP.World.Weapons"
+#define ESP_WORLD_SPRITES		"|ESP.World.Sprites"
+#define ESP_WORLD_NADES			"|ESP.World.Nades"
 #define ESP_FONT_OUTLINE		"|ESP.Font.OutLine"
 #define ESP_FONT_COLOR			"|ESP.Font.Color"
 
@@ -74,11 +77,48 @@
 #define CUR_WEAPON				"CurWeapon"
 #define DEATH_MSG				"DeathMsg"
 
+#define SEQUENCE_RELOADING		"reloading"
+#define SEQUENCE_PLANTING		"planting c4"
+
+#define HEGREN					"hegrenade"
+#define FLASH					"flash"
+#define SMOKE					"smoke"
+#define USP						"usp"
+#define GLOCK18					"glock18"
+#define DEAGLE					"deagle"
+#define P228					"p228"
+#define ELITE					"elite"
+#define FIVESEVEN				"fiveseven"
+#define M3						"m3"
+#define XM1014					"xm1014"
+#define MP5						"mp5"
+#define TMP						"tmp"
+#define P90						"p90"
+#define MAC10					"mac10"
+#define UMP45					"ump45"
+#define FAMAS					"famas"
+#define SG552					"sg552"
+#define AK47					"ak47"
+#define M4A1					"m4a1"
+#define AUG						"aug"
+#define SCOUT					"scout"
+#define AWP						"awp"
+#define G3SG1					"g3sg1"
+#define SG550					"sg550"
+#define GALIL					"galil"
+#define M249					"m249"
+#define SHIELD					"shield"
+#define BACKPACK				"backpack"
+#define THIGHPACK				"thighpack"
+
 #define CompareMemory(Buff1, Buff2, Size) __comparemem((const UCHAR *)Buff1, (const UCHAR *)Buff2, (UINT)Size)
 #define FindMemoryClone(Start, End, Clone, Size) __findmemoryclone((const ULONG)Start, (const ULONG)End, (const ULONG)Clone, (UINT)Size)
 #define FindReference(Start, End, Address)  __findreference((const ULONG)Start, (const ULONG)End, (const ULONG)Address)
 
+#define VectorLengthSquared(v) ((v)[0]*(v)[0]+(v)[1]*(v)[1]+(v)[2]*(v)[2])
 #define VectorTransform(a,b,c){(c)[0]=DotProduct((a),(b)[0])+(b)[0][3];(c)[1]=DotProduct((a),(b)[1])+(b)[1][3];(c)[2]=DotProduct((a),(b)[2])+(b)[2][3];}
+
+#define MAX_ENTITY				1024
 
 #define TERRORIST				1
 #define CT						2
@@ -138,7 +178,12 @@
 	if (!lstrcmpA(Key, key_1) || !lstrcmpA(Key, key_2))\
 		return to_convent;}
 
-#define INIREAD_INT(var, path, section, key) g_IniRead->path->var = atoi(g_File->IniRead((char*)path.c_str(), section, key, "0"))
-#define INIREAD_FLOAT(var, path, section, key) g_IniRead->path->var = atof(g_File->IniRead((char*)path.c_str(), section, key, "0"))
-#define INIREAD_STRING(var, path, section, key) g_IniRead->path->var = g_File->ReadString(section, key, "0", (char*)path.c_str())
-#define INIREAD(var, path, section, key) g_IniRead->path->var = g_File->IniRead((char*)path.c_str(), section, key, "0")
+#define WEAPON_PARS(name) {\
+	Engine::g_Drawing.DrawBox((int)(EntityScreen[0] - 2), (int)EntityScreen[1], 3 + 2, 3 + 2, 1, 0, 0, 0, 255, 1);\
+	Engine::g_Drawing.FillArea((int)EntityScreen[0] - 1, (int)EntityScreen[1] + 1, 3, 3, 255, 100, 0, 255, 1);\
+	Engine::g_Verdana.Print((int)EntityScreen[0], (int)(EntityScreen[1] + 13), *r, *g, *b, *a, Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, name);}
+
+#define INIREAD_INT(var, path, section, key) g_IniRead.path.var = atoi(g_File.IniRead((char*)path.c_str(), section, key, "0"))
+#define INIREAD_FLOAT(var, path, section, key) g_IniRead.path.var = atof(g_File.IniRead((char*)path.c_str(), section, key, "0"))
+#define INIREAD_STRING(var, path, section, key) g_IniRead.path.var = g_File.ReadString(section, key, "0", (char*)path.c_str())
+#define INIREAD(var, path, section, key) g_IniRead.path.var = g_File.IniRead((char*)path.c_str(), section, key, "0")
