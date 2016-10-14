@@ -16,6 +16,7 @@ namespace Engine
 
 	extern UserMsg* g_UserMsg;
 
+	//Team of player
 	extern int PlayerTeam[33];
 
 	extern pfnUserMsgHook pResetHUD;

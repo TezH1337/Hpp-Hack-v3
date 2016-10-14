@@ -6,7 +6,7 @@ Util g_Util;
 
 pcmd_t CommandByName ( char* szName )
 {
-	pcmd_t pCmd = g_Engine.pfnGetCmdList ( );
+	pcmd_t pCmd = Engine::g_Engine.pfnGetCmdList ( );
 
 	while ( pCmd )
 	{
@@ -23,7 +23,7 @@ pcmd_t CommandByName ( char* szName )
 
 PUserMsg UserMsgByName ( char* szMsgName )
 {
-	PUserMsg Ptr = g_pUserMsgBase;
+	PUserMsg Ptr = Engine::g_pUserMsgBase;
 
 	while ( Ptr->next )
 	{
@@ -52,7 +52,7 @@ pfnUserMsgHook HookUserMsg ( char *szMsgName, pfnUserMsgHook pfn )
 	}
 	else
 	{
-		Engine::g_Offset->Error ( false, USERMSG_ERROR, szMsgName );
+		Engine::g_Offset.Error ( false, USERMSG_ERROR, szMsgName );
 	}
 
 	return Original;
@@ -83,72 +83,72 @@ void Util::MemorySet ( void *Buffer, DWORD Len, DWORD Sym )
 }
 
 
-void Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, char* String )
+void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, char* String )
 {
-	PColor24 Ptr = Console_TextColor;
+	PColor24 Ptr = Engine::Console_TextColor;
 	TColor24 DefaultColor = *Ptr;
 
 	Ptr->R = R;
 	Ptr->G = G;
 	Ptr->B = B;
 
-	g_Engine.Con_Printf ( "%s", String );
+	Engine::g_Engine.Con_Printf ( "%s", String );
 
 	*Ptr = DefaultColor;
 }
 
-void Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, DWORD String )
+void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, DWORD String )
 {
-	PColor24 Ptr = Console_TextColor;
+	PColor24 Ptr = Engine::Console_TextColor;
 	TColor24 DefaultColor = *Ptr;
 
 	Ptr->R = R;
 	Ptr->G = G;
 	Ptr->B = B;
 
-	g_Engine.Con_Printf ( "%d", String );
+	Engine::g_Engine.Con_Printf ( "%d", String );
 
 	*Ptr = DefaultColor;
 }
 
-void Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, BYTE String )
+void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, BYTE String )
 {
-	PColor24 Ptr = Console_TextColor;
+	PColor24 Ptr = Engine::Console_TextColor;
 	TColor24 DefaultColor = *Ptr;
 
 	Ptr->R = R;
 	Ptr->G = G;
 	Ptr->B = B;
 
-	g_Engine.Con_Printf ( "%d", String );
+	Engine::g_Engine.Con_Printf ( "%d", String );
 
 	*Ptr = DefaultColor;
 }
 
-void Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, int String )
+void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, int String )
 {
-	PColor24 Ptr = Console_TextColor;
+	PColor24 Ptr = Engine::Console_TextColor;
 	TColor24 DefaultColor = *Ptr;
 
 	Ptr->R = R;
 	Ptr->G = G;
 	Ptr->B = B;
 
-	g_Engine.Con_Printf ( "%d", String );
+	Engine::g_Engine.Con_Printf ( "%d", String );
 
 	*Ptr = DefaultColor;
 }
 
-void Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, float String )
+void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, float String )
 {
-	PColor24 Ptr = Console_TextColor;
+	PColor24 Ptr = Engine::Console_TextColor;
 	TColor24 DefaultColor = *Ptr;
 
 	Ptr->R = R;
 	Ptr->G = G;
 	Ptr->B = B;
 
-	g_Engine.Con_Printf ( "%.1f", String );
+	Engine::g_Engine.Con_Printf ( "%.1f", String );
 
 	*Ptr = DefaultColor;
 }
@@ -172,14 +172,14 @@ char* Util::ConvertTypeToRenderString ( BYTE Type )
 	}
 }
 
-bool Util::CalcScreen ( float *pflOrigin, float *pflVecScreen )
+bool _fastcall Util::CalcScreen ( float *pflOrigin, float *pflVecScreen )
 {
-	int iResult = g_Engine.pTriAPI->WorldToScreen ( pflOrigin, pflVecScreen );
+	int Result = Engine::g_Engine.pTriAPI->WorldToScreen ( pflOrigin, pflVecScreen );
 
-	if ( pflVecScreen[0] < 1 && pflVecScreen[1] < 1 && pflVecScreen[0] > -1 && pflVecScreen[1] > -1 && !iResult )
+	if ( pflVecScreen[0] < 1 && pflVecScreen[1] < 1 && pflVecScreen[0] > -1 && pflVecScreen[1] > -1 && !Result )
 	{
-		pflVecScreen[0] = pflVecScreen[0] * ( g_Screen.iWidth / 2 ) + ( g_Screen.iWidth / 2 );
-		pflVecScreen[1] = -pflVecScreen[1] * ( g_Screen.iHeight / 2 ) + ( g_Screen.iHeight / 2 );
+		pflVecScreen[0] = pflVecScreen[0] * ( Engine::g_Screen.iWidth / 2 ) + ( Engine::g_Screen.iWidth / 2 );
+		pflVecScreen[1] = -pflVecScreen[1] * ( Engine::g_Screen.iHeight / 2 ) + ( Engine::g_Screen.iHeight / 2 );
 
 		return true;
 	}
@@ -187,9 +187,9 @@ bool Util::CalcScreen ( float *pflOrigin, float *pflVecScreen )
 	return false;
 }
 
-bool Util::PathFree ( Vector Input )
+bool _fastcall Util::PathFree ( Vector Input )
 {
-	pmtrace_t *Trace = g_Engine.PM_TraceLine ( Engine::g_Local->ViewOrg, Input, 0, 2, -1 );
+	pmtrace_t *Trace = Engine::g_Engine.PM_TraceLine ( Engine::g_Local.ViewOrg, Input, 0, 2, -1 );
 
 	return ( Trace->fraction >= 1.0f );
 }
@@ -222,7 +222,7 @@ void Util::Parse ( BYTE MaxArray, char *String, BYTE Number[] )
 	}
 }
 
-int Util::native_strcmp ( char const* _Str1, char const* _Str2, size_t MaxCount )
+int _fastcall Util::native_strcmp ( char const* _Str1, char const* _Str2, size_t MaxCount )
 {
 	if ( !MaxCount )
 	{
@@ -238,16 +238,16 @@ int Util::native_strcmp ( char const* _Str1, char const* _Str2, size_t MaxCount 
 	return *( BYTE * )_Str1 - *( BYTE * )_Str2;
 }
 
-char* Util::native_strstr ( char *in, char *str )
+char* _fastcall Util::native_strstr ( char *in, char *str )
 {
-	char c = *++str;
+	char c = *str++;
 
 	if ( !c )
 	{
 		return ( char * )in;
 	}
 
-	size_t len = lstrlen ( str );
+	size_t len = lstrlenA ( str );
 
 	do
 	{
@@ -255,7 +255,7 @@ char* Util::native_strstr ( char *in, char *str )
 
 		do
 		{
-			sc = *++in;
+			sc = *in++;
 
 			if ( !sc )
 			{

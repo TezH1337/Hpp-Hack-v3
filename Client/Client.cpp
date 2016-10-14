@@ -8,16 +8,16 @@ void HUD_Frame ( double time )
 {
 	if ( !FirstFrame )
 	{
-		g_pUserMsgBase = ( PUserMsg )Engine::g_Offset->FindUserMsgBase ( );
+		Engine::g_pUserMsgBase = ( PUserMsg )Engine::g_Offset.FindUserMsgBase ( );
 
-		g_Screen.iSize = sizeof ( SCREENINFO );
+		Engine::g_Screen.iSize = sizeof ( SCREENINFO );
 
-		Engine::g_Offset->HLType = g_Studio.IsHardware ( ) + 1;
+		Engine::g_Offset.HLType = Engine::g_Studio.IsHardware ( ) + 1;
 
-		Engine::g_Local->ppmove = ( playermove_t* )Engine::g_Offset->PlayerMovePtr ( );
+		Engine::g_Local.ppmove = ( playermove_t* )Engine::g_Offset.PlayerMovePtr ( );
 
-		Engine::g_Offset->ConsoleColorInitalize ( );
-		Engine::g_Offset->GetGameInfo ( &BuildInfo );
+		Engine::g_Offset.ConsoleColorInitalize ( );
+		Engine::g_Offset.GetGameInfo ( &BuildInfo );
 
 		HookUserMessages ( );
 
@@ -27,54 +27,52 @@ void HUD_Frame ( double time )
 		FirstFrame = true;
 	}
 
-	g_Engine.pfnGetScreenInfo ( &g_Screen );
-	g_Client.HUD_Frame ( time );
+	Engine::g_Engine.pfnGetScreenInfo ( &Engine::g_Screen );
+	Engine::g_Client.HUD_Frame ( time );
 }
 
 void HUD_Redraw ( float time, int intermission )
 {
-	g_Client.HUD_Redraw ( time, intermission );
+	Engine::g_Client.HUD_Redraw ( time, intermission );
 
-	Engine::g_PlayerInfo->UpdateLocalEntity ( );
+	Engine::g_PlayerInfo.UpdateLocalEntity ( Engine::g_Engine.GetLocalPlayer ( ) );
 
-	for ( BYTE i = 1; i <= g_Engine.GetMaxClients ( ); ++i )
+	for ( BYTE Index = 1; Index <= Engine::g_Engine.GetMaxClients ( ); ++Index )
 	{
-		Engine::g_PlayerInfo->UpdatePlayerInfo ( i );
+		Engine::g_PlayerInfo.UpdatePlayerInfo ( Engine::g_Engine.GetEntityByIndex ( Index ), Index );
 
-		if ( Files::g_IniRead->function->esp && Files::g_IniRead->esp->enable )
+		if ( Files::g_IniRead.function.esp )
 		{
-			Functions::g_ESP->HUD_Redraw ( i );
+			Functions::g_ESP.HUD_Redraw ( Index );
 		}
 	}
 }
 
 void StudioEntityLight ( struct alight_s *plight )
 {
-	cl_entity_s *Entity = g_Studio.GetCurrentEntity ( );
-
-	if ( Entity->player )
+	if ( Engine::g_Studio.GetCurrentEntity ( )->player )
 	{
-		Engine::g_PlayerInfo->GetBoneOrigin ( Entity );
-		Engine::g_PlayerInfo->GetHitboxOrigin ( Entity );
+		Engine::g_PlayerInfo.GetBoneOrigin ( Engine::g_Studio.GetCurrentEntity ( ) );
+		Engine::g_PlayerInfo.GetHitboxOrigin ( Engine::g_Studio.GetCurrentEntity ( ) );
 	}
 
-	g_Studio.StudioEntityLight ( plight );
+	Engine::g_Studio.StudioEntityLight ( plight );
 }
 
 int HUD_AddEntity ( int type, struct cl_entity_s *ent, const char *modelname )
 {
-	Functions::g_ESP->HUD_AddEntity ( ent );
+	Functions::g_ESP.HUD_AddEntity ( ent );
 
-	return g_Client.HUD_AddEntity ( type, ent, modelname );
+	return Engine::g_Client.HUD_AddEntity ( type, ent, modelname );
 }
 
 int HUD_Key_Event ( int down, int keynum, const char *pszCurrentBinding )
 {
-	if ( keynum == Files::g_IniRead->main->reload_key )
+	if ( keynum == Files::g_IniRead.main.reload_key )
 	{
 		g_Init.ReloadSettings ( );
 
-		if ( Files::g_IniRead->main->language )
+		if ( Files::g_IniRead.main.language )
 		{
 			g_Util.ConsolePrintColor ( 100, 255, 200, "[Hpp] " );
 			g_Util.ConsolePrintColor ( 200, 255, 200, "Settings successfully reloaded.\n" );
@@ -85,23 +83,23 @@ int HUD_Key_Event ( int down, int keynum, const char *pszCurrentBinding )
 			g_Util.ConsolePrintColor ( 200, 255, 200, "Настройки успешно перезагружены.\n" );
 		}
 
-		g_Engine.pfnPlaySoundByName ( "vox/ok.wav", 1 );
+		Engine::g_Engine.pfnPlaySoundByName ( "vox/ok.wav", 1 );
 	}
 
-	return g_Client.HUD_Key_Event ( down, keynum, pszCurrentBinding );
+	return Engine::g_Client.HUD_Key_Event ( down, keynum, pszCurrentBinding );
 }
 
 void HookStudio ( )
 {
-	g_pStudio->StudioEntityLight = StudioEntityLight;
+	Engine::g_pStudio->StudioEntityLight = StudioEntityLight;
 }
 
 void HookFunction ( )
 {
-	g_pClient->HUD_Frame = HUD_Frame;
-	g_pClient->HUD_Redraw = HUD_Redraw;
-	g_pClient->HUD_Key_Event = HUD_Key_Event;
-	g_pClient->HUD_AddEntity = HUD_AddEntity;
+	Engine::g_pClient->HUD_Frame = HUD_Frame;
+	Engine::g_pClient->HUD_Redraw = HUD_Redraw;
+	Engine::g_pClient->HUD_Key_Event = HUD_Key_Event;
+	Engine::g_pClient->HUD_AddEntity = HUD_AddEntity;
 }
 
 void HookUserMessages ( )

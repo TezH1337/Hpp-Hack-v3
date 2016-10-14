@@ -31,27 +31,27 @@ namespace Engine
 		{
 			PlayerTeam[Index] = TERRORIST;
 
-			if ( Index == Engine::g_Local->Index )
+			if ( Index == g_Engine.GetLocalPlayer ( )->index )
 			{
-				Engine::g_Local->Team = TERRORIST;
+				Engine::g_Local.Team = TERRORIST;
 			}
 		}
 		else if ( !strcmp ( Team, CT_UMSG ) )
 		{
 			PlayerTeam[Index] = CT;
 
-			if ( Index == Engine::g_Local->Index )
+			if ( Index == g_Engine.GetLocalPlayer ( )->index )
 			{
-				Engine::g_Local->Team = CT;
+				Engine::g_Local.Team = CT;
 			}
 		}
 		else
 		{
 			PlayerTeam[Index] = SPECTATOR;
 
-			if ( Index == Engine::g_Local->Index )
+			if ( Index == g_Engine.GetLocalPlayer ( )->index )
 			{
-				Engine::g_Local->Team = SPECTATOR;
+				Engine::g_Local.Team = SPECTATOR;
 			}
 		}
 

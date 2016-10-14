@@ -10,22 +10,22 @@ class Util
 public:
 	char* ConvertTypeToRenderString ( BYTE Type );
 
-	char* native_strstr ( char *in, char *str );
+	char* _fastcall native_strstr ( char *in, char *str );
 
-	int native_strcmp ( char const* _Str1, char const* _Str2, size_t MaxCount );
+	int _fastcall native_strcmp ( char const* _Str1, char const* _Str2, size_t MaxCount );
 
-	bool CalcScreen ( float *pflOrigin, float *pflVecScreen );
+	bool _fastcall CalcScreen ( float *pflOrigin, float *pflVecScreen );
 
-	bool PathFree ( Vector Input );
+	bool _fastcall PathFree ( Vector Input );
 
 	void MemoryCopy ( void * dst, const void * src, size_t count );
 	void MemorySet ( void *Buffer, DWORD Len, DWORD Sym );
 
-	void ConsolePrintColor ( BYTE R, BYTE G, BYTE B, char* String );
-	void ConsolePrintColor ( BYTE R, BYTE G, BYTE B, DWORD String );
-	void ConsolePrintColor ( BYTE R, BYTE G, BYTE B, BYTE String );
-	void ConsolePrintColor ( BYTE R, BYTE G, BYTE B, int String );
-	void ConsolePrintColor ( BYTE R, BYTE G, BYTE B, float String );
+	void _fastcall ConsolePrintColor ( BYTE R, BYTE G, BYTE B, char* String );
+	void _fastcall ConsolePrintColor ( BYTE R, BYTE G, BYTE B, DWORD String );
+	void _fastcall ConsolePrintColor ( BYTE R, BYTE G, BYTE B, BYTE String );
+	void _fastcall ConsolePrintColor ( BYTE R, BYTE G, BYTE B, int String );
+	void _fastcall ConsolePrintColor ( BYTE R, BYTE G, BYTE B, float String );
 
 	void Parse ( BYTE MaxArray, char *String, int Number[] );
 	void Parse ( BYTE MaxArray, char *String, BYTE Number[] );

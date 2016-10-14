@@ -8,14 +8,14 @@ namespace Files
 	class IniRead
 	{
 	public:
-		esp_s* esp = new esp_s;
-		main_s* main = new main_s;
-		function_s* function = new function_s;
+		esp_s esp;
+		main_s main;
+		function_s function;
 
 		void ESP ( );
 		void Main ( );
 		void Functions ( );
 	};
 
-	extern IniRead* g_IniRead;
+	extern IniRead g_IniRead;
 }

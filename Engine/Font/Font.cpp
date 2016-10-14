@@ -4,15 +4,14 @@ namespace Engine
 {
 	void Font::InitText ( char* Font, int Height, int Width )
 	{
-		if ( g_Offset->HLType != RENDERTYPE_HARDWARE )
+		if ( g_Offset.HLType != RENDERTYPE_HARDWARE )
 		{
 			return;
 		}
 
 		HDC hDC;
 
-		HFONT hFont;
-		HFONT hOldFont;
+		HFONT hFont, hOldFont;
 
 		iheight = Height;
 		hDC = wglGetCurrentDC ( );
@@ -127,6 +126,5 @@ namespace Engine
 		glEnable ( GL_TEXTURE_2D );
 	}
 
-	Font* g_Font = new Font;
-	Font* g_Verdana = new Font;
+	Font g_Font, g_Verdana;
 }

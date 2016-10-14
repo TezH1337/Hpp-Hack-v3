@@ -6,7 +6,7 @@ namespace Files
 {
 	void IniRead::ESP ( )
 	{
-		std::string esp = g_File->szDirFile ( VISUALS_PATH ).c_str ( );
+		std::string esp = g_File.DirFile ( VISUALS_PATH ).c_str ( );
 
 		INIREAD_INT ( enable, esp, mESP, ESP_ENABLE );
 
@@ -27,20 +27,22 @@ namespace Files
 		INIREAD_INT ( player_weapon, esp, mESP, ESP_PLAYER_WEAPON );
 
 		INIREAD_INT ( world_weapons, esp, mESP, ESP_WORLD_WEAPONS );
+		INIREAD_INT ( world_sprites, esp, mESP, ESP_WORLD_SPRITES );
+		INIREAD_INT ( world_nades, esp, mESP, ESP_WORLD_NADES );
 
 		INIREAD_INT ( font_outline, esp, mESP, ESP_FONT_OUTLINE );
 		INIREAD ( font_color_string, esp, mESP, ESP_FONT_COLOR );
 
-		g_Util.Parse ( 4, g_IniRead->esp->t_vis_color_string, g_IniRead->esp->t_vis_color );
-		g_Util.Parse ( 4, g_IniRead->esp->t_hide_color_string, g_IniRead->esp->t_hide_color );
-		g_Util.Parse ( 4, g_IniRead->esp->ct_vis_color_string, g_IniRead->esp->ct_vis_color );
-		g_Util.Parse ( 4, g_IniRead->esp->ct_hide_color_string, g_IniRead->esp->ct_hide_color );
-		g_Util.Parse ( 4, g_IniRead->esp->font_color_string, g_IniRead->esp->font_color );
+		g_Util.Parse ( 4, g_IniRead.esp.t_vis_color_string, g_IniRead.esp.t_vis_color );
+		g_Util.Parse ( 4, g_IniRead.esp.t_hide_color_string, g_IniRead.esp.t_hide_color );
+		g_Util.Parse ( 4, g_IniRead.esp.ct_vis_color_string, g_IniRead.esp.ct_vis_color );
+		g_Util.Parse ( 4, g_IniRead.esp.ct_hide_color_string, g_IniRead.esp.ct_hide_color );
+		g_Util.Parse ( 4, g_IniRead.esp.font_color_string, g_IniRead.esp.font_color );
 	}
 
 	void IniRead::Main ( )
 	{
-		std::string main = g_File->szDirFile ( MAIN_PATH ).c_str ( );
+		std::string main = g_File.DirFile ( MAIN_PATH ).c_str ( );
 
 		INIREAD_STRING ( language, main, MAIN, MAIN_LANGUAGE );
 
@@ -49,10 +51,10 @@ namespace Files
 
 	void IniRead::Functions ( )
 	{
-		std::string function = g_File->szDirFile ( FUNCTIONS_PATH ).c_str ( );
+		std::string function = g_File.DirFile ( FUNCTIONS_PATH ).c_str ( );
 
 		INIREAD_INT ( esp, function, FUNCTIONS, FUNCTIONS_ESP );
 	}
 
-	IniRead* g_IniRead = new IniRead;
+	IniRead g_IniRead;
 }

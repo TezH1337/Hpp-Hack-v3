@@ -4,7 +4,7 @@ namespace Engine
 {
 	void Drawing::FillArea ( int x, int y, int w, int h, BYTE r, BYTE g, BYTE b, BYTE a, BYTE style )
 	{
-		if ( g_Offset->HLType != RENDERTYPE_HARDWARE )
+		if ( g_Offset.HLType != RENDERTYPE_HARDWARE )
 		{
 			g_Engine.pfnFillRGBA ( x, y, w, h, r, g, b, a );
 		}
@@ -21,8 +21,11 @@ namespace Engine
 			{
 			case 1:
 				glBegin ( GL_QUADS );
+				break;
+
 			case 2:
 				glBegin ( GL_LINE_LOOP );
+				break;
 			}
 
 			glVertex2i ( x, y );
@@ -63,8 +66,11 @@ namespace Engine
 		{
 		case 1:
 			glBegin ( GL_LINES );
+			break;
+
 		case 2:
 			glBegin ( GL_LINE_LOOP );
+			break;
 		}
 
 		glVertex2i ( x1, y1 );
@@ -84,29 +90,29 @@ namespace Engine
 			return;
 		}
 
-		g_Drawing->DrawLine ( ( int )ScreenSrc[0], ( int )ScreenSrc[1], ( int )ScreenDest[0], ( int )ScreenDest[1], linewidth, r, g, b, style );
+		g_Drawing.DrawLine ( ( int )ScreenSrc[0], ( int )ScreenSrc[1], ( int )ScreenDest[0], ( int )ScreenDest[1], linewidth, r, g, b, style );
 	}
 
-	void Drawing::Draw3DBox ( int Index, float lw, BYTE r, BYTE g, BYTE b, BYTE style )
+	void Drawing::Draw3DBox ( struct cl_entity_s *Entity, int Index, float lw, BYTE r, BYTE g, BYTE b, BYTE style )
 	{
 		Vector F, R, U;
 
-		g_Engine.pfnAngleVectors ( Vector ( 0.0f, g_Player[Index]->Entity->angles[1], 0.0f ), F, R, U );
+		g_Engine.pfnAngleVectors ( Vector ( 0.0f, g_Engine.GetEntityByIndex ( Index )->angles[1], 0.0f ), F, R, U );
 
-		float Forward = g_Player[Index]->Maxs.y + 15;
-		float Back = g_Player[Index]->Mins.y - 5;
-		float Right = g_Player[Index]->Maxs.x + 5;
-		float Left = g_Player[Index]->Mins.x - 5;
+		float Forward = Entity->curstate.maxs.y + 15;
+		float Back = Entity->curstate.mins.y - 5;
+		float Right = Entity->curstate.maxs.x + 5;
+		float Left = Entity->curstate.mins.x - 5;
 
-		Vector UFLeft = g_Player[Index]->Origin + U * g_Player[Index]->Maxs.z + F * Forward + R * Left;
-		Vector UFRight = g_Player[Index]->Origin + U * g_Player[Index]->Maxs.z + F * Forward + R * Right;
-		Vector UBLeft = g_Player[Index]->Origin + U * g_Player[Index]->Maxs.z + F * Back + R * Left;
-		Vector UBRight = g_Player[Index]->Origin + U * g_Player[Index]->Maxs.z + F * Back + R * Right;
+		Vector UFLeft = Entity->origin + U * Entity->curstate.maxs.z + F * Forward + R * Left;
+		Vector UFRight = Entity->origin + U * Entity->curstate.maxs.z + F * Forward + R * Right;
+		Vector UBLeft = Entity->origin + U * Entity->curstate.maxs.z + F * Back + R * Left;
+		Vector UBRight = Entity->origin + U * Entity->curstate.maxs.z + F * Back + R * Right;
 
-		Vector BFLeft = g_Player[Index]->Origin + U * g_Player[Index]->Mins.z + F * Forward + R * Left;
-		Vector BFRight = g_Player[Index]->Origin + U * g_Player[Index]->Mins.z + F * Forward + R * Right;
-		Vector BBLeft = g_Player[Index]->Origin + U * g_Player[Index]->Mins.z + F * Back + R * Left;
-		Vector BBRight = g_Player[Index]->Origin + U * g_Player[Index]->Mins.z + F * Back + R * Right;
+		Vector BFLeft = Entity->origin + U * Entity->curstate.mins.z + F * Forward + R * Left;
+		Vector BFRight = Entity->origin + U * Entity->curstate.mins.z + F * Forward + R * Right;
+		Vector BBLeft = Entity->origin + U * Entity->curstate.mins.z + F * Back + R * Left;
+		Vector BBRight = Entity->origin + U * Entity->curstate.mins.z + F * Back + R * Right;
 
 		DrawVectorLine ( UBLeft, UBRight, lw, r, g, b, style );
 		DrawVectorLine ( UBRight, UFRight, lw, r, g, b, style );
@@ -124,5 +130,32 @@ namespace Engine
 		DrawVectorLine ( BFLeft, BBLeft, lw, r, g, b, style );
 	}
 
-	Drawing* g_Drawing = new Drawing;
+	void Drawing::DrawCircle ( float x, float y, float rad, int amountSegments, BYTE r, BYTE g, BYTE b, BYTE a )
+	{
+		glDisable ( GL_TEXTURE_2D );
+		glEnable ( GL_BLEND );
+		glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+		glColor4ub ( ( GLubyte )r, ( GLubyte )g, ( GLubyte )b, ( GLubyte )a );
+		glBegin ( GL_LINE_LOOP );
+
+		for ( int i = 0; i < amountSegments; ++i )
+		{
+			float angle = 2.0f * 3.1415926f * float ( i ) / float ( amountSegments );
+
+			float dx = rad * cosf ( angle );
+			float dy = rad * sinf ( angle );
+
+			glVertex2f ( x + dx, y + dy );
+			glVertex2f ( x + 1 + dx, y + dy );
+			glVertex2f ( x + 1 + dx, y + 1 + dy );
+			glVertex2f ( x + dx, y + 1 + dy );
+		}
+
+		glEnd ( );
+		glColor3f ( 1.0f, 1.0f, 1.0f );
+		glEnable ( GL_TEXTURE_2D );
+		glDisable ( GL_BLEND );
+	}
+
+	Drawing g_Drawing;
 }

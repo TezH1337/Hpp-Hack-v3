@@ -3,11 +3,11 @@
 
 namespace Files
 {
-	std::string File::szDirFile ( const char* Name )
+	std::string File::DirFile ( const char* Name )
 	{
-		std::string szRet = BaseDir;
+		std::string Ret = Engine::BaseDir;
 
-		return ( szRet + Name );
+		return ( Ret + Name );
 	}
 
 	bool File::FileExists ( const char *FileName )
@@ -17,34 +17,36 @@ namespace Files
 
 	int File::ReadInt ( char* Section, char* Key, int Default, char* Patch )
 	{
-		return GetPrivateProfileIntA ( Section, Key, Default, Patch );
+		return GetPrivateProfileInt ( Section, Key, Default, Patch );
 	}
 
 	char* File::IniRead ( char *FileName, char *Section, char *Key, char *Default )
 	{
-		char *out = new char[512];
+		char *Out = new char[512];
 
-		GetPrivateProfileStringA ( ( LPCSTR )Section, ( LPCSTR )Key, Default, out, 200, ( LPCSTR )FileName );
+		GetPrivateProfileString ( ( LPCSTR )Section, ( LPCSTR )Key, Default, Out, 200, ( LPCSTR )FileName );
 
-		return out;
+		return Out;
 	}
 
 	int File::ReadString ( char* Section, char* Key, char* Default, char* Patch )
 	{
-		char cTempString[19];
+		char TempString[19];
 
-		GetPrivateProfileStringA ( Section, Key, Default, cTempString, 16, Patch );
+		GetPrivateProfileString ( Section, Key, Default, TempString, 16, Patch );
 
-		return CharToKey ( cTempString );
+		return CharToKey ( TempString );
 	}
 
 	int File::CharToKey ( char* Key )
 	{
+		//Language
 		PARS_STRING ( "RU", "ru", RUSSIAN );
 		PARS_STRING ( "RUSSIAN", "russian", RUSSIAN );
 		PARS_STRING ( "EN", "en", ENGLISH );
 		PARS_STRING ( "ENGLISH", "english", ENGLISH );
 
+		//Keyboard keys
 		PARS_STRING ( "UP", "up", TRUE );
 		PARS_STRING ( "DOWN", "down", FALSE );
 
@@ -126,18 +128,27 @@ namespace Files
 		PARS_STRING ( "SHIFT", "shift", K_SHIFT );
 		PARS_STRING ( "CTRL", "ctrl", K_CTRL );
 
+		//Mouse keys
 		PARS_STRING ( "MWHEELDOWN", "mwheeldown", K_MWHEELDOWN );
 		PARS_STRING ( "MWHEELUP", "mwheelup", K_MWHEELUP );
+
 		PARS_STRING ( "MOUSE1", "mouse1", K_MOUSE1 );
 		PARS_STRING ( "MOUSE2", "mouse2", K_MOUSE2 );
 		PARS_STRING ( "MOUSE3", "mouse3", K_MOUSE3 );
 		PARS_STRING ( "MOUSE4", "mouse4", K_MOUSE4 );
 		PARS_STRING ( "MOUSE5", "mouse5", K_MOUSE5 );
 
+		//Other
+		PARS_STRING ( "TRUE", "true", TRUE );
+		PARS_STRING ( "FALSE", "false", FALSE );
+
+		PARS_STRING ( "ON", "on", TRUE );
+		PARS_STRING ( "OFF", "off", FALSE );
+
 		PARS_STRING ( "NONE", "none", NULL );
 
 		return NULL;
 	}
 
-	File* g_File = new File;
+	File g_File;
 }

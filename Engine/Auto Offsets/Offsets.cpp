@@ -198,9 +198,9 @@ namespace Engine
 			0x0E
 		};
 
-		for ( BYTE bOffset = 0; bOffset < sizeof ( EngineOffset ); ++bOffset )
+		for ( BYTE Offset = 0; Offset < sizeof ( EngineOffset ); ++Offset )
 		{
-			PVOID EnginePtr = ( cl_enginefunc_t* )*( PDWORD )( ( DWORD )g_pClient->Initialize + EngineOffset[bOffset] );
+			PVOID EnginePtr = ( cl_enginefunc_t* )*( PDWORD )( ( DWORD )g_pClient->Initialize + EngineOffset[Offset] );
 
 			if ( FarProc ( ( DWORD )EnginePtr, HwBase, HwEnd ) &&
 				FarProc ( ( DWORD )EnginePtr, HlBase, HlEnd ) && !FarProc ( ( DWORD )EnginePtr, ClBase, ClEnd ) )
@@ -226,13 +226,13 @@ namespace Engine
 			}
 			else
 			{
-				goto find_next;
+				goto FindNext;
 			}
 		}
 
 		return 0;
 
-	find_next:
+	FindNext:
 
 		DWORD StudioTablePtr = *( DWORD* )( ( DWORD )g_pClient->HUD_GetStudioModelInterface + 0x30 );
 
@@ -253,6 +253,21 @@ namespace Engine
 		}
 
 		return StudioTablePtr;
+	}
+
+	void Offset::CopyClient ( )
+	{
+		g_Util.MemoryCopy ( &g_Client, g_pClient, sizeof ( cl_clientfunc_t ) );
+	}
+
+	void Offset::CopyEngine ( )
+	{
+		g_Util.MemoryCopy ( &g_Engine, g_pEngine, sizeof ( cl_enginefunc_t ) );
+	}
+
+	void Offset::CopyStudio ( )
+	{
+		g_Util.MemoryCopy ( &g_Studio, g_pStudio, sizeof ( engine_studio_api_t ) );
 	}
 
 	DWORD Offset::FindGameConsole ( )
@@ -399,9 +414,9 @@ namespace Engine
 
 		if ( FindAddress )
 		{
-			for ( BYTE bOffset = 0; bOffset < sizeof ( Offset_UserMsgBase ); ++bOffset )
+			for ( BYTE Offset = 0; Offset < sizeof ( Offset_UserMsgBase ); ++Offset )
 			{
-				PBYTE MovPtr = ( PBYTE )( FindAddress - Offset_UserMsgBase[bOffset] );
+				PBYTE MovPtr = ( PBYTE )( FindAddress - Offset_UserMsgBase[Offset] );
 
 				if ( *MovPtr == 0x8B )
 				{
@@ -420,5 +435,5 @@ namespace Engine
 		return 0;
 	}
 
-	Offset* g_Offset = new Offset;
+	Offset g_Offset;
 }

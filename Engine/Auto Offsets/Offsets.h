@@ -14,25 +14,25 @@ namespace Engine
 		DWORD VgBase, VgSize, VgEnd;
 
 	public:
-		DWORD GetModuleSize ( DWORD Address );
+		__inline DWORD GetModuleSize ( DWORD Address );
 
-		DWORD FindString ( PCHAR String, DWORD Start, DWORD End, DWORD Offset );
-		DWORD FindPattern ( PCHAR Pattern, DWORD PtLen, DWORD Start, DWORD End, DWORD Offset );
-		DWORD FindPushString ( DWORD Start, DWORD End, DWORD Address );
+		__inline DWORD FindString ( PCHAR String, DWORD Start, DWORD End, DWORD Offset );
+		__inline DWORD FindPattern ( PCHAR Pattern, DWORD PtLen, DWORD Start, DWORD End, DWORD Offset );
+		__inline DWORD FindPushString ( DWORD Start, DWORD End, DWORD Address );
 
-		DWORD FarProc ( DWORD Address, DWORD LB, DWORD HB );
-		DWORD Absolute ( DWORD Address );
+		__inline DWORD FarProc ( DWORD Address, DWORD LB, DWORD HB );
+		__inline DWORD Absolute ( DWORD Address );
 
 		DWORD FindClientTable ( );
 		DWORD FindEngineTable ( );
 		DWORD FindStudioTable ( );
-		DWORD FindGameConsole ( );
+		__inline DWORD FindGameConsole ( );
 		DWORD FindUserMsgBase ( );
 
-		ULONG __findmemoryclone ( const ULONG Start, const ULONG End, const ULONG Clone, UINT Size );
-		ULONG __findreference ( const ULONG Start, const ULONG End, const ULONG Address );
+		__inline ULONG __findmemoryclone ( const ULONG Start, const ULONG End, const ULONG Clone, UINT Size );
+		__inline ULONG __findreference ( const ULONG Start, const ULONG End, const ULONG Address );
 
-		BOOL __comparemem ( const UCHAR *Buff1, const UCHAR *Buff2, UINT Size );
+		__inline BOOL __comparemem ( const UCHAR *Buff1, const UCHAR *Buff2, UINT Size );
 
 		BYTE HLType;
 
@@ -42,11 +42,15 @@ namespace Engine
 
 		void Error ( bool Exit, char* Message, ... );
 
-		void GetRenderType ( );
+		__inline void GetRenderType ( );
 
 		void ConsoleColorInitalize ( );
 		void GetGameInfo ( pGameInfo_s GameInfo );
+
+		void CopyClient ( );
+		void CopyEngine ( );
+		void CopyStudio ( );
 	};
 
-	extern Offset* g_Offset;
+	extern Offset g_Offset;
 }

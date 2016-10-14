@@ -4,8 +4,6 @@
 
 namespace Functions
 {
-	extern int EntityIndex;
-
 	struct entity_s
 	{
 		char Name[64];
@@ -19,15 +17,20 @@ namespace Functions
 	class ESP
 	{
 	public:
-		static void DrawPlayer ( int Index );
-		static void DrawWorld ( );
+		int EntityIndex;
 
-		static void AddEntity ( char* Name, int Important, Vector Origin, BYTE Type );
-		static void ClearEntity ( );
+		//Drawing player esp
+		__inline static void DrawPlayer ( struct cl_entity_s *Entity, int Index );
+		//Drawing world esp
+		__inline static void DrawWorld ( );
+		//Add entity
+		__inline static void AddEntity ( char* Name, int Important, Vector Origin, BYTE Type );
+		//Clear all entity
+		__inline static void ClearEntity ( );
 
 		static void HUD_AddEntity ( struct cl_entity_s *Entity );
 		static void HUD_Redraw ( int Index );
 	};
 
-	extern ESP* g_ESP;
+	extern ESP g_ESP;
 }

@@ -7,37 +7,34 @@ namespace Engine
 	struct local_s
 	{
 		playermove_t *ppmove;
-		cl_entity_s *Entity;
 
 		Vector ViewOrg;
 
+		//Team of player
 		int Team;
-		int Index;
 
+		//Valid player or not
 		bool Alive;
 	};
 
-	extern local_s* g_Local;
+	extern local_s g_Local;
 
 	struct player_s
 	{
 		hud_player_info_t Info;
-		cl_entity_s *Entity;
 
-		Vector Origin;
-		Vector Mins;
-		Vector Maxs;
 		Vector Bone[53];
 		Vector HitBox[21];
 
-		int WeaponModel;
-		int Sequence;
-
+		//Ducked player or not
 		bool Ducked;
-		bool Updated;
+		//Valid player or not
+		bool Valid;
+		//Visible player or not
 		bool Visible;
+		//Alive player or not
 		bool Alive;
 	};
 
-	extern player_s* g_Player[33];
+	extern player_s g_Player[33];
 }
