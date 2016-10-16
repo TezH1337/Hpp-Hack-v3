@@ -37,6 +37,7 @@
 #include "Defines.h"
 #include "Main_Structures.h"
 #include "UserMsg.h"
+#include "EngineMsg.h"
 #include "Offsets.h"
 #include "Utils.h"
 #include "Client.h"
@@ -61,6 +62,7 @@ namespace Engine
 	extern PColor24 Console_TextColor;
 	extern SCREENINFO g_Screen;
 	extern PUserMsg g_pUserMsgBase;
+	extern PEngineMsg g_pEngineMsgBase;
 
 	extern char* BaseDir;
 }

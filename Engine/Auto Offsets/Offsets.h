@@ -26,8 +26,11 @@ namespace Engine
 		DWORD FindClientTable ( );
 		DWORD FindEngineTable ( );
 		DWORD FindStudioTable ( );
+
 		__inline DWORD FindGameConsole ( );
+
 		DWORD FindUserMsgBase ( );
+		DWORD FindSVCMessages ( );
 
 		__inline ULONG __findmemoryclone ( const ULONG Start, const ULONG End, const ULONG Clone, UINT Size );
 		__inline ULONG __findreference ( const ULONG Start, const ULONG End, const ULONG Address );

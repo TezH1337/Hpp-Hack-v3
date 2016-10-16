@@ -2,6 +2,8 @@
 
 #include "Main.h"
 
+typedef void ( *pfnEngineMsgHook )( );
+
 typedef struct cl_clientfuncs_s
 {
 	int ( *Initialize ) ( cl_enginefunc_t *pEnginefuncs, int iVersion );
@@ -56,25 +58,41 @@ typedef struct Color24
 
 typedef struct GameInfo_s
 {
-	char*		GameName;
-	char*		GameVersion;
-	BYTE		Protocol;
-	DWORD		Build;
+	char* GameName;
+	char* GameVersion;
+	BYTE Protocol;
+	DWORD Build;
 } GameInfo_t, *pGameInfo_s;
 
 typedef struct cmd_s
 {
-	struct cmd_s	*next;
-	char			*name;
-	xcommand_t		function;
-	int				flags;
+	struct cmd_s *next;
+	char *name;
+	xcommand_t function;
+	int	flags;
 } cmd_t, *pcmd_t;
 
 typedef struct UserMsg
 {
-	int				number;
-	int				size;
-	char			name[16];
-	struct UserMsg*	next;
-	pfnUserMsgHook	pfn;
+	int	number;
+	int	size;
+	char name[16];
+	struct UserMsg* next;
+	pfnUserMsgHook pfn;
 } *PUserMsg;
+
+typedef struct EngineMsg
+{
+	int	number;
+	char* name;
+	pfnEngineMsgHook pfn;
+} *PEngineMsg;
+
+typedef struct sizebuf_s
+{
+	const char *buffername;
+	uint16 flags;
+	byte *data;
+	int maxsize;
+	int	cursize;
+} sizebuf_t;

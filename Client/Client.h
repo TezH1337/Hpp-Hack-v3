@@ -9,3 +9,4 @@ extern bool FirstFrame;
 void HookStudio ( );
 void HookFunction ( );
 void HookUserMessages ( );
+void HookEngineMessages ( );

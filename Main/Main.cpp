@@ -5,6 +5,7 @@ namespace Engine
 	PColor24 Console_TextColor;
 	SCREENINFO g_Screen;
 	PUserMsg g_pUserMsgBase;
+	PEngineMsg g_pEngineMsgBase;
 
 	cl_clientfunc_t *g_pClient = nullptr;
 	cl_enginefunc_t *g_pEngine = nullptr;

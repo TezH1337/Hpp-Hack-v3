@@ -7,6 +7,8 @@
 #define STUDIO_PATTERN			"Couldn't get client .dll studio model rendering interface."
 #define CONSOLE_PATTERN			"GameConsole003"
 #define USERMSG_PATTERN			"UserMsg: Not Present on Client %d"
+#define SVC_MSG_PATTERN			"-------- Message Load ---------"
+#define SVC_MESSAGES_PATTERN	"End of List."
 
 #define ERROR_HEADER			"Hpp Hack"
 
@@ -28,6 +30,20 @@
 #define USERMSG_ERROR_2			"Error #0011. Couldn't find UserMsgBase pointer."
 
 #define USERMSG_ERROR			"Error #0012. Couldn't find %s.\nNote: Cheat can't support this game.\nSupported Games: Half-Life, Counter-Strike, Counter-Strike: Condition Zero, Counter-Strike: Condition Zero Deleted Scenes."
+
+#define SVC_MSG_ERROR_1			"Error #0013. Couldn't find SvcBase pointer."
+#define SVC_MSG_ERROR_2			"Error #0014. Couldn't find SvcBase pointer."
+
+#define ENGINEMSG_ERROR			"Error #0015. Couldn't find %s."
+
+#define MSG_READ_CORD			"Error #0016. MSG_ReadCoord."
+#define MSG_STR_READING			"Error #0017. MSG_StartBitReading.\nNote: If you inject Hpp Hack with another cheat, it is likely that they are not compatible."
+#define MSG_END_READING			"Error #0018. MSG_EndBitReading.\nNote: If you inject Hpp Hack with another cheat, it is likely that they are not compatible."
+#define ENGINE_MSG_BASE			"Error #0019. EngineMsgBase."
+
+#define HPP						"[Hpp] "
+#define SETTINGS_RELOADED_ENG	"Settings successfully reloaded.\n"
+#define SETTINGS_RELOADED_RUS	"Настройки успешно перезагружены.\n"
 
 #define VERSION					"3.0 [dev]\n"
 #define AUTHOR					"kilabeez\n"
@@ -111,12 +127,97 @@
 #define BACKPACK				"backpack"
 #define THIGHPACK				"thighpack"
 
+#define SOUND					"svc_sound"
+#define SPAWN_STATIC_SOUND		"svc_spawnstaticsound"
+#define STUFF_TEXT				"svc_stufftext"
+#define NEW_USER_MSG			"svc_newusermsg"
+#define UPDATE_USER_INFO		"svc_updateuserinfo"
+#define SEND_CVAR_VALUE			"svc_sendcvarvalue"
+#define SEND_CVAR_VALUE2		"svc_sendcvarvalue2"
+#define DIRECTOR				"svc_director"
+
 #define CompareMemory(Buff1, Buff2, Size) __comparemem((const UCHAR *)Buff1, (const UCHAR *)Buff2, (UINT)Size)
 #define FindMemoryClone(Start, End, Clone, Size) __findmemoryclone((const ULONG)Start, (const ULONG)End, (const ULONG)Clone, (UINT)Size)
 #define FindReference(Start, End, Address)  __findreference((const ULONG)Start, (const ULONG)End, (const ULONG)Address)
 
 #define VectorLengthSquared(v) ((v)[0]*(v)[0]+(v)[1]*(v)[1]+(v)[2]*(v)[2])
 #define VectorTransform(a,b,c){(c)[0]=DotProduct((a),(b)[0])+(b)[0][3];(c)[1]=DotProduct((a),(b)[1])+(b)[1][3];(c)[2]=DotProduct((a),(b)[2])+(b)[2][3];}
+
+#define	SVC_BAD					0
+#define	SVC_NOP                 1
+#define	SVC_DISCONNECT          2
+#define	SVC_EVENT               3
+#define	SVC_VERSION             4
+#define	SVC_SETVIEW             5
+#define	SVC_SOUND               6
+#define	SVC_TIME                7
+#define	SVC_PRINT               8
+#define	SVC_STUFFTEXT           9
+#define	SVC_SETANGLE            10
+#define	SVC_SERVERINFO          11
+#define	SVC_LIGHTSTYLE          12
+#define	SVC_UPDATEUSERINFO      13
+#define	SVC_DELTADESCRIPTION    14
+#define	SVC_CLIENTDATA          15
+#define	SVC_STOPSOUND           16
+#define	SVC_PINGS               17
+#define	SVC_PARTICLE            18
+#define	SVC_DAMAGE              19
+#define	SVC_SPAWNSTATIC         20
+#define	SVC_EVENT_RELIABLE      21
+#define	SVC_SPAWNBASELINE       22
+#define	SVC_TEMPENTITY          23
+#define	SVC_SETPAUSE            24
+#define	SVC_SIGNONNUM           25
+#define	SVC_CENTERPRINT         26
+#define	SVC_KILLEDMONSTER		27
+#define	SVC_FOUNDSECRET         28
+#define	SVC_SPAWNSTATICSOUND    29
+#define	SVC_INTERMISSION        30
+#define	SVC_FINALE              31
+#define	SVC_CDTRACK             32
+#define	SVC_RESTORE             33
+#define	SVC_CUTSCENE            34
+#define	SVC_WEAPONANIM          35
+#define	SVC_DECALNAME           36
+#define	SVC_ROOMTYPE            37
+#define	SVC_ADDANGLE			38
+#define	SVC_NEWUSERMSG          39
+#define	SVC_PACKETENTITIES      40
+#define	SVC_DELTAPACKETENTITIES 41
+#define	SVC_CHOKE               42
+#define	SVC_RESOURCELIST        43
+#define	SVC_NEWMOVEVARS         44
+#define	SVC_RESOURCEREQUEST     45
+#define	SVC_CUSTOMIZATION       46
+#define	SVC_CROSSHAIRANGLE      47
+#define	SVC_SOUNDFADE           48
+#define	SVC_FILETXFERFAILED     49
+#define	SVC_HLTV                50
+#define	SVC_DIRECTOR            51
+#define	SVC_VOICEINIT           52
+#define	SVC_VOICEDATA           53
+#define	SVC_SENDEXTRAINFO       54
+#define	SVC_TIMESCALE           55
+#define	SVC_RESOURCELOCATION    56
+#define	SVC_SENDCVARVALUE       57
+#define	SVC_SENDCVARVALUE2      58
+
+#define DEFAULT_SOUND_PACKET_VOLUME			255
+#define DEFAULT_SOUND_PACKET_ATTENUATION	1.0f
+#define DEFAULT_SOUND_PACKET_PITCH			100
+
+#define BIT(n) (1<<(n))
+
+#define SND_FL_VOLUME			BIT(0)
+#define SND_FL_ATTENUATION		BIT(1)
+#define SND_FL_LARGE_INDEX		BIT(2)
+#define SND_FL_PITCH			BIT(3)
+#define SND_FL_SENTENCE			BIT(4)
+#define SND_FL_STOP				BIT(5)
+#define SND_FL_CHANGE_VOL		BIT(6)
+#define SND_FL_CHANGE_PITCH		BIT(7)
+#define SND_FL_SPAWNING			BIT(8)
 
 #define MAX_ENTITY				1024
 

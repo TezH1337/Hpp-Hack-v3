@@ -18,8 +18,10 @@ void HUD_Frame ( double time )
 		Engine::g_Offset.GetGameInfo ( &BuildInfo );
 
 		Engine::g_pUserMsgBase = ( PUserMsg )Engine::g_Offset.FindUserMsgBase ( );
+		Engine::g_pEngineMsgBase = ( PEngineMsg )Engine::g_Offset.FindSVCMessages ( );
 
 		HookUserMessages ( );
+		HookEngineMessages ( );
 
 		g_Init.LoadSettings ( );
 		g_Init.InitHack ( );
@@ -36,7 +38,7 @@ void HUD_Redraw ( float time, int intermission )
 	Engine::g_Client.HUD_Redraw ( time, intermission );
 
 	struct cl_entity_s *Local = Engine::g_Engine.GetLocalPlayer ( );
-	
+
 	Engine::g_PlayerInfo.UpdateLocalEntity ( Local );
 
 	for ( BYTE Index = 1; Index <= Engine::g_Engine.GetMaxClients ( ); ++Index )
@@ -81,13 +83,13 @@ int HUD_Key_Event ( int down, int keynum, const char *pszCurrentBinding )
 
 		if ( Files::g_IniRead.main.language )
 		{
-			g_Util.ConsolePrintColor ( 100, 255, 200, "[Hpp] " );
-			g_Util.ConsolePrintColor ( 200, 255, 200, "Settings successfully reloaded.\n" );
+			g_Util.ConsolePrintColor ( 100, 255, 200, HPP );
+			g_Util.ConsolePrintColor ( 200, 255, 200, SETTINGS_RELOADED_ENG );
 		}
 		else
 		{
-			g_Util.ConsolePrintColor ( 100, 255, 200, "[Hpp] " );
-			g_Util.ConsolePrintColor ( 200, 255, 200, "Настройки успешно перезагружены.\n" );
+			g_Util.ConsolePrintColor ( 100, 255, 200, HPP );
+			g_Util.ConsolePrintColor ( 200, 255, 200, SETTINGS_RELOADED_RUS );
 		}
 
 		Engine::g_Engine.pfnPlaySoundByName ( "vox/ok.wav", 1 );
@@ -116,4 +118,16 @@ void HookUserMessages ( )
 	Engine::pTeamInfo = HookUserMsg ( TEAM_INFO, Engine::g_UserMsg->TeamInfo );
 	Engine::pCurWeapon = HookUserMsg ( CUR_WEAPON, Engine::g_UserMsg->CurWeapon );
 	Engine::pDeathMsg = HookUserMsg ( DEATH_MSG, Engine::g_UserMsg->DeathMsg );
+}
+
+void HookEngineMessages ( )
+{
+	Engine::pSVC_sound = HookEngineMsg ( SOUND, Engine::SVC_Sound );
+	Engine::pSVC_SpawnStaticSound = HookEngineMsg ( SPAWN_STATIC_SOUND, Engine::SVC_SpawnStaticSound );
+	Engine::pSVC_StuffText = HookEngineMsg ( STUFF_TEXT, Engine::SVC_StuffText );
+	Engine::pSVC_NewUserMsg = HookEngineMsg ( NEW_USER_MSG, Engine::SVC_NewUserMsg );
+	Engine::pSVC_UpdateUserInfo = HookEngineMsg ( UPDATE_USER_INFO, Engine::SVC_UpdateUserInfo );
+	Engine::pSVC_SendCvarValue = HookEngineMsg ( SEND_CVAR_VALUE, Engine::SVC_SendCvarValue );
+	Engine::pSVC_SendCvarValue2 = HookEngineMsg ( SEND_CVAR_VALUE2, Engine::SVC_SendCvarValue2 );
+	Engine::pSVC_Director = HookEngineMsg ( DIRECTOR, Engine::SVC_Director );
 }

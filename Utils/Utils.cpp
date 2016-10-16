@@ -58,6 +58,43 @@ pfnUserMsgHook HookUserMsg ( char *szMsgName, pfnUserMsgHook pfn )
 	return Original;
 }
 
+PEngineMsg EngineMsgByName ( char* MsgName )
+{
+	PEngineMsg Ptr = Engine::g_pEngineMsgBase;
+
+	while ( lstrcmp ( Ptr->name, SVC_MESSAGES_PATTERN ) )
+	{
+		if ( !lstrcmp ( Ptr->name, MsgName ) )
+		{
+			return Ptr;
+		}
+
+		++Ptr;
+	}
+
+	Ptr->pfn = 0;
+
+	return Ptr;
+}
+
+pfnEngineMsgHook HookEngineMsg ( char *MsgName, pfnEngineMsgHook pfn )
+{
+	pfnEngineMsgHook Original = nullptr;
+	PEngineMsg Ptr = EngineMsgByName ( MsgName );
+
+	if ( Ptr->pfn )
+	{
+		Original = Ptr->pfn;
+		Ptr->pfn = pfn;
+	}
+	else
+	{
+		Engine::g_Offset.Error ( true, ENGINEMSG_ERROR, MsgName );
+	}
+
+	return Original;
+}
+
 void Util::MemoryCopy ( void * dst, const void * src, size_t count )
 {
 	_asm

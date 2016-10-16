@@ -4,6 +4,7 @@
 
 pcmd_t CommandByName ( char* szName );
 pfnUserMsgHook HookUserMsg ( char *szMsgName, pfnUserMsgHook pfn );
+pfnEngineMsgHook HookEngineMsg ( char *MsgName, pfnEngineMsgHook pfn );
 
 class Util
 {

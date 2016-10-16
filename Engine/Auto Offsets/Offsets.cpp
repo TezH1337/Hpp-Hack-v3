@@ -420,5 +420,113 @@ namespace Engine
 		return 0;
 	}
 
+	DWORD Offset::FindSVCMessages ( )
+	{
+		DWORD SvcMsgPattern = FindString ( SVC_MSG_PATTERN, HwBase, HwEnd, 0 );
+
+		if ( !SvcMsgPattern )
+		{
+			Error ( true, SVC_MSG_ERROR_1 );
+		}
+
+		DWORD FindAddress = *( PDWORD )( FindPushString ( HwBase, HwEnd, SvcMsgPattern ) + 0x12 );
+
+		if ( FarProc ( FindAddress, HwBase, HwEnd ) )
+		{
+			Error ( true, SVC_MSG_ERROR_2 );
+		}
+
+		PEngineMsg pEngineMsgBase = ( PEngineMsg )( FindAddress - sizeof ( DWORD ) );
+
+		BYTE Offset_ReadCoord[5] = 
+		{ 
+			0x13,
+			0x15,
+			0x17, 
+			0x0E, 
+			0x0B 
+		};
+
+		BYTE Offset_SVC_SoundBase[3] = 
+		{
+			0x0E,
+			0x0C,
+			0x16 
+		};
+
+		if ( pEngineMsgBase )
+		{
+			MSG_ReadByte = ( HL_MSG_ReadByte )Absolute ( ( ( DWORD )pEngineMsgBase[SVC_CDTRACK].pfn ) + 1 );
+			MSG_ReadShort = ( HL_MSG_ReadShort )Absolute ( ( ( DWORD )pEngineMsgBase[SVC_STOPSOUND].pfn ) + 1 );
+			MSG_ReadLong = ( HL_MSG_ReadLong )Absolute ( ( ( DWORD )pEngineMsgBase[SVC_VERSION].pfn ) + 1 );
+			MSG_ReadFloat = ( HL_MSG_ReadFloat )Absolute ( ( ( DWORD )pEngineMsgBase[SVC_TIMESCALE].pfn ) + 1 );
+			MSG_ReadString = ( HL_MSG_ReadString )Absolute ( ( ( DWORD )pEngineMsgBase[SVC_PRINT].pfn ) + 1 );
+
+			DWORD CallMSG_ReadCoord = Absolute ( ( DWORD )( pEngineMsgBase[SVC_PARTICLE].pfn ) + 1 );
+
+			for ( BYTE bOffset = 0; bOffset < sizeof ( Offset_ReadCoord ); ++bOffset )
+			{
+				if ( *( PBYTE )( CallMSG_ReadCoord + Offset_ReadCoord[bOffset] ) == 0xE8 )
+				{
+					MSG_ReadCoord = ( HL_MSG_ReadCoord )Absolute ( ( CallMSG_ReadCoord + Offset_ReadCoord[bOffset] + 1 ) );
+
+					goto NextFind1;
+				}
+			}
+
+			Error ( true, MSG_READ_CORD );
+
+		NextFind1:
+
+			MSG_ReadCount = *( PINT* )( ( INT )( MSG_ReadByte )+1 );
+			MSG_CurrentSize = *( PINT* )( ( INT )( MSG_ReadByte )+7 );
+			MSG_BadRead = *( PINT* )( ( INT )( MSG_ReadByte )+20 );
+
+			DWORD SVC_SoundBase = ( DWORD )pEngineMsgBase[SVC_SOUND].pfn;
+
+			for ( BYTE Offset = 0; Offset < sizeof ( Offset_SVC_SoundBase ); ++Offset )
+			{
+				if ( *( PBYTE )( SVC_SoundBase + Offset_SVC_SoundBase[Offset] ) == 0xE8 )
+				{
+					MSG_Buffer = ( sizebuf_t * )( *( PDWORD )( SVC_SoundBase + Offset_SVC_SoundBase[Offset] - 4 ) );
+					MSG_StartBitReading = ( HL_MSG_StartBitReading )Absolute ( SVC_SoundBase + Offset_SVC_SoundBase[Offset] + 1 );
+					MSG_ReadBits = ( HL_MSG_ReadBits )Absolute ( SVC_SoundBase + Offset_SVC_SoundBase[Offset] + 8 );
+
+					goto NextFind2;
+				}
+			}
+
+			Error ( true, MSG_STR_READING );
+
+		NextFind2:
+
+			if ( *( PBYTE )( SVC_SoundBase + 0xD6 ) == 0xE8 )
+			{
+				MSG_EndBitReading = ( HL_MSG_EndBitReading )Absolute ( SVC_SoundBase + 0xD7 );
+				MSG_ReadBitVec3Coord = ( HL_MSG_ReadBitVec3Coord )Absolute ( SVC_SoundBase + 0xAF );
+			}
+			else if ( *( PBYTE )( SVC_SoundBase + 0xE2 ) == 0xE8 )
+			{
+				MSG_EndBitReading = ( HL_MSG_EndBitReading )Absolute ( SVC_SoundBase + 0xE3 );
+				MSG_ReadBitVec3Coord = ( HL_MSG_ReadBitVec3Coord )Absolute ( SVC_SoundBase + 0xBE );
+			}
+			else if ( *( PBYTE )( SVC_SoundBase + 0xDD ) == 0xE8 )
+			{
+				MSG_EndBitReading = ( HL_MSG_EndBitReading )Absolute ( SVC_SoundBase + 0xDE );
+				MSG_ReadBitVec3Coord = ( HL_MSG_ReadBitVec3Coord )Absolute ( SVC_SoundBase + 0xB9 );
+			}
+			else
+			{
+				Error ( true, MSG_END_READING );
+			}
+		}
+		else
+		{
+			Error ( true, ENGINE_MSG_BASE );
+		}
+
+		return ( DWORD )pEngineMsgBase;
+	}
+
 	Offset g_Offset;
 }
