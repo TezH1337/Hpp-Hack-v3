@@ -130,12 +130,13 @@ namespace Engine
 		DrawVectorLine ( BFLeft, BBLeft, lw, r, g, b, style );
 	}
 
-	void Drawing::DrawCircle ( float x, float y, float rad, int amountSegments, BYTE r, BYTE g, BYTE b, BYTE a )
+	void Drawing::DrawCircle ( float x, float y, float rad, int amountSegments, float linewidth, BYTE r, BYTE g, BYTE b, BYTE a )
 	{
 		glDisable ( GL_TEXTURE_2D );
 		glEnable ( GL_BLEND );
 		glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-		glColor4ub ( ( GLubyte )r, ( GLubyte )g, ( GLubyte )b, ( GLubyte )a );
+		glColor4ub ( r, g, b, a );
+		glLineWidth ( linewidth );
 		glBegin ( GL_LINE_LOOP );
 
 		for ( int i = 0; i < amountSegments; ++i )
@@ -146,9 +147,6 @@ namespace Engine
 			float dy = rad * sinf ( angle );
 
 			glVertex2f ( x + dx, y + dy );
-			glVertex2f ( x + 1 + dx, y + dy );
-			glVertex2f ( x + 1 + dx, y + 1 + dy );
-			glVertex2f ( x + dx, y + 1 + dy );
 		}
 
 		glEnd ( );

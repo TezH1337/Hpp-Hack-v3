@@ -8,8 +8,6 @@ void HUD_Frame ( double time )
 {
 	if ( !FirstFrame )
 	{
-		Engine::g_pUserMsgBase = ( PUserMsg )Engine::g_Offset.FindUserMsgBase ( );
-
 		Engine::g_Screen.iSize = sizeof ( SCREENINFO );
 
 		Engine::g_Offset.HLType = Engine::g_Studio.IsHardware ( ) + 1;
@@ -18,6 +16,8 @@ void HUD_Frame ( double time )
 
 		Engine::g_Offset.ConsoleColorInitalize ( );
 		Engine::g_Offset.GetGameInfo ( &BuildInfo );
+
+		Engine::g_pUserMsgBase = ( PUserMsg )Engine::g_Offset.FindUserMsgBase ( );
 
 		HookUserMessages ( );
 
@@ -35,25 +35,32 @@ void HUD_Redraw ( float time, int intermission )
 {
 	Engine::g_Client.HUD_Redraw ( time, intermission );
 
-	Engine::g_PlayerInfo.UpdateLocalEntity ( Engine::g_Engine.GetLocalPlayer ( ) );
+	struct cl_entity_s *Local = Engine::g_Engine.GetLocalPlayer ( );
+	
+	Engine::g_PlayerInfo.UpdateLocalEntity ( Local );
 
 	for ( BYTE Index = 1; Index <= Engine::g_Engine.GetMaxClients ( ); ++Index )
 	{
-		Engine::g_PlayerInfo.UpdatePlayerInfo ( Engine::g_Engine.GetEntityByIndex ( Index ), Index );
+		struct cl_entity_s *Entity = Engine::g_Engine.GetEntityByIndex ( Index );
+
+		Engine::g_PlayerInfo.UpdatePlayerInfo ( Entity, Local, Index );
 
 		if ( Files::g_IniRead.function.esp )
 		{
-			Functions::g_ESP.HUD_Redraw ( Index );
+			Functions::g_ESP.HUD_Redraw ( Entity, Index );
 		}
 	}
 }
 
 void StudioEntityLight ( struct alight_s *plight )
 {
-	if ( Engine::g_Studio.GetCurrentEntity ( )->player )
+	struct cl_entity_s *Local = Engine::g_Engine.GetLocalPlayer ( );
+	struct cl_entity_s *Entity = Engine::g_Studio.GetCurrentEntity ( );
+
+	if ( Entity->player )
 	{
-		Engine::g_PlayerInfo.GetBoneOrigin ( Engine::g_Studio.GetCurrentEntity ( ) );
-		Engine::g_PlayerInfo.GetHitboxOrigin ( Engine::g_Studio.GetCurrentEntity ( ) );
+		Engine::g_PlayerInfo.GetBoneOrigin ( Entity, Local );
+		Engine::g_PlayerInfo.GetHitboxOrigin ( Entity, Local );
 	}
 
 	Engine::g_Studio.StudioEntityLight ( plight );

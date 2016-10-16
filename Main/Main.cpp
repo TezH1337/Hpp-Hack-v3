@@ -66,7 +66,7 @@ StartHook:
 	{
 		Engine::g_pClient = ( cl_clientfunc_t* )ClientTable;
 
-		Engine::g_Offset.CopyClient ( );
+		g_Util.MemoryCopy ( &Engine::g_Client, Engine::g_pClient, sizeof ( cl_clientfunc_t ) );
 
 		if ( Engine::g_Client.Initialize )
 		{
@@ -76,7 +76,7 @@ StartHook:
 			{
 				Engine::g_pEngine = ( cl_enginefunc_t* )EngineTable;
 
-				Engine::g_Offset.CopyEngine ( );
+				g_Util.MemoryCopy ( &Engine::g_Engine, Engine::g_pEngine, sizeof ( cl_enginefunc_t ) );
 
 				if ( Engine::g_Engine.V_CalcShake )
 				{
@@ -86,7 +86,7 @@ StartHook:
 					{
 						Engine::g_pStudio = ( engine_studio_api_t* )StudioTable;
 
-						Engine::g_Offset.CopyStudio ( );
+						g_Util.MemoryCopy ( &Engine::g_Studio, Engine::g_pStudio, sizeof ( engine_studio_api_t ) );
 
 						if ( Engine::g_Studio.StudioSetupSkin )
 						{

@@ -46,10 +46,6 @@ namespace Engine
 
 		void ConsoleColorInitalize ( );
 		void GetGameInfo ( pGameInfo_s GameInfo );
-
-		void CopyClient ( );
-		void CopyEngine ( );
-		void CopyStudio ( );
 	};
 
 	extern Offset g_Offset;

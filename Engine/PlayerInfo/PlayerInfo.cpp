@@ -7,11 +7,11 @@ namespace Engine
 		return Entity->curstate.movetype != 6 && Entity->curstate.movetype;
 	}
 
-	bool PlayerInfo::isValidEntity ( struct cl_entity_s *Entity )
+	bool PlayerInfo::isValidEntity ( struct cl_entity_s *Entity, struct cl_entity_s *Local )
 	{
-		return g_Engine.GetLocalPlayer ( )->index != Entity->index && Entity->curstate.movetype != 6 &&
-			Entity->curstate.movetype && !( Entity->curstate.messagenum < g_Engine.GetLocalPlayer ( )->curstate.messagenum ) &&
-			!( g_Engine.GetLocalPlayer ( )->curstate.iuser1 == 4 && g_Engine.GetLocalPlayer ( )->curstate.iuser2 == Entity->index );
+		return Local->index != Entity->index && isAliveEntity ( Entity ) && 
+			!( Entity->curstate.messagenum < Local->curstate.messagenum ) && 
+			!( Local->curstate.iuser1 == 4 && Local->curstate.iuser2 == Entity->index );
 	}
 
 	bool PlayerInfo::isDuckedEntity ( struct cl_entity_s *Entity )
@@ -34,68 +34,74 @@ namespace Engine
 		return false;
 	}
 
-	void PlayerInfo::UpdateLocalEntity ( struct cl_entity_s *Entity )
+	void PlayerInfo::UpdateLocalEntity ( struct cl_entity_s *Local )
 	{
-		g_Local.Alive = isAliveEntity ( Entity );
+		if ( Local->player )
+		{
+			g_Local.Alive = isAliveEntity ( Local );
 
-		g_Engine.pEventAPI->EV_LocalPlayerViewheight ( g_Local.ViewOrg );
+			g_Engine.pEventAPI->EV_LocalPlayerViewheight ( g_Local.ViewOrg );
 
-		VectorAdd ( Entity->origin, g_Local.ViewOrg, g_Local.ViewOrg );
+			VectorAdd ( Local->origin, g_Local.ViewOrg, g_Local.ViewOrg );
+		}
 	}
 
-	void PlayerInfo::UpdatePlayerInfo ( struct cl_entity_s *Entity, int Index )
+	void PlayerInfo::UpdatePlayerInfo ( struct cl_entity_s *Entity, struct cl_entity_s *Local, int Index )
 	{
 		g_Engine.pfnGetPlayerInfo ( Index, &g_Player[Index].Info );
 
-		g_Player[Index].Alive = isAliveEntity ( Entity );
-		g_Player[Index].Valid = isValidEntity ( Entity );
-		g_Player[Index].Ducked = isDuckedEntity ( Entity );
+		if ( Entity->player )
+		{
+			g_Player[Index].Alive = isAliveEntity ( Entity );
+			g_Player[Index].Valid = isValidEntity ( Entity, Local );
+			g_Player[Index].Ducked = isDuckedEntity ( Entity );
 
-		g_Player[Index].Visible = ScanPlayerVisibility ( Index );
+			g_Player[Index].Visible = ScanPlayerVisibility ( Index );
+		}
 	}
 
-	void PlayerInfo::GetBoneOrigin ( struct cl_entity_s *Entity )
+	void PlayerInfo::GetBoneOrigin ( struct cl_entity_s *Entity, struct cl_entity_s *Local )
 	{
-		if ( isValidEntity ( Entity ) )
+		if ( isValidEntity ( Entity, Local ) )
 		{
 			typedef float TransformMatrix[MAXSTUDIOBONES][3][4];
 
-			model_t* pModel = g_Studio.SetupPlayerModel ( Entity->index );
+			model_t* Model = g_Studio.SetupPlayerModel ( Entity->index );
 
-			studiohdr_t* pStudioHeader = ( studiohdr_t* )g_Studio.Mod_Extradata ( pModel );
+			studiohdr_t* StudioHeader = ( studiohdr_t* )g_Studio.Mod_Extradata ( Model );
 
-			TransformMatrix* pbonetransform = ( TransformMatrix* )g_Studio.StudioGetBoneTransform ( );
+			TransformMatrix* BoneTransform = ( TransformMatrix* )g_Studio.StudioGetBoneTransform ( );
 
-			for ( BYTE i = 0; i < pStudioHeader->numbones; ++i )
+			for ( BYTE i = 0; i < StudioHeader->numbones; ++i )
 			{
-				g_Player[Entity->index].Bone[i][0] = ( *pbonetransform )[i][0][3];
-				g_Player[Entity->index].Bone[i][1] = ( *pbonetransform )[i][1][3];
-				g_Player[Entity->index].Bone[i][2] = ( *pbonetransform )[i][2][3];
+				g_Player[Entity->index].Bone[i][0] = ( *BoneTransform )[i][0][3];
+				g_Player[Entity->index].Bone[i][1] = ( *BoneTransform )[i][1][3];
+				g_Player[Entity->index].Bone[i][2] = ( *BoneTransform )[i][2][3];
 				g_Player[Entity->index].Bone[i] = g_Player[Entity->index].Bone[i];
 			}
 		}
 	}
 
-	void PlayerInfo::GetHitboxOrigin ( struct cl_entity_s *Entity )
+	void PlayerInfo::GetHitboxOrigin ( struct cl_entity_s *Entity, struct cl_entity_s *Local )
 	{
-		if ( isValidEntity ( Entity ) )
+		if ( isValidEntity ( Entity, Local ) )
 		{
 			Vector BBMin, BBMax;
 
 			typedef float BoneMatrix_t[MAXSTUDIOBONES][3][4];
 
-			model_t* pModel = g_Studio.SetupPlayerModel ( Entity->index );
+			model_t* Model = g_Studio.SetupPlayerModel ( Entity->index );
 
-			studiohdr_t* pStudioHeader = ( studiohdr_t* )g_Studio.Mod_Extradata ( pModel );
+			studiohdr_t* StudioHeader = ( studiohdr_t* )g_Studio.Mod_Extradata ( Model );
 
-			BoneMatrix_t* pBoneMatrix = ( BoneMatrix_t* )g_Studio.StudioGetBoneTransform ( );
+			BoneMatrix_t* BoneMatrix = ( BoneMatrix_t* )g_Studio.StudioGetBoneTransform ( );
 
-			mstudiobbox_t* pHitbox = ( mstudiobbox_t* )( ( byte* )pStudioHeader + pStudioHeader->hitboxindex );
+			mstudiobbox_t* Hitbox = ( mstudiobbox_t* )( ( byte* )StudioHeader + StudioHeader->hitboxindex );
 
-			for ( BYTE i = 0; i < pStudioHeader->numhitboxes; ++i )
+			for ( BYTE i = 0; i < StudioHeader->numhitboxes; ++i )
 			{
-				VectorTransform ( pHitbox[i].bbmin, ( *pBoneMatrix )[pHitbox[i].bone], BBMin );
-				VectorTransform ( pHitbox[i].bbmax, ( *pBoneMatrix )[pHitbox[i].bone], BBMax );
+				VectorTransform ( Hitbox[i].bbmin, ( *BoneMatrix )[Hitbox[i].bone], BBMin );
+				VectorTransform ( Hitbox[i].bbmax, ( *BoneMatrix )[Hitbox[i].bone], BBMax );
 
 				g_Player[Entity->index].HitBox[i] = ( BBMax + BBMin ) * 0.5f;
 				g_Player[Entity->index].HitBox[i] = g_Player[Entity->index].HitBox[i];

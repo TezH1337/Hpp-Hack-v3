@@ -27,11 +27,13 @@ namespace Engine
 		int Index = READ_BYTE( );
 		char *Team = READ_STRING ( );
 
+		struct cl_entity_s *Local = g_Engine.GetLocalPlayer ( );
+
 		if ( !strcmp ( Team, TERRORIST_UMSG ) )
 		{
 			PlayerTeam[Index] = TERRORIST;
 
-			if ( Index == g_Engine.GetLocalPlayer ( )->index )
+			if ( Index == Local->index )
 			{
 				Engine::g_Local.Team = TERRORIST;
 			}
@@ -40,7 +42,7 @@ namespace Engine
 		{
 			PlayerTeam[Index] = CT;
 
-			if ( Index == g_Engine.GetLocalPlayer ( )->index )
+			if ( Index == Local->index )
 			{
 				Engine::g_Local.Team = CT;
 			}
@@ -49,7 +51,7 @@ namespace Engine
 		{
 			PlayerTeam[Index] = SPECTATOR;
 
-			if ( Index == g_Engine.GetLocalPlayer ( )->index )
+			if ( Index == Local->index )
 			{
 				Engine::g_Local.Team = SPECTATOR;
 			}

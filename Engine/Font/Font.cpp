@@ -17,14 +17,14 @@ namespace Engine
 		hDC = wglGetCurrentDC ( );
 		g_FontListID = glGenLists ( 256 );
 
-		hFont = CreateFontA ( Height, Width, 0, 0, FW_NORMAL, 0, 0, 0, ANSI_CHARSET,
+		hFont = CreateFont ( Height, Width, 0, 0, FW_NORMAL, 0, 0, 0, ANSI_CHARSET,
 			OUT_TT_PRECIS, 0, ANTIALIASED_QUALITY, 0, Font );
 
 		hOldFont = ( HFONT )SelectObject ( hDC, hFont );
 
-		if ( !wglUseFontBitmapsA ( hDC, 0, 255, g_FontListID ) )
+		if ( !wglUseFontBitmaps ( hDC, 0, 255, g_FontListID ) )
 		{
-			wglUseFontBitmapsA ( hDC, 0, 255, g_FontListID );
+			wglUseFontBitmaps ( hDC, 0, 255, g_FontListID );
 		}
 
 		for ( int i = 0; i < 255; ++i )
@@ -33,7 +33,7 @@ namespace Engine
 
 			char line[2] = { ( char )i, 0 };
 
-			GetTextExtentPointA ( hDC, line, 1, &s );
+			GetTextExtentPoint ( hDC, line, 1, &s );
 
 			cwidth[i] = s.cx;
 			cheight = s.cy;

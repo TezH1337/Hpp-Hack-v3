@@ -181,7 +181,7 @@
 #define WEAPON_PARS(name) {\
 	Engine::g_Drawing.DrawBox((int)(EntityScreen[0] - 2), (int)EntityScreen[1], 3 + 2, 3 + 2, 1, 0, 0, 0, 255, 1);\
 	Engine::g_Drawing.FillArea((int)EntityScreen[0] - 1, (int)EntityScreen[1] + 1, 3, 3, 255, 100, 0, 255, 1);\
-	Engine::g_Verdana.Print((int)EntityScreen[0], (int)(EntityScreen[1] + 13), *r, *g, *b, *a, Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, name);}
+	Engine::g_Verdana.Print((int)EntityScreen[0], (int)(EntityScreen[1] + 14), *r, *g, *b, 255, Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, name);}
 
 #define INIREAD_INT(var, path, section, key) g_IniRead.path.var = atoi(g_File.IniRead((char*)path.c_str(), section, key, "0"))
 #define INIREAD_FLOAT(var, path, section, key) g_IniRead.path.var = atof(g_File.IniRead((char*)path.c_str(), section, key, "0"))

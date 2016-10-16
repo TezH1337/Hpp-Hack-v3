@@ -255,21 +255,6 @@ namespace Engine
 		return StudioTablePtr;
 	}
 
-	void Offset::CopyClient ( )
-	{
-		g_Util.MemoryCopy ( &g_Client, g_pClient, sizeof ( cl_clientfunc_t ) );
-	}
-
-	void Offset::CopyEngine ( )
-	{
-		g_Util.MemoryCopy ( &g_Engine, g_pEngine, sizeof ( cl_enginefunc_t ) );
-	}
-
-	void Offset::CopyStudio ( )
-	{
-		g_Util.MemoryCopy ( &g_Studio, g_pStudio, sizeof ( engine_studio_api_t ) );
-	}
-
 	DWORD Offset::FindGameConsole ( )
 	{
 		DWORD GameConsolePattern = FindPattern ( CONSOLE_PATTERN, lstrlen ( CONSOLE_PATTERN ), VgBase, VgEnd, 0 );

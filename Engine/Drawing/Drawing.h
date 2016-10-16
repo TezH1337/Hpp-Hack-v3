@@ -16,7 +16,7 @@ namespace Engine
 		//Drawing 3d box on player (style: 1 - GL_LINES, 2 - GL_LINE_LOOP)
 		void Draw3DBox ( struct cl_entity_s *Entity, int Index, float lw, BYTE r, BYTE g, BYTE b, BYTE style );
 		//Drawing circle
-		void DrawCircle ( float x, float y, float rad, int amountSegments, BYTE r, BYTE g, BYTE b, BYTE a );
+		void DrawCircle ( float x, float y, float rad, int amountSegments, float linewidth, BYTE r, BYTE g, BYTE b, BYTE a );
 		//Drawing line
 		__inline void DrawLine ( int x1, int y1, int x2, int y2, float linewidth, BYTE r, BYTE g, BYTE b, BYTE style );
 		//Drawing vector line

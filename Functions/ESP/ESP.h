@@ -29,7 +29,7 @@ namespace Functions
 		__inline static void ClearEntity ( );
 
 		static void HUD_AddEntity ( struct cl_entity_s *Entity );
-		static void HUD_Redraw ( int Index );
+		static void HUD_Redraw ( struct cl_entity_s *Entity, int Index );
 	};
 
 	extern ESP g_ESP;

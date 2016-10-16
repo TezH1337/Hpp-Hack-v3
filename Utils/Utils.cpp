@@ -45,7 +45,7 @@ pfnUserMsgHook HookUserMsg ( char *szMsgName, pfnUserMsgHook pfn )
 	pfnUserMsgHook Original = nullptr;
 	PUserMsg Ptr = UserMsgByName ( szMsgName );
 
-	if ( Ptr->pfn != 0 )
+	if ( Ptr->pfn )
 	{
 		Original = Ptr->pfn;
 		Ptr->pfn = pfn;
@@ -83,7 +83,7 @@ void Util::MemorySet ( void *Buffer, DWORD Len, DWORD Sym )
 }
 
 
-void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, char* String )
+void __fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, char* String )
 {
 	PColor24 Ptr = Engine::Console_TextColor;
 	TColor24 DefaultColor = *Ptr;
@@ -97,7 +97,7 @@ void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, char* String )
 	*Ptr = DefaultColor;
 }
 
-void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, DWORD String )
+void __fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, DWORD String )
 {
 	PColor24 Ptr = Engine::Console_TextColor;
 	TColor24 DefaultColor = *Ptr;
@@ -111,7 +111,7 @@ void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, DWORD String )
 	*Ptr = DefaultColor;
 }
 
-void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, BYTE String )
+void __fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, BYTE String )
 {
 	PColor24 Ptr = Engine::Console_TextColor;
 	TColor24 DefaultColor = *Ptr;
@@ -125,7 +125,7 @@ void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, BYTE String )
 	*Ptr = DefaultColor;
 }
 
-void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, int String )
+void __fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, int String )
 {
 	PColor24 Ptr = Engine::Console_TextColor;
 	TColor24 DefaultColor = *Ptr;
@@ -139,7 +139,7 @@ void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, int String )
 	*Ptr = DefaultColor;
 }
 
-void _fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, float String )
+void __fastcall Util::ConsolePrintColor ( BYTE R, BYTE G, BYTE B, float String )
 {
 	PColor24 Ptr = Engine::Console_TextColor;
 	TColor24 DefaultColor = *Ptr;
@@ -172,7 +172,7 @@ char* Util::ConvertTypeToRenderString ( BYTE Type )
 	}
 }
 
-bool _fastcall Util::CalcScreen ( float *pflOrigin, float *pflVecScreen )
+bool __fastcall Util::CalcScreen ( float *pflOrigin, float *pflVecScreen )
 {
 	int Result = Engine::g_Engine.pTriAPI->WorldToScreen ( pflOrigin, pflVecScreen );
 
@@ -187,7 +187,7 @@ bool _fastcall Util::CalcScreen ( float *pflOrigin, float *pflVecScreen )
 	return false;
 }
 
-bool _fastcall Util::PathFree ( Vector Input )
+bool __fastcall Util::PathFree ( Vector Input )
 {
 	pmtrace_t *Trace = Engine::g_Engine.PM_TraceLine ( Engine::g_Local.ViewOrg, Input, 0, 2, -1 );
 
@@ -222,7 +222,7 @@ void Util::Parse ( BYTE MaxArray, char *String, BYTE Number[] )
 	}
 }
 
-int _fastcall Util::native_strcmp ( char const* _Str1, char const* _Str2, size_t MaxCount )
+int __fastcall Util::native_strcmp ( char const* _Str1, char const* _Str2, size_t MaxCount )
 {
 	if ( !MaxCount )
 	{
@@ -238,7 +238,7 @@ int _fastcall Util::native_strcmp ( char const* _Str1, char const* _Str2, size_t
 	return *( BYTE * )_Str1 - *( BYTE * )_Str2;
 }
 
-char* _fastcall Util::native_strstr ( char *in, char *str )
+char* __fastcall Util::native_strstr ( char *in, char *str )
 {
 	char c = *str++;
 
