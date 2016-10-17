@@ -17,8 +17,8 @@ namespace Engine
 		hDC = wglGetCurrentDC ( );
 		g_FontListID = glGenLists ( 256 );
 
-		hFont = CreateFont ( Height, Width, 0, 0, FW_NORMAL, 0, 0, 0, ANSI_CHARSET,
-			OUT_TT_PRECIS, 0, ANTIALIASED_QUALITY, 0, Font );
+		hFont = CreateFont ( Height, Width, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, ANSI_CHARSET,
+			OUT_CHARACTER_PRECIS, CLIP_CHARACTER_PRECIS, CLEARTYPE_NATURAL_QUALITY, FF_DONTCARE | VARIABLE_PITCH, Font );
 
 		hOldFont = ( HFONT )SelectObject ( hDC, hFont );
 
@@ -43,7 +43,7 @@ namespace Engine
 		DeleteObject ( hFont );
 	}
 
-	void Font::Render ( int x, int y, BYTE r, BYTE g, BYTE b, BYTE a, char *String )
+	void Font::Render ( float x, float y, BYTE r, BYTE g, BYTE b, BYTE a, char *String )
 	{
 		int i = 0;
 
@@ -59,7 +59,7 @@ namespace Engine
 		}
 
 		glColor4ub ( r, g, b, a );
-		glRasterPos2i ( x, y );
+		glRasterPos2f ( x, y );
 
 		glHint ( GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST );
 		glPushAttrib ( GL_LIST_BIT );
@@ -68,14 +68,14 @@ namespace Engine
 		glPopAttrib ( );
 	}
 
-	void Font::Print ( int x, int y, BYTE r, BYTE g, BYTE b, BYTE a, BYTE Flags, char *String, ... )
+	void Font::Print ( float x, float y, BYTE r, BYTE g, BYTE b, BYTE a, BYTE Flags, char *String, ... )
 	{
-		char strText[256];
+		char Text[256];
 
 		va_list argumentPtr;
 
 		va_start ( argumentPtr, String );
-		vsprintf_s ( strText, String, argumentPtr );
+		vsprintf_s ( Text, String, argumentPtr );
 		va_end ( argumentPtr );
 
 		glDisable ( GL_TEXTURE_2D );
@@ -84,7 +84,7 @@ namespace Engine
 
 		int drawlen = 0;
 
-		for ( char *p = strText; *p; ++p )
+		for ( char *p = Text; *p; ++p )
 		{
 			drawlen += cwidth[*p];
 		}
@@ -96,31 +96,31 @@ namespace Engine
 
 		if ( Flags & FL_OUTLINE )
 		{
-			Render ( x, y - 1, 0, 0, 0, 200, strText );
-			Render ( x, y + 1, 0, 0, 0, 200, strText );
-			Render ( x - 1, y, 0, 0, 0, 200, strText );
-			Render ( x + 1, y, 0, 0, 0, 200, strText );
+			Render ( x, y - 1, 0, 0, 0, 200, Text );
+			Render ( x, y + 1, 0, 0, 0, 200, Text );
+			Render ( x - 1, y, 0, 0, 0, 200, Text );
+			Render ( x + 1, y, 0, 0, 0, 200, Text );
 
-			Render ( x - 1, y - 1, 0, 0, 0, 200, strText );
-			Render ( x + 1, y - 1, 0, 0, 0, 200, strText );
-			Render ( x - 1, y + 1, 0, 0, 0, 200, strText );
-			Render ( x + 1, y + 1, 0, 0, 0, 200, strText );
+			Render ( x - 1, y - 1, 0, 0, 0, 200, Text );
+			Render ( x + 1, y - 1, 0, 0, 0, 200, Text );
+			Render ( x - 1, y + 1, 0, 0, 0, 200, Text );
+			Render ( x + 1, y + 1, 0, 0, 0, 200, Text );
 		}
 
 		if ( Flags & FL_BACKDROP )
 		{
-			Render ( x, y - 1, 0, 0, 0, 255, strText );
-			Render ( x, y - 1, 0, 0, 0, 255, strText );
-			Render ( x - 1, y, 0, 0, 0, 255, strText );
-			Render ( x - 1, y, 0, 0, 0, 255, strText );
+			Render ( x, y - 1, 0, 0, 0, 255, Text );
+			Render ( x, y - 1, 0, 0, 0, 255, Text );
+			Render ( x - 1, y, 0, 0, 0, 255, Text );
+			Render ( x - 1, y, 0, 0, 0, 255, Text );
 
-			Render ( x - 1, y - 1, 0, 0, 0, 255, strText );
-			Render ( x, y - 1, 0, 0, 0, 255, strText );
-			Render ( x - 1, y - 1, 0, 0, 0, 255, strText );
-			Render ( x, y - 1, 0, 0, 0, 255, strText );
+			Render ( x - 1, y - 1, 0, 0, 0, 255, Text );
+			Render ( x, y - 1, 0, 0, 0, 255, Text );
+			Render ( x - 1, y - 1, 0, 0, 0, 255, Text );
+			Render ( x, y - 1, 0, 0, 0, 255, Text );
 		}
 
-		Render ( x, y, r, g, b, a, strText );
+		Render ( x, y, r, g, b, a, Text );
 
 		glDisable ( GL_BLEND );
 		glEnable ( GL_TEXTURE_2D );

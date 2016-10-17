@@ -464,11 +464,11 @@ namespace Engine
 
 			DWORD CallMSG_ReadCoord = Absolute ( ( DWORD )( pEngineMsgBase[SVC_PARTICLE].pfn ) + 1 );
 
-			for ( BYTE bOffset = 0; bOffset < sizeof ( Offset_ReadCoord ); ++bOffset )
+			for ( BYTE Offset = 0; Offset < sizeof ( Offset_ReadCoord ); ++Offset )
 			{
-				if ( *( PBYTE )( CallMSG_ReadCoord + Offset_ReadCoord[bOffset] ) == 0xE8 )
+				if ( *( PBYTE )( CallMSG_ReadCoord + Offset_ReadCoord[Offset] ) == 0xE8 )
 				{
-					MSG_ReadCoord = ( HL_MSG_ReadCoord )Absolute ( ( CallMSG_ReadCoord + Offset_ReadCoord[bOffset] + 1 ) );
+					MSG_ReadCoord = ( HL_MSG_ReadCoord )Absolute ( ( CallMSG_ReadCoord + Offset_ReadCoord[Offset] + 1 ) );
 
 					goto NextFind1;
 				}

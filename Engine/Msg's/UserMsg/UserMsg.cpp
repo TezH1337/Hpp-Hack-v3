@@ -70,5 +70,5 @@ namespace Engine
 		return pDeathMsg ( pszName, iSize, pbuf );
 	}
 
-	UserMsg* g_UserMsg = new UserMsg;
+	UserMsg g_UserMsg;
 }

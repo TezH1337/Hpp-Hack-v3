@@ -2,11 +2,11 @@
 
 namespace Engine
 {
-	void Drawing::FillArea ( int x, int y, int w, int h, BYTE r, BYTE g, BYTE b, BYTE a, BYTE style )
+	void Drawing::FillArea ( float x, float y, float w, float h, BYTE r, BYTE g, BYTE b, BYTE a, BYTE style )
 	{
 		if ( g_Offset.HLType != RENDERTYPE_HARDWARE )
 		{
-			g_Engine.pfnFillRGBA ( x, y, w, h, r, g, b, a );
+			g_Engine.pfnFillRGBA ( ( int )x, ( int )y, ( int )w, ( int )h, r, g, b, a );
 		}
 		else
 		{
@@ -28,10 +28,10 @@ namespace Engine
 				break;
 			}
 
-			glVertex2i ( x, y );
-			glVertex2i ( x + w, y );
-			glVertex2i ( x + w, y + h );
-			glVertex2i ( x, y + h );
+			glVertex2f ( x, y );
+			glVertex2f ( x + w, y );
+			glVertex2f ( x + w, y + h );
+			glVertex2f ( x, y + h );
 			glEnd ( );
 			glDisable ( GL_BLEND );
 			glEnable ( GL_TEXTURE_2D );
@@ -39,7 +39,7 @@ namespace Engine
 		}
 	}
 
-	void Drawing::DrawBox ( int x, int y, int w, int h, int linewidth, BYTE r, BYTE g, BYTE b, BYTE a, BYTE style )
+	void Drawing::DrawBox ( float x, float y, float w, float h, float linewidth, BYTE r, BYTE g, BYTE b, BYTE a, BYTE style )
 	{
 		FillArea ( x, y, w, linewidth, r, g, b, a, style );
 		FillArea ( x + w - linewidth, y + linewidth, linewidth, h - linewidth, r, g, b, a, style );
@@ -47,14 +47,14 @@ namespace Engine
 		FillArea ( x + linewidth, y + h - linewidth, w - linewidth * 2, linewidth, r, g, b, a, style );
 	}
 
-	void Drawing::DrawShadowBox ( int x, int y, int w, int h, int linewidth, BYTE r, BYTE g, BYTE b, BYTE a, BYTE style )
+	void Drawing::DrawShadowBox ( float x, float y, float w, float h, float linewidth, BYTE r, BYTE g, BYTE b, BYTE a, BYTE style )
 	{
 		DrawBox ( x, y, w, h, linewidth, r, g, b, a, style );
 		DrawBox ( x - 1, y - 1, w + 2, h + 2, 1, 0, 0, 0, a, 1 );
 		DrawBox ( x + linewidth, y + linewidth, w - linewidth * 2, h - linewidth * 2, 1, 0, 0, 0, a, 1 );
 	}
 
-	void Drawing::DrawLine ( int x1, int y1, int x2, int y2, float linewidth, BYTE r, BYTE g, BYTE b, BYTE style )
+	void Drawing::DrawLine ( float x1, float y1, float x2, float y2, float linewidth, BYTE r, BYTE g, BYTE b, BYTE style )
 	{
 		glDisable ( GL_TEXTURE_2D );
 		glEnable ( GL_BLEND );
@@ -73,8 +73,8 @@ namespace Engine
 			break;
 		}
 
-		glVertex2i ( x1, y1 );
-		glVertex2i ( x2, y2 );
+		glVertex2f ( x1, y1 );
+		glVertex2f ( x2, y2 );
 		glEnd ( );
 		glColor3f ( 1.0f, 1.0f, 1.0f );
 		glEnable ( GL_TEXTURE_2D );
@@ -90,7 +90,7 @@ namespace Engine
 			return;
 		}
 
-		g_Drawing.DrawLine ( ( int )ScreenSrc[0], ( int )ScreenSrc[1], ( int )ScreenDest[0], ( int )ScreenDest[1], linewidth, r, g, b, style );
+		g_Drawing.DrawLine ( ScreenSrc[0], ScreenSrc[1], ScreenDest[0], ScreenDest[1], linewidth, r, g, b, style );
 	}
 
 	void Drawing::Draw3DBox ( struct cl_entity_s *Entity, int Index, float lw, BYTE r, BYTE g, BYTE b, BYTE style )

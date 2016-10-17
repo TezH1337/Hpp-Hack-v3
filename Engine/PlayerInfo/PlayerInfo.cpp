@@ -9,8 +9,8 @@ namespace Engine
 
 	bool PlayerInfo::isValidEntity ( struct cl_entity_s *Entity, struct cl_entity_s *Local )
 	{
-		return Local->index != Entity->index && isAliveEntity ( Entity ) && 
-			!( Entity->curstate.messagenum < Local->curstate.messagenum ) && 
+		return Local->index != Entity->index && isAliveEntity ( Entity ) &&
+			!( Entity->curstate.messagenum < Local->curstate.messagenum ) &&
 			!( Local->curstate.iuser1 == 4 && Local->curstate.iuser2 == Entity->index );
 	}
 
@@ -36,28 +36,22 @@ namespace Engine
 
 	void PlayerInfo::UpdateLocalEntity ( struct cl_entity_s *Local )
 	{
-		if ( Local->player )
-		{
-			g_Local.Alive = isAliveEntity ( Local );
+		g_Local.Alive = isAliveEntity ( Local );
 
-			g_Engine.pEventAPI->EV_LocalPlayerViewheight ( g_Local.ViewOrg );
+		g_Engine.pEventAPI->EV_LocalPlayerViewheight ( g_Local.ViewOrg );
 
-			VectorAdd ( Local->origin, g_Local.ViewOrg, g_Local.ViewOrg );
-		}
+		VectorAdd ( Local->origin, g_Local.ViewOrg, g_Local.ViewOrg );
 	}
 
 	void PlayerInfo::UpdatePlayerInfo ( struct cl_entity_s *Entity, struct cl_entity_s *Local, int Index )
 	{
 		g_Engine.pfnGetPlayerInfo ( Index, &g_Player[Index].Info );
 
-		if ( Entity->player )
-		{
-			g_Player[Index].Alive = isAliveEntity ( Entity );
-			g_Player[Index].Valid = isValidEntity ( Entity, Local );
-			g_Player[Index].Ducked = isDuckedEntity ( Entity );
+		g_Player[Index].Alive = isAliveEntity ( Entity );
+		g_Player[Index].Valid = isValidEntity ( Entity, Local );
+		g_Player[Index].Ducked = isDuckedEntity ( Entity );
 
-			g_Player[Index].Visible = ScanPlayerVisibility ( Index );
-		}
+		g_Player[Index].Visible = ScanPlayerVisibility ( Index );
 	}
 
 	void PlayerInfo::GetBoneOrigin ( struct cl_entity_s *Entity, struct cl_entity_s *Local )

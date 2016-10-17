@@ -43,7 +43,7 @@
 
 #define HPP						"[Hpp] "
 #define SETTINGS_RELOADED_ENG	"Settings successfully reloaded.\n"
-#define SETTINGS_RELOADED_RUS	"Настройки успешно перезагружены.\n"
+#define SETTINGS_RELOADED_RUS	"РќР°СЃС‚СЂРѕР№РєРё СѓСЃРїРµС€РЅРѕ РїРµСЂРµР·Р°РіСЂСѓР¶РµРЅС‹.\n"
 
 #define VERSION					"3.0 [dev]\n"
 #define AUTHOR					"kilabeez\n"
@@ -78,6 +78,7 @@
 #define ESP_PLAYER_BOX_CT_HIDE	"|ESP.Player.Box.CT.Hide"
 #define ESP_PLAYER_NAME			"|ESP.Player.Name"
 #define ESP_PLAYER_WEAPON		"|ESP.Player.Weapon"
+#define ESP_PLAYER_DISTANCE		"|ESP.Player.Distance"
 #define ESP_WORLD_WEAPONS		"|ESP.World.Weapons"
 #define ESP_WORLD_SPRITES		"|ESP.World.Sprites"
 #define ESP_WORLD_NADES			"|ESP.World.Nades"
@@ -126,6 +127,7 @@
 #define SHIELD					"shield"
 #define BACKPACK				"backpack"
 #define THIGHPACK				"thighpack"
+#define C4						"c4"
 
 #define SOUND					"svc_sound"
 #define SPAWN_STATIC_SOUND		"svc_spawnstaticsound"
@@ -140,8 +142,11 @@
 #define FindMemoryClone(Start, End, Clone, Size) __findmemoryclone((const ULONG)Start, (const ULONG)End, (const ULONG)Clone, (UINT)Size)
 #define FindReference(Start, End, Address)  __findreference((const ULONG)Start, (const ULONG)End, (const ULONG)Address)
 
+#define POW(x) ((x)*(x))
+
 #define VectorLengthSquared(v) ((v)[0]*(v)[0]+(v)[1]*(v)[1]+(v)[2]*(v)[2])
 #define VectorTransform(a,b,c){(c)[0]=DotProduct((a),(b)[0])+(b)[0][3];(c)[1]=DotProduct((a),(b)[1])+(b)[1][3];(c)[2]=DotProduct((a),(b)[2])+(b)[2][3];}
+#define VectorDistance(a,b) sqrt(POW((a)[0]-(b)[0])+POW((a)[1]-(b)[1])+POW((a)[2]-(b)[2]))
 
 #define	SVC_BAD					0
 #define	SVC_NOP                 1
@@ -280,9 +285,9 @@
 		return to_convent;}
 
 #define WEAPON_PARS(name) {\
-	Engine::g_Drawing.DrawBox((int)(EntityScreen[0] - 2), (int)EntityScreen[1], 3 + 2, 3 + 2, 1, 0, 0, 0, 255, 1);\
-	Engine::g_Drawing.FillArea((int)EntityScreen[0] - 1, (int)EntityScreen[1] + 1, 3, 3, 255, 100, 0, 255, 1);\
-	Engine::g_Verdana.Print((int)EntityScreen[0], (int)(EntityScreen[1] + 14), *r, *g, *b, 255, Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, name);}
+	Engine::g_Drawing.DrawBox(EntityScreen[0] - 2, EntityScreen[1], 3 + 2, 3 + 2, 1, 0, 0, 0, 255, 1);\
+	Engine::g_Drawing.FillArea(EntityScreen[0] - 1, EntityScreen[1] + 1, 3, 3, 255, 100, 0, 255, 1);\
+	Engine::g_Verdana.Print(EntityScreen[0], EntityScreen[1] + 15, font_color.r, font_color.g, font_color.b, 255, Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, name);}
 
 #define INIREAD_INT(var, path, section, key) g_IniRead.path.var = atoi(g_File.IniRead((char*)path.c_str(), section, key, "0"))
 #define INIREAD_FLOAT(var, path, section, key) g_IniRead.path.var = atof(g_File.IniRead((char*)path.c_str(), section, key, "0"))

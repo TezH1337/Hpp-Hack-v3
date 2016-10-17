@@ -15,11 +15,10 @@ namespace Engine
 
 		void InitText ( char* Font, int Height, int Width );
 
-		__inline void Render ( int x, int y, BYTE r, BYTE g, BYTE b, BYTE a, char *String );
+		__inline void Render ( float x, float y, BYTE r, BYTE g, BYTE b, BYTE a, char *String );
 
-		void Print ( int x, int y, BYTE r, BYTE g, BYTE b, BYTE a, BYTE Flags, char *String, ... );
+		void Print ( float x, float y, BYTE r, BYTE g, BYTE b, BYTE a, BYTE Flags, char *String, ... );
 	};
 
-	extern Font g_Font;
-	extern Font g_Verdana;
+	extern Font g_Font, g_Verdana;
 }

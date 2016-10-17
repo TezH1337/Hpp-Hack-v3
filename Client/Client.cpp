@@ -39,17 +39,23 @@ void HUD_Redraw ( float time, int intermission )
 
 	struct cl_entity_s *Local = Engine::g_Engine.GetLocalPlayer ( );
 
-	Engine::g_PlayerInfo.UpdateLocalEntity ( Local );
+	if ( Local->player )
+	{
+		Engine::g_PlayerInfo.UpdateLocalEntity ( Local );
+	}
 
 	for ( BYTE Index = 1; Index <= Engine::g_Engine.GetMaxClients ( ); ++Index )
 	{
 		struct cl_entity_s *Entity = Engine::g_Engine.GetEntityByIndex ( Index );
 
-		Engine::g_PlayerInfo.UpdatePlayerInfo ( Entity, Local, Index );
-
-		if ( Files::g_IniRead.function.esp )
+		if ( Entity->player && Index != Local->index )
 		{
-			Functions::g_ESP.HUD_Redraw ( Entity, Index );
+			Engine::g_PlayerInfo.UpdatePlayerInfo ( Entity, Local, Index );
+		}
+
+		if ( Files::g_IniRead.function.esp && Files::g_IniRead.esp.enable )
+		{
+			Functions::g_ESP.HUD_Redraw ( Entity, Local, Index );
 		}
 	}
 }
@@ -59,7 +65,7 @@ void StudioEntityLight ( struct alight_s *plight )
 	struct cl_entity_s *Local = Engine::g_Engine.GetLocalPlayer ( );
 	struct cl_entity_s *Entity = Engine::g_Studio.GetCurrentEntity ( );
 
-	if ( Entity->player )
+	if ( Entity->player && Entity->index != Local->index)
 	{
 		Engine::g_PlayerInfo.GetBoneOrigin ( Entity, Local );
 		Engine::g_PlayerInfo.GetHitboxOrigin ( Entity, Local );
@@ -113,11 +119,11 @@ void HookFunction ( )
 
 void HookUserMessages ( )
 {
-	Engine::pResetHUD = HookUserMsg ( RESET_HUD, Engine::g_UserMsg->ResetHUD );
-	Engine::pSetFOV = HookUserMsg ( SET_FOV, Engine::g_UserMsg->SetFOV );
-	Engine::pTeamInfo = HookUserMsg ( TEAM_INFO, Engine::g_UserMsg->TeamInfo );
-	Engine::pCurWeapon = HookUserMsg ( CUR_WEAPON, Engine::g_UserMsg->CurWeapon );
-	Engine::pDeathMsg = HookUserMsg ( DEATH_MSG, Engine::g_UserMsg->DeathMsg );
+	Engine::pResetHUD = HookUserMsg ( RESET_HUD, Engine::g_UserMsg.ResetHUD );
+	Engine::pSetFOV = HookUserMsg ( SET_FOV, Engine::g_UserMsg.SetFOV );
+	Engine::pTeamInfo = HookUserMsg ( TEAM_INFO, Engine::g_UserMsg.TeamInfo );
+	Engine::pCurWeapon = HookUserMsg ( CUR_WEAPON, Engine::g_UserMsg.CurWeapon );
+	Engine::pDeathMsg = HookUserMsg ( DEATH_MSG, Engine::g_UserMsg.DeathMsg );
 }
 
 void HookEngineMessages ( )

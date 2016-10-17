@@ -23,7 +23,9 @@ namespace Engine
 	{
 		hud_player_info_t Info;
 
+		//Bones of player
 		Vector Bone[53];
+		//Hitboxes of player
 		Vector HitBox[21];
 
 		//Ducked player or not

@@ -64,7 +64,7 @@ void Init::InitHack ( )
 void Init::LoadSettings ( )
 {
 	Engine::g_Font.InitText ( LUCIDA_CONSOLE, 12, 9 );
-	Engine::g_Verdana.InitText ( VERDANA, 12, 5 );
+	Engine::g_Verdana.InitText ( VERDANA, 13, 6 );
 
 	if ( Files::g_File.FileExists ( Files::g_File.DirFile ( FUNCTIONS_PATH ).c_str ( ) ) )
 	{

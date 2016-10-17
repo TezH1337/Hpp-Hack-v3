@@ -14,7 +14,7 @@ namespace Engine
 		static int DeathMsg ( const char *pszName, int iSize, void *pbuf );
 	};
 
-	extern UserMsg* g_UserMsg;
+	extern UserMsg g_UserMsg;
 
 	//Team of player
 	extern int PlayerTeam[33];

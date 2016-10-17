@@ -20,9 +20,9 @@ namespace Engine
 		static void UpdateLocalEntity ( struct cl_entity_s *Local );
 		//Update information about players
 		static void UpdatePlayerInfo ( struct cl_entity_s *Entity, struct cl_entity_s *Local, int Index );
-		//Get player's bones
+		//Get player bones
 		static void GetBoneOrigin ( struct cl_entity_s *Entity, struct cl_entity_s *Local );
-		//Get player's hitboxes
+		//Get player hitboxes
 		static void GetHitboxOrigin ( struct cl_entity_s *Entity, struct cl_entity_s *Local );
 	};
 
