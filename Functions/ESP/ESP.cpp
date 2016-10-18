@@ -89,6 +89,13 @@ namespace Functions
 		font_color.b = Files::g_IniRead.esp.font_color[2];
 	}
 
+	void ESP::GetColorSound ( )
+	{
+		sound_color.r = Files::g_IniRead.esp.sound_color[0];
+		sound_color.g = Files::g_IniRead.esp.sound_color[1];
+		sound_color.b = Files::g_IniRead.esp.sound_color[2];
+	}
+
 	void ESP::DrawPlayer ( struct cl_entity_s *Entity, struct cl_entity_s *Local, int Index )
 	{
 		if ( Engine::g_Local.Alive )
@@ -105,7 +112,7 @@ namespace Functions
 
 		float ScreenTop[2], ScreenBot[2];
 
-		if ( g_Util.CalcScreen ( Top, ScreenTop ) && g_Util.CalcScreen ( Bot, ScreenBot ) )
+		if ( g_Util.CalcScreen ( Top, ScreenTop ) && g_Util.CalcScreen ( Bot, ScreenBot ) && Top.x != 0 )
 		{
 			float h = Engine::g_Player[Index].Ducked ?
 				ScreenBot[1] - ScreenTop[1] : ( ScreenBot[1] - ScreenTop[1] ) * 0.9f;
@@ -465,9 +472,9 @@ namespace Functions
 				}
 				else if ( entity[i].Type == 2 && Files::g_IniRead.esp.world_sprites )
 				{
-					float size = ( 30 * 14 ) / l * 10;
+					float size = ( 30 * 13 ) / l * 10;
 
-					Engine::g_Drawing.DrawBox ( EntityScreen[0], EntityScreen[1], size, size, 1, 255, 255, 175, 80, 1 );
+					Engine::g_Drawing.DrawBox ( EntityScreen[0], EntityScreen[1], size, size, 1, 255, 255, 200, 80, 1 );
 				}
 				else if ( entity[i].Type == 3 && Files::g_IniRead.esp.world_nades )
 				{
@@ -492,24 +499,78 @@ namespace Functions
 		ClearEntity ( );
 	}
 
-	void ESP::HUD_Redraw ( struct cl_entity_s *Entity, struct cl_entity_s *Local, int Index )
+	void ESP::AddSound ( DWORD Time, Vector Origin )
 	{
-		if ( Files::g_IniRead.esp.player && Engine::g_Player[Index].Valid )
+		if ( g_ESP.SoundIndex < MAX_SOUNDS )
 		{
-			DrawPlayer ( Entity, Local, Index );
+			sound[g_ESP.SoundIndex].Time = Time;
+			sound[g_ESP.SoundIndex].Origin = Origin;
+
+			++g_ESP.SoundIndex;
+		}
+		else
+		{
+			ClearSound ( );
+		}
+	}
+
+	void ESP::ClearSound ( )
+	{
+		for ( int i = 0; i < g_ESP.SoundIndex; ++i )
+		{
+			sound[i].Time = 0;
+			sound[i].Origin = Vector ( 0, 0, 0 );
 		}
 
-		if ( Files::g_IniRead.esp.world_weapons || Files::g_IniRead.esp.world_sprites || Files::g_IniRead.esp.world_nades )
+		g_ESP.SoundIndex = 0;
+	}
+
+	void ESP::DrawSound ( )
+	{
+		GetColorSound ( );
+
+		for ( int i = 0; i < g_ESP.SoundIndex; ++i )
 		{
-			DrawWorld ( );
+			float uppt[] = { sound[i].Origin.x - Engine::g_Local.ViewOrg.x,
+				sound[i].Origin.y - Engine::g_Local.ViewOrg.y, sound[i].Origin.z - Engine::g_Local.ViewOrg.z };
+
+			float l = sqrt ( VectorLengthSquared ( uppt ) );
+
+			l = max ( 100, l );
+
+			float size = ( 30 * 13 ) / l * 18;
+
+			float Time = ( float )sound[i].Time + Files::g_IniRead.esp.sound_fade_time;
+
+			if ( Time <= GetTickCount ( ) )
+			{
+				sound[i].Time = 0;
+				sound[i].Origin = Vector ( 0, 0, 0 );
+			}
+			else
+			{
+				float SoundScreen[2];
+
+				float size_z = g_Util.Interp ( ( float )sound[i].Time, ( float )GetTickCount ( ), Time, size, 0 );
+
+				if ( g_Util.CalcScreen ( sound[i].Origin, SoundScreen ) )
+				{
+					Engine::g_Drawing.DrawBox ( SoundScreen[0] - size_z / 2, SoundScreen[1] - size_z / 2,
+						g_Util.Interp ( ( float )sound[i].Time, ( float )GetTickCount ( ), Time, size, 0 ),
+						g_Util.Interp ( ( float )sound[i].Time, ( float )GetTickCount ( ), Time, size, 0 ),
+						1, sound_color.r, sound_color.g, sound_color.b,
+						( BYTE )g_Util.Interp ( ( float )sound[i].Time, ( float )GetTickCount ( ), Time, 255, 0 ), 1 );
+				}
+			}
 		}
 	}
 
 	ESP g_ESP;
 
 	entity_s entity[MAX_ENTITY];
+	sound_s sound[MAX_SOUNDS];
 
 	player_box_color_s player_box_color;
-
 	font_color_s font_color;
+	sound_color_s sound_color;
 }

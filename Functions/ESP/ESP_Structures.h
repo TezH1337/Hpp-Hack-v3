@@ -4,6 +4,14 @@
 
 namespace Functions
 {
+	struct sound_s
+	{
+		Vector Origin;
+		DWORD Time;
+	};
+
+	extern sound_s sound[MAX_SOUNDS];
+
 	struct entity_s
 	{
 		char Name[64];
@@ -31,4 +39,13 @@ namespace Functions
 	};
 
 	extern font_color_s font_color;
+
+	struct sound_color_s
+	{
+		BYTE r;
+		BYTE g;
+		BYTE b;
+	};
+
+	extern sound_color_s sound_color;
 }

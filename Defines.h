@@ -79,11 +79,15 @@
 #define ESP_PLAYER_NAME			"|ESP.Player.Name"
 #define ESP_PLAYER_WEAPON		"|ESP.Player.Weapon"
 #define ESP_PLAYER_DISTANCE		"|ESP.Player.Distance"
+#define ESP_WORLD				"|ESP.World"
 #define ESP_WORLD_WEAPONS		"|ESP.World.Weapons"
 #define ESP_WORLD_SPRITES		"|ESP.World.Sprites"
 #define ESP_WORLD_NADES			"|ESP.World.Nades"
 #define ESP_FONT_OUTLINE		"|ESP.Font.OutLine"
 #define ESP_FONT_COLOR			"|ESP.Font.Color"
+#define ESP_SOUND				"|ESP.Sound"
+#define ESP_SOUND_FADE_TIME		"|ESP.Sound.FadeTime"
+#define ESP_SOUND_COLOR			"|ESP.Sound.Color"
 
 #define TERRORIST_UMSG			"TERRORIST"
 #define CT_UMSG					"CT"
@@ -225,6 +229,7 @@
 #define SND_FL_SPAWNING			BIT(8)
 
 #define MAX_ENTITY				1024
+#define MAX_SOUNDS				1024
 
 #define TERRORIST				1
 #define CT						2

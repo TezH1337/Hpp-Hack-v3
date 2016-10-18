@@ -48,15 +48,31 @@ void HUD_Redraw ( float time, int intermission )
 	{
 		struct cl_entity_s *Entity = Engine::g_Engine.GetEntityByIndex ( Index );
 
-		if ( Entity->player && Index != Local->index )
+		if ( Index != Local->index )
 		{
-			Engine::g_PlayerInfo.UpdatePlayerInfo ( Entity, Local, Index );
-		}
+			if ( Entity->player )
+			{
+				Engine::g_PlayerInfo.UpdatePlayerInfo ( Entity, Local, Index );
+			}
 
-		if ( Files::g_IniRead.function.esp && Files::g_IniRead.esp.enable )
-		{
-			Functions::g_ESP.HUD_Redraw ( Entity, Local, Index );
+			if ( Files::g_IniRead.function.esp && Files::g_IniRead.esp.enable )
+			{
+				if ( Files::g_IniRead.esp.player && Engine::g_Player[Index].Valid )
+				{
+					Functions::g_ESP.DrawPlayer ( Entity, Local, Index );
+				}
+			}
 		}
+	}
+
+	if ( Files::g_IniRead.esp.world )
+	{
+		Functions::g_ESP.DrawWorld ( );
+	}
+
+	if ( Files::g_IniRead.esp.sound )
+	{
+		Functions::g_ESP.DrawSound ( );
 	}
 }
 

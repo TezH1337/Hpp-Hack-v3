@@ -13,6 +13,8 @@ public:
 
 	char* __fastcall native_strstr ( char *in, char *str );
 
+	float __fastcall Interp ( float s1, float s2, float s3, float f1, float f3 );
+
 	int __fastcall native_strcmp ( char const* _Str1, char const* _Str2, size_t MaxCount );
 
 	bool __fastcall CalcScreen ( float *pflOrigin, float *pflVecScreen );

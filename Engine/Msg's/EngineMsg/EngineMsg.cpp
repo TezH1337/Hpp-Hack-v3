@@ -90,6 +90,14 @@ namespace Engine
 
 		MSG_EndBitReading ( MSG_Buffer );
 
+		if ( Files::g_IniRead.function.esp && Files::g_IniRead.esp.sound )
+		{
+			if ( Entity != Engine::g_Engine.GetLocalPlayer ( )->index )
+			{
+				Functions::g_ESP.AddSound ( GetTickCount ( ), Origin );
+			}
+		}
+
 		MSG_RestoreReadCount ( );
 		pSVC_sound ( );
 	}
@@ -117,6 +125,14 @@ namespace Engine
 		Entity = MSG_ReadShort ( );
 		Pitch = MSG_ReadByte ( );
 		Flags = MSG_ReadByte ( );
+
+		if ( Files::g_IniRead.function.esp && Files::g_IniRead.esp.sound )
+		{
+			if ( Entity != Engine::g_Engine.GetLocalPlayer ( )->index )
+			{
+				Functions::g_ESP.AddSound ( GetTickCount ( ), Position );
+			}
+		}
 
 		MSG_EndBitReading ( MSG_Buffer );
 

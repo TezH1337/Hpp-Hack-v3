@@ -25,7 +25,9 @@ namespace Files
 
 		INIREAD_INT ( player_name, esp, mESP, ESP_PLAYER_NAME );
 		INIREAD_INT ( player_weapon, esp, mESP, ESP_PLAYER_WEAPON );
+		INIREAD_INT ( player_distance, esp, mESP, ESP_PLAYER_DISTANCE );
 
+		INIREAD_INT ( world, esp, mESP, ESP_WORLD );
 		INIREAD_INT ( world_weapons, esp, mESP, ESP_WORLD_WEAPONS );
 		INIREAD_INT ( world_sprites, esp, mESP, ESP_WORLD_SPRITES );
 		INIREAD_INT ( world_nades, esp, mESP, ESP_WORLD_NADES );
@@ -33,11 +35,16 @@ namespace Files
 		INIREAD_INT ( font_outline, esp, mESP, ESP_FONT_OUTLINE );
 		INIREAD ( font_color_string, esp, mESP, ESP_FONT_COLOR );
 
-		g_Util.Parse ( 4, g_IniRead.esp.t_vis_color_string, g_IniRead.esp.t_vis_color );
-		g_Util.Parse ( 4, g_IniRead.esp.t_hide_color_string, g_IniRead.esp.t_hide_color );
-		g_Util.Parse ( 4, g_IniRead.esp.ct_vis_color_string, g_IniRead.esp.ct_vis_color );
-		g_Util.Parse ( 4, g_IniRead.esp.ct_hide_color_string, g_IniRead.esp.ct_hide_color );
-		g_Util.Parse ( 4, g_IniRead.esp.font_color_string, g_IniRead.esp.font_color );
+		INIREAD_INT ( sound, esp, mESP, ESP_SOUND );
+		INIREAD_INT ( sound_fade_time, esp, mESP, ESP_SOUND_FADE_TIME );
+		INIREAD ( sound_color_string, esp, mESP, ESP_SOUND_COLOR );
+
+		g_Util.Parse ( 3, g_IniRead.esp.t_vis_color_string, g_IniRead.esp.t_vis_color );
+		g_Util.Parse ( 3, g_IniRead.esp.t_hide_color_string, g_IniRead.esp.t_hide_color );
+		g_Util.Parse ( 3, g_IniRead.esp.ct_vis_color_string, g_IniRead.esp.ct_vis_color );
+		g_Util.Parse ( 3, g_IniRead.esp.ct_hide_color_string, g_IniRead.esp.ct_hide_color );
+		g_Util.Parse ( 3, g_IniRead.esp.font_color_string, g_IniRead.esp.font_color );
+		g_Util.Parse ( 3, g_IniRead.esp.sound_color_string, g_IniRead.esp.sound_color );
 	}
 
 	void IniRead::Main ( )

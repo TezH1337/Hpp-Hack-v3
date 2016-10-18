@@ -8,25 +8,32 @@ namespace Functions
 	class ESP
 	{
 	public:
-		int EntityIndex;
+		int EntityIndex, SoundIndex;
 
 		//Get distance to player
 		__inline static float GetPlayerDistance ( struct cl_entity_s *Entity, struct cl_entity_s *Local, bool Meters );
-		//Set player box color
+		//Get player box color
 		__inline static void GetColorPlayerBox ( int Index );
-		//Set font color
+		//Get font color
 		__inline static void GetColorFont ( );
+		//Get sound color
+		__inline static void GetColorSound ( );
 		//Drawing player esp
-		__inline static void DrawPlayer ( struct cl_entity_s *Entity, struct cl_entity_s *Local, int Index );
+		static void DrawPlayer ( struct cl_entity_s *Entity, struct cl_entity_s *Local, int Index );
 		//Drawing world esp
-		__inline static void DrawWorld ( );
+		static void DrawWorld ( );
+		//Drawing sound esp
+		static void DrawSound ( );
 		//Add entity
 		__inline static void AddEntity ( char* Name, int Important, Vector Origin, BYTE Type );
-		//Clear all entity
+		//Clear all entities
 		__inline static void ClearEntity ( );
+		//Add sound
+		static void AddSound ( DWORD Time, Vector Origin );
+		//Clear all sounds
+		__inline static void ClearSound ( );
 
 		static void HUD_AddEntity ( struct cl_entity_s *Entity );
-		static void HUD_Redraw ( struct cl_entity_s *Entity, struct cl_entity_s *Local, int Index );
 	};
 
 	extern ESP g_ESP;

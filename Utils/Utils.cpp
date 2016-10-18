@@ -303,3 +303,23 @@ char* __fastcall Util::native_strstr ( char *in, char *str )
 
 	return ( char * )( in - 1 );
 }
+
+float __fastcall Util::Interp ( float s1, float s2, float s3, float f1, float f3 )
+{
+	if ( s2 == s1 )
+	{
+		return f1;
+	}
+
+	if ( s2 == s3 )
+	{
+		return f3;
+	}
+
+	if ( s3 == s1 )
+	{
+		return f1;
+	}
+
+	return f1 + ( ( s2 - s1 ) / ( s3 - s1 ) )*( ( f3 - f1 ) );
+}
