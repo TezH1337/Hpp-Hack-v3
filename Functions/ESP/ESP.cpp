@@ -20,80 +20,42 @@ namespace Functions
 
 	void ESP::GetColorPlayerBox ( int Index )
 	{
-		if ( Files::g_IniRead.esp.player_visible_check )
+		if ( Engine::PlayerTeam[Index] == TERRORIST && Engine::g_Player[Index].Visible )
 		{
-			if ( Engine::PlayerTeam[Index] == TERRORIST && Engine::g_Player[Index].Visible )
-			{
-				player_box_color.r = Files::g_IniRead.esp.t_vis_color[0];
-				player_box_color.g = Files::g_IniRead.esp.t_vis_color[1];
-				player_box_color.b = Files::g_IniRead.esp.t_vis_color[2];
-			}
-			else if ( Engine::PlayerTeam[Index] == TERRORIST )
-			{
-				player_box_color.r = Files::g_IniRead.esp.t_hide_color[0];
-				player_box_color.g = Files::g_IniRead.esp.t_hide_color[1];
-				player_box_color.b = Files::g_IniRead.esp.t_hide_color[2];
-			}
-			else if ( Engine::PlayerTeam[Index] == CT && Engine::g_Player[Index].Visible )
-			{
-				player_box_color.r = Files::g_IniRead.esp.ct_vis_color[0];
-				player_box_color.g = Files::g_IniRead.esp.ct_vis_color[1];
-				player_box_color.b = Files::g_IniRead.esp.ct_vis_color[2];
-			}
-			else if ( Engine::PlayerTeam[Index] == CT )
-			{
-				player_box_color.r = Files::g_IniRead.esp.ct_hide_color[0];
-				player_box_color.g = Files::g_IniRead.esp.ct_hide_color[1];
-				player_box_color.b = Files::g_IniRead.esp.ct_hide_color[2];
-			}
-			else if ( Engine::g_Player[Index].Visible )
-			{
-				player_box_color.r = 255;
-				player_box_color.g = 255;
-				player_box_color.b = 255;
-			}
-			else
-			{
-				player_box_color.r = 100;
-				player_box_color.g = 100;
-				player_box_color.b = 100;
-			}
+			player_box.color[0] = Files::g_IniRead.esp.t_vis_color[0];
+			player_box.color[1] = Files::g_IniRead.esp.t_vis_color[1];
+			player_box.color[2] = Files::g_IniRead.esp.t_vis_color[2];
+		}
+		else if ( Engine::PlayerTeam[Index] == TERRORIST )
+		{
+			player_box.color[0] = Files::g_IniRead.esp.t_hide_color[0];
+			player_box.color[1] = Files::g_IniRead.esp.t_hide_color[1];
+			player_box.color[2] = Files::g_IniRead.esp.t_hide_color[2];
+		}
+		else if ( Engine::PlayerTeam[Index] == CT && Engine::g_Player[Index].Visible )
+		{
+			player_box.color[0] = Files::g_IniRead.esp.ct_vis_color[0];
+			player_box.color[1] = Files::g_IniRead.esp.ct_vis_color[1];
+			player_box.color[2] = Files::g_IniRead.esp.ct_vis_color[2];
+		}
+		else if ( Engine::PlayerTeam[Index] == CT )
+		{
+			player_box.color[0] = Files::g_IniRead.esp.ct_hide_color[0];
+			player_box.color[1] = Files::g_IniRead.esp.ct_hide_color[1];
+			player_box.color[2] = Files::g_IniRead.esp.ct_hide_color[2];
+		}
+		else if ( Engine::g_Player[Index].Visible )
+		{
+			player_box.color[0] = 255;
+			player_box.color[1] = 255;
+			player_box.color[2] = 255;
 		}
 		else
 		{
-			if ( Engine::PlayerTeam[Index] == TERRORIST )
-			{
-				player_box_color.r = Files::g_IniRead.esp.t_hide_color[0];
-				player_box_color.g = Files::g_IniRead.esp.t_hide_color[1];
-				player_box_color.b = Files::g_IniRead.esp.t_hide_color[2];
-			}
-			else if ( Engine::PlayerTeam[Index] == CT )
-			{
-				player_box_color.r = Files::g_IniRead.esp.ct_hide_color[0];
-				player_box_color.g = Files::g_IniRead.esp.ct_hide_color[1];
-				player_box_color.b = Files::g_IniRead.esp.ct_hide_color[2];
-			}
-			else
-			{
-				player_box_color.r = 255;
-				player_box_color.g = 255;
-				player_box_color.b = 255;
-			}
+			player_box.color[0] = 100;
+			player_box.color[1] = 100;
+			player_box.color[2] = 100;
 		}
-	}
-
-	void ESP::GetColorFont ( )
-	{
-		font_color.r = Files::g_IniRead.esp.font_color[0];
-		font_color.g = Files::g_IniRead.esp.font_color[1];
-		font_color.b = Files::g_IniRead.esp.font_color[2];
-	}
-
-	void ESP::GetColorSound ( )
-	{
-		sound_color.r = Files::g_IniRead.esp.sound_color[0];
-		sound_color.g = Files::g_IniRead.esp.sound_color[1];
-		sound_color.b = Files::g_IniRead.esp.sound_color[2];
 	}
 
 	void ESP::DrawPlayer ( struct cl_entity_s *Entity, struct cl_entity_s *Local, int Index )
@@ -114,130 +76,106 @@ namespace Functions
 
 		if ( g_Util.CalcScreen ( Top, ScreenTop ) && g_Util.CalcScreen ( Bot, ScreenBot ) && Top.x != 0 )
 		{
-			float h = Engine::g_Player[Index].Ducked ?
-				ScreenBot[1] - ScreenTop[1] : ( ScreenBot[1] - ScreenTop[1] ) * 0.9f;
+			float h = Engine::g_Player[Index].Ducked ? ScreenBot[1] - ScreenTop[1] : ( ScreenBot[1] - ScreenTop[1] ) * 0.9f;
 
 			if ( Files::g_IniRead.esp.player_box )
 			{
 				GetColorPlayerBox ( Index );
 
-				if ( Files::g_IniRead.esp.player_box_3d )
-				{
+				Files::g_IniRead.esp.player_box_3d ?
+
 					Engine::g_Drawing.Draw3DBox ( Entity, Index, Files::g_IniRead.esp.player_box_linewidth,
-						player_box_color.r, player_box_color.g, player_box_color.b, Files::g_IniRead.esp.player_box );
-				}
-				else
-				{
-					float w = h * 0.5f;
-					float x = ScreenTop[0] - ( w * 0.5f );
+						player_box.color[0], player_box.color[1], player_box.color[2] ) :
 
 					Files::g_IniRead.esp.player_box_outline ?
 
-						Engine::g_Drawing.DrawShadowBox ( x, ScreenTop[1], w, h, Files::g_IniRead.esp.player_box_linewidth,
-							player_box_color.r, player_box_color.g, player_box_color.b, 255, Files::g_IniRead.esp.player_box ) :
+					Engine::g_Drawing.DrawShadowBox ( ScreenTop[0] - ( h * 0.25f ),
+						ScreenTop[1], h * 0.5f, h, Files::g_IniRead.esp.player_box_linewidth,
+						player_box.color[0], player_box.color[1], player_box.color[2], 255 ) :
 
-						Engine::g_Drawing.DrawBox ( x, ScreenTop[1], w, h, Files::g_IniRead.esp.player_box_linewidth,
-							player_box_color.r, player_box_color.g, player_box_color.b, 255, Files::g_IniRead.esp.player_box );
+					Engine::g_Drawing.DrawBox ( ScreenTop[0] - ( h * 0.25f ),
+						ScreenTop[1], h * 0.5f, h, Files::g_IniRead.esp.player_box_linewidth,
+						player_box.color[0], player_box.color[1], player_box.color[2], 255 );
+			}
+
+			if ( Files::g_IniRead.esp.player_name )
+			{
+				Engine::g_Verdana.Print ( ScreenTop[0], h - 5 + ScreenTop[1], Files::g_IniRead.esp.font_color[0],
+					Files::g_IniRead.esp.font_color[1], Files::g_IniRead.esp.font_color[2], 255,
+					Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, Engine::g_Player[Index].Info.name );
+			}
+
+			if ( Files::g_IniRead.esp.player_weapon )
+			{
+				int SequenceInfo[] =
+				{
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+					0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
+					1, 2, 0, 1, 1, 2, 0, 1, 1, 2,
+					0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
+					1, 2, 0, 1, 2, 0, 1, 2, 0, 1,
+					2, 0, 1, 2, 0, 0, 0, 4, 0, 4,
+					0, 5, 0, 5, 0, 0, 1, 1, 2, 0,
+					1, 1, 2, 0, 1, 0, 1, 0, 1, 2,
+					0, 1, 2, 3, 3, 3, 3, 3, 3, 3,
+					3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+					3
+				};
+
+				float y = Files::g_IniRead.esp.player_distance ?
+					ScreenBot[1] + ( 24 - ( ScreenBot[1] - ScreenTop[1] ) ) :
+					ScreenBot[1] + ( 12 - ( ScreenBot[1] - ScreenTop[1] ) );
+
+				switch ( SequenceInfo[Entity->curstate.sequence] )
+				{
+				case 2:
+					Engine::g_Verdana.Print ( ScreenTop[0], y + 12, 255, 100, 100, 255,
+						Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, SEQUENCE_RELOADING );
+
+					break;
+
+				case 5:
+					Engine::g_Verdana.Print ( ScreenTop[0], y + 12, 255, 100, 100, 255,
+						Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, SEQUENCE_PLANTING );
+
+					break;
+				}
+
+				if ( Engine::g_Studio.GetModelByIndex ( Entity->curstate.weaponmodel )->name )
+				{
+					char WeaponName[64];
+
+					int Len = lstrlen ( Engine::g_Studio.GetModelByIndex ( Entity->curstate.weaponmodel )->name + 9 ) - 3;
+
+					lstrcpyn ( WeaponName, Engine::g_Studio.GetModelByIndex ( Entity->curstate.weaponmodel )->name + 9, Len );
+
+					WeaponName[Len] = '\0';
+
+					Engine::g_Verdana.Print ( ScreenTop[0], y, Files::g_IniRead.esp.font_color[0],
+						Files::g_IniRead.esp.font_color[1], Files::g_IniRead.esp.font_color[2], 255,
+						Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, WeaponName );
 				}
 			}
 
-			if ( Files::g_IniRead.esp.player_name || Files::g_IniRead.esp.player_weapon || Files::g_IniRead.esp.player_distance )
+			if ( Files::g_IniRead.esp.player_distance )
 			{
-				GetColorFont ( );
-
-				if ( Files::g_IniRead.esp.player_name )
+				switch ( Files::g_IniRead.esp.player_distance )
 				{
-					float y = h - 5 + ScreenTop[1];
+				case 1:
+					Engine::g_Verdana.Print ( ScreenTop[0], ScreenBot[1] + ( 12 - ( ScreenBot[1] - ScreenTop[1] ) ),
+						Files::g_IniRead.esp.font_color[0], Files::g_IniRead.esp.font_color[1],
+						Files::g_IniRead.esp.font_color[2], 255, Files::g_IniRead.esp.font_outline ?
+						FL_CENTER | FL_OUTLINE : FL_CENTER, "%.0f u", GetPlayerDistance ( Entity, Local, false ) );
 
-					Engine::g_Verdana.Print ( ScreenTop[0], y, font_color.r, font_color.g, font_color.b, 255,
-						Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, Engine::g_Player[Index].Info.name );
-				}
+					break;
 
-				if ( Files::g_IniRead.esp.player_weapon )
-				{
-					int Cstrike_SequenceInfo[] =
-					{
-						0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-						0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
-						1, 2, 0, 1, 1, 2, 0, 1, 1, 2,
-						0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
-						1, 2, 0, 1, 2, 0, 1, 2, 0, 1,
-						2, 0, 1, 2, 0, 0, 0, 4, 0, 4,
-						0, 5, 0, 5, 0, 0, 1, 1, 2, 0,
-						1, 1, 2, 0, 1, 0, 1, 0, 1, 2,
-						0, 1, 2, 3, 3, 3, 3, 3, 3, 3,
-						3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-						3
-					};
+				case 2:
+					Engine::g_Verdana.Print ( ScreenTop[0], ScreenBot[1] + ( 12 - ( ScreenBot[1] - ScreenTop[1] ) ),
+						Files::g_IniRead.esp.font_color[0], Files::g_IniRead.esp.font_color[1],
+						Files::g_IniRead.esp.font_color[2], 255, Files::g_IniRead.esp.font_outline ?
+						FL_CENTER | FL_OUTLINE : FL_CENTER, "%.0f m", GetPlayerDistance ( Entity, Local, true ) );
 
-					char* Sequence;
-
-					int Type = Cstrike_SequenceInfo[Entity->curstate.sequence];
-
-					float y = Files::g_IniRead.esp.player_distance ?
-						ScreenBot[1] + ( 24 - ( ScreenBot[1] - ScreenTop[1] ) ) :
-						ScreenBot[1] + ( 12 - ( ScreenBot[1] - ScreenTop[1] ) );
-
-					switch ( Type )
-					{
-					case 2:
-						Sequence = SEQUENCE_RELOADING;
-
-						Engine::g_Verdana.Print ( ScreenTop[0], y + 12, 255, 100, 100, 255,
-							Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, Sequence );
-
-						break;
-
-					case 5:
-						Sequence = SEQUENCE_PLANTING;
-
-						Engine::g_Verdana.Print ( ScreenTop[0], y + 12, 255, 100, 100, 255,
-							Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, Sequence );
-
-						break;
-					}
-
-					model_s *Model = Engine::g_Studio.GetModelByIndex ( Entity->curstate.weaponmodel );
-
-					if ( Model->name )
-					{
-						char WeaponName[64];
-
-						int Len = lstrlen ( Model->name + 9 ) - 3;
-
-						lstrcpyn ( WeaponName, Model->name + 9, Len );
-
-						WeaponName[Len] = '\0';
-
-						Engine::g_Verdana.Print ( ScreenTop[0], y, font_color.r, font_color.g, font_color.b, 255,
-							Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, WeaponName );
-					}
-				}
-
-				if ( Files::g_IniRead.esp.player_distance )
-				{
-					float y = ScreenBot[1] + ( 12 - ( ScreenBot[1] - ScreenTop[1] ) );
-
-					float Distance;
-
-					switch ( Files::g_IniRead.esp.player_distance )
-					{
-					case 1:
-						Distance = GetPlayerDistance ( Entity, Local, false );
-
-						Engine::g_Verdana.Print ( ScreenTop[0], y, font_color.r, font_color.g, font_color.b, 255,
-							Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, "%.0f u", Distance );
-
-						break;
-
-					case 2:
-						Distance = GetPlayerDistance ( Entity, Local, true );
-
-						Engine::g_Verdana.Print ( ScreenTop[0], y, font_color.r, font_color.g, font_color.b, 255,
-							Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, "%.0f m", Distance );
-
-						break;
-					}
+					break;
 				}
 			}
 		}
@@ -330,9 +268,7 @@ namespace Functions
 
 	void ESP::DrawWorld ( )
 	{
-		GetColorFont ( );
-
-		for ( int i = 0; i < g_ESP.EntityIndex; ++i )
+		for ( short i = 0; i < g_ESP.EntityIndex; ++i )
 		{
 			float EntityScreen[2];
 
@@ -345,7 +281,7 @@ namespace Functions
 
 				l = max ( 100, l );
 
-				if ( entity[i].Type == 1 && Files::g_IniRead.esp.world_weapons )
+				if ( Files::g_IniRead.esp.world_weapons && entity[i].Type == 1 )
 				{
 					if ( g_Util.native_strstr ( entity[i].Name, USP ) )
 					{
@@ -461,24 +397,24 @@ namespace Functions
 					}
 					else
 					{
-						Engine::g_Drawing.DrawBox ( EntityScreen[0] - 2, EntityScreen[1], 6, 5, 1, 0, 0, 0, 255, 1 );
+						Engine::g_Drawing.DrawBox ( EntityScreen[0] - 2, EntityScreen[1], 6, 6, 1, 0, 0, 0, 255 );
 
-						Engine::g_Drawing.FillArea ( EntityScreen[0] - 1, EntityScreen[1] + 1, 4, 4, 255, 100, 0, 255, 1 );
+						Engine::g_Drawing.FillArea ( EntityScreen[0] - 1, EntityScreen[1] + 1, 4, 4, 255, 100, 0, 255 );
 
-						Engine::g_Verdana.Print ( EntityScreen[0], EntityScreen[1] + 15, font_color.r,
-							font_color.g, font_color.b, 255, Files::g_IniRead.esp.font_outline ?
-							FL_CENTER | FL_OUTLINE : FL_CENTER, entity[i].Name );
+						Engine::g_Verdana.Print ( EntityScreen[0], EntityScreen[1] + 15, Files::g_IniRead.esp.font_color[0],
+							Files::g_IniRead.esp.font_color[1], Files::g_IniRead.esp.font_color[2], 255,
+							Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, entity[i].Name );
 					}
 				}
 				else if ( entity[i].Type == 2 && Files::g_IniRead.esp.world_sprites )
 				{
-					float size = ( 30 * 13 ) / l * 10;
+					float size = 3900 / l;
 
-					Engine::g_Drawing.DrawBox ( EntityScreen[0], EntityScreen[1], size, size, 1, 255, 255, 200, 80, 1 );
+					Engine::g_Drawing.DrawBox ( EntityScreen[0], EntityScreen[1], size, size, 1, 255, 255, 200, 80 );
 				}
 				else if ( entity[i].Type == 3 && Files::g_IniRead.esp.world_nades )
 				{
-					float rad = ( 30 * 10 ) / l * 10;
+					float rad = 3000 / l;
 
 					if ( g_Util.native_strstr ( entity[i].Name, HEGREN ) )
 					{
@@ -527,9 +463,7 @@ namespace Functions
 
 	void ESP::DrawSound ( )
 	{
-		GetColorSound ( );
-
-		for ( int i = 0; i < g_ESP.SoundIndex; ++i )
+		for ( short i = 0; i < g_ESP.SoundIndex; ++i )
 		{
 			float uppt[] = { sound[i].Origin.x - Engine::g_Local.ViewOrg.x,
 				sound[i].Origin.y - Engine::g_Local.ViewOrg.y, sound[i].Origin.z - Engine::g_Local.ViewOrg.z };
@@ -538,7 +472,7 @@ namespace Functions
 
 			l = max ( 100, l );
 
-			float size = ( 30 * 13 ) / l * 18;
+			float size = 7020 / l;
 
 			float Time = ( float )sound[i].Time + Files::g_IniRead.esp.sound_fade_time;
 
@@ -557,9 +491,9 @@ namespace Functions
 				{
 					Engine::g_Drawing.DrawBox ( SoundScreen[0] - size_z / 2, SoundScreen[1] - size_z / 2,
 						g_Util.Interp ( ( float )sound[i].Time, ( float )GetTickCount ( ), Time, size, 0 ),
-						g_Util.Interp ( ( float )sound[i].Time, ( float )GetTickCount ( ), Time, size, 0 ),
-						1, sound_color.r, sound_color.g, sound_color.b,
-						( BYTE )g_Util.Interp ( ( float )sound[i].Time, ( float )GetTickCount ( ), Time, 255, 0 ), 1 );
+						g_Util.Interp ( ( float )sound[i].Time, ( float )GetTickCount ( ), Time, size, 0 ), 1, 
+						Files::g_IniRead.esp.sound_color[0], Files::g_IniRead.esp.sound_color[1], Files::g_IniRead.esp.sound_color[2], 
+						( BYTE )g_Util.Interp ( ( float )sound[i].Time, ( float )GetTickCount ( ), Time, 255, 0 ) );
 				}
 			}
 		}
@@ -570,7 +504,5 @@ namespace Functions
 	entity_s entity[MAX_ENTITY];
 	sound_s sound[MAX_SOUNDS];
 
-	player_box_color_s player_box_color;
-	font_color_s font_color;
-	sound_color_s sound_color;
+	player_box_s player_box;
 }

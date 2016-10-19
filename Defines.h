@@ -67,7 +67,6 @@
 #define ESP_ENABLE				"|ESP.Enable"
 #define ESP_PLAYER				"|ESP.Player"
 #define ESP_PLAYER_VISIBLE_ONLY	"|ESP.Player.VisibleOnly"
-#define ESP_VISIBLE_CHECK		"|ESP.Player.VisibleCheck"
 #define ESP_PLAYER_BOX			"|ESP.Player.Box"
 #define ESP_PLAYER_BOX_3D		"|ESP.Player.Box.3D"
 #define ESP_PLAYER_BOX_OUTLINE	"|ESP.Player.Box.OutLine"
@@ -290,9 +289,9 @@
 		return to_convent;}
 
 #define WEAPON_PARS(name) {\
-	Engine::g_Drawing.DrawBox(EntityScreen[0] - 2, EntityScreen[1], 3 + 2, 3 + 2, 1, 0, 0, 0, 255, 1);\
-	Engine::g_Drawing.FillArea(EntityScreen[0] - 1, EntityScreen[1] + 1, 3, 3, 255, 100, 0, 255, 1);\
-	Engine::g_Verdana.Print(EntityScreen[0], EntityScreen[1] + 15, font_color.r, font_color.g, font_color.b, 255, Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, name);}
+	Engine::g_Drawing.DrawBox(EntityScreen[0] - 2, EntityScreen[1], 6, 6, 1, 0, 0, 0, 255);\
+	Engine::g_Drawing.FillArea(EntityScreen[0] - 1, EntityScreen[1] + 1, 4, 4, 255, 100, 0, 255);\
+	Engine::g_Verdana.Print(EntityScreen[0], EntityScreen[1] + 15, Files::g_IniRead.esp.font_color[0], Files::g_IniRead.esp.font_color[1], Files::g_IniRead.esp.font_color[2], 255, Files::g_IniRead.esp.font_outline ? FL_CENTER | FL_OUTLINE : FL_CENTER, name);}
 
 #define INIREAD_INT(var, path, section, key) g_IniRead.path.var = atoi(g_File.IniRead((char*)path.c_str(), section, key, "0"))
 #define INIREAD_FLOAT(var, path, section, key) g_IniRead.path.var = atof(g_File.IniRead((char*)path.c_str(), section, key, "0"))

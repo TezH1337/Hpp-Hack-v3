@@ -37,42 +37,43 @@ void HUD_Redraw ( float time, int intermission )
 {
 	Engine::g_Client.HUD_Redraw ( time, intermission );
 
-	struct cl_entity_s *Local = Engine::g_Engine.GetLocalPlayer ( );
-
-	if ( Local->player )
+	if ( Engine::g_Engine.GetLocalPlayer ( )->player )
 	{
-		Engine::g_PlayerInfo.UpdateLocalEntity ( Local );
+		Engine::g_PlayerInfo.UpdateLocalEntity ( Engine::g_Engine.GetLocalPlayer ( ) );
 	}
 
 	for ( BYTE Index = 1; Index <= Engine::g_Engine.GetMaxClients ( ); ++Index )
 	{
-		struct cl_entity_s *Entity = Engine::g_Engine.GetEntityByIndex ( Index );
-
-		if ( Index != Local->index )
+		if ( Index != Engine::g_Engine.GetLocalPlayer ( )->index )
 		{
-			if ( Entity->player )
+			if ( Engine::g_Engine.GetEntityByIndex ( Index )->player )
 			{
-				Engine::g_PlayerInfo.UpdatePlayerInfo ( Entity, Local, Index );
+				Engine::g_PlayerInfo.UpdatePlayerInfo ( Engine::g_Engine.GetEntityByIndex ( Index ), 
+					Engine::g_Engine.GetLocalPlayer ( ), Index );
 			}
 
 			if ( Files::g_IniRead.function.esp && Files::g_IniRead.esp.enable )
 			{
 				if ( Files::g_IniRead.esp.player && Engine::g_Player[Index].Valid )
 				{
-					Functions::g_ESP.DrawPlayer ( Entity, Local, Index );
+					Functions::g_ESP.DrawPlayer ( Engine::g_Engine.GetEntityByIndex ( Index ), 
+						Engine::g_Engine.GetLocalPlayer ( ), Index );
 				}
 			}
 		}
 	}
 
-	if ( Files::g_IniRead.esp.world )
+	if ( Files::g_IniRead.function.esp && Files::g_IniRead.esp.enable )
 	{
-		Functions::g_ESP.DrawWorld ( );
-	}
+		if ( Files::g_IniRead.esp.world )
+		{
+			Functions::g_ESP.DrawWorld ( );
+		}
 
-	if ( Files::g_IniRead.esp.sound )
-	{
-		Functions::g_ESP.DrawSound ( );
+		if ( Files::g_IniRead.esp.sound )
+		{
+			Functions::g_ESP.DrawSound ( );
+		}
 	}
 }
 
@@ -81,7 +82,7 @@ void StudioEntityLight ( struct alight_s *plight )
 	struct cl_entity_s *Local = Engine::g_Engine.GetLocalPlayer ( );
 	struct cl_entity_s *Entity = Engine::g_Studio.GetCurrentEntity ( );
 
-	if ( Entity->player && Entity->index != Local->index)
+	if ( Entity->player && Entity->index != Local->index )
 	{
 		Engine::g_PlayerInfo.GetBoneOrigin ( Entity, Local );
 		Engine::g_PlayerInfo.GetHitboxOrigin ( Entity, Local );
